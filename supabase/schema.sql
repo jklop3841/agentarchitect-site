@@ -26,6 +26,7 @@ create table if not exists execution_logs (
   id uuid primary key,
   execution_id text not null unique,
   capability_id text not null,
+  caller_key_id text not null,
   caller_label text,
   input_summary text not null,
   output_summary text not null,

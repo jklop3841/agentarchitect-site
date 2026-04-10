@@ -1,38 +1,51 @@
 import { NextResponse } from "next/server";
 
+import { consumeRateLimit, getClientIp } from "@/lib/rate-limit";
 import { createAccessRequest } from "@/lib/store";
-import type { AccessRequestInput } from "@/lib/types";
-
-function isValidEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+import { readJson, sanitizeAccessRequest } from "@/lib/validation";
 
 export async function POST(request: Request) {
-  const payload = (await request.json()) as Partial<AccessRequestInput>;
-
-  if (!payload.name || !payload.email || !payload.useCase || !payload.locale) {
-    return NextResponse.json({ message: "Missing required fields." }, { status: 422 });
-  }
-
-  if (!isValidEmail(payload.email)) {
-    return NextResponse.json({ message: "Please provide a valid email." }, { status: 422 });
-  }
-
-  const record = await createAccessRequest({
-    name: payload.name.trim(),
-    email: payload.email.trim(),
-    organization: payload.organization?.trim(),
-    role: payload.role?.trim(),
-    useCase: payload.useCase.trim(),
-    expectedVolume: payload.expectedVolume?.trim(),
-    locale: payload.locale,
+  const ip = getClientIp(request);
+  const rateLimit = consumeRateLimit({
+    key: `access-request:${ip}`,
+    limit: 5,
+    windowMs: 10 * 60 * 1000,
   });
+
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { message: "Too many requests. Please try again later." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)),
+        },
+      },
+    );
+  }
+
+  const body = await readJson(request);
+  if (!body.ok) {
+    return body.error;
+  }
+
+  const payload = sanitizeAccessRequest(body.data as Record<string, unknown>);
+  if (!payload) {
+    return NextResponse.json({ message: "Missing or invalid request fields." }, { status: 422 });
+  }
+
+  const record = await createAccessRequest(payload);
 
   return NextResponse.json(
     {
       message: "Access request received.",
       requestId: record.id,
     },
-    { status: 201 },
+    {
+      status: 201,
+      headers: {
+        "Cache-Control": "no-store",
+      },
+    },
   );
 }

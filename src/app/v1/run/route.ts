@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 
 import { getCapability, runCapability } from "@/lib/capabilities";
+import { consumeRateLimit, getClientIp } from "@/lib/rate-limit";
 import { createExecutionId, createVerificationToken } from "@/lib/security";
 import { createExecutionLog, findApiKey } from "@/lib/store";
+import { readJson, sanitizeExecutionInput, summarizeStructuredInput } from "@/lib/validation";
 
 export async function POST(request: Request) {
   const apiKey = request.headers.get("x-api-key");
@@ -17,12 +19,32 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Invalid API key." }, { status: 401 });
   }
 
-  const payload = (await request.json()) as {
-    capabilityId?: string;
-    input?: Record<string, unknown>;
-  };
+  const ip = getClientIp(request);
+  const rateLimit = consumeRateLimit({
+    key: `run:${activeKey.id}:${ip}`,
+    limit: 30,
+    windowMs: 10 * 60 * 1000,
+  });
 
-  if (!payload.capabilityId || !payload.input) {
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { message: "Rate limit exceeded." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)),
+        },
+      },
+    );
+  }
+
+  const body = await readJson(request);
+  if (!body.ok) {
+    return body.error;
+  }
+
+  const payload = sanitizeExecutionInput(body.data as Record<string, unknown>);
+  if (!payload) {
     return NextResponse.json({ message: "capabilityId and input are required." }, { status: 422 });
   }
 
@@ -37,13 +59,19 @@ export async function POST(request: Request) {
   }
 
   const executionId = createExecutionId();
-  const verificationToken = createVerificationToken(executionId, capability.id);
+  let verificationToken = "";
+  try {
+    verificationToken = createVerificationToken(executionId, capability.id);
+  } catch {
+    return NextResponse.json({ message: "Execution signing is not configured." }, { status: 503 });
+  }
 
   await createExecutionLog({
     executionId,
     capabilityId: capability.id,
+    callerKeyId: activeKey.id,
     callerLabel: activeKey.label,
-    inputSummary: JSON.stringify(payload.input).slice(0, 240),
+    inputSummary: summarizeStructuredInput(payload.input),
     outputSummary: outcome.summary,
     estimatedCost: outcome.estimatedCost,
     verificationToken,
@@ -62,6 +90,10 @@ export async function POST(request: Request) {
     metering: {
       estimatedCost: outcome.estimatedCost,
       quotaModel: "seed-key",
+    },
+  }, {
+    headers: {
+      "Cache-Control": "no-store",
     },
   });
 }

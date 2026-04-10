@@ -1,7 +1,13 @@
+import { unstable_noStore as noStore } from "next/cache";
+
 import { SiteHeader } from "@/components/site-header";
 import { listAccessRequests, listApiKeys, listExecutionLogs } from "@/lib/store";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
+  noStore();
+
   const [accessRequests, apiKeys, executionLogs] = await Promise.all([
     listAccessRequests(),
     listApiKeys(),

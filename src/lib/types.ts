@@ -42,6 +42,7 @@ export type ExecutionLogRecord = {
   id: string;
   executionId: string;
   capabilityId: string;
+  callerKeyId: string;
   callerLabel: string;
   inputSummary: string;
   outputSummary: string;

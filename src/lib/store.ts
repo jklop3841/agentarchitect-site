@@ -1,5 +1,5 @@
 import { getSupabaseAdminClient } from "@/lib/supabase";
-import { createId, hashValue } from "@/lib/security";
+import { createId, hashValue, secureEqual } from "@/lib/security";
 import type {
   AccessRequestInput,
   AccessRequestRecord,
@@ -132,7 +132,7 @@ export async function findApiKey(rawKey: string) {
   const keyHash = hashValue(rawKey);
   const keys = await listApiKeys();
 
-  return keys.find((entry) => entry.keyHash === keyHash && entry.status === "active") ?? null;
+  return keys.find((entry) => secureEqual(entry.keyHash, keyHash) && entry.status === "active") ?? null;
 }
 
 export async function createExecutionLog(input: Omit<ExecutionLogRecord, "id" | "createdAt">) {
@@ -148,6 +148,7 @@ export async function createExecutionLog(input: Omit<ExecutionLogRecord, "id" | 
       id: record.id,
       execution_id: record.executionId,
       capability_id: record.capabilityId,
+      caller_key_id: record.callerKeyId,
       caller_label: record.callerLabel,
       input_summary: record.inputSummary,
       output_summary: record.outputSummary,
@@ -177,6 +178,7 @@ export async function listExecutionLogs() {
         id: row.id as string,
         executionId: row.execution_id as string,
         capabilityId: row.capability_id as string,
+        callerKeyId: row.caller_key_id as string,
         callerLabel: (row.caller_label as string | null) ?? "external-caller",
         inputSummary: row.input_summary as string,
         outputSummary: row.output_summary as string,
@@ -208,6 +210,7 @@ export async function findExecutionLog(executionId: string) {
       id: data.id as string,
       executionId: data.execution_id as string,
       capabilityId: data.capability_id as string,
+      callerKeyId: data.caller_key_id as string,
       callerLabel: (data.caller_label as string | null) ?? "external-caller",
       inputSummary: data.input_summary as string,
       outputSummary: data.output_summary as string,
