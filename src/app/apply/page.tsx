@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { ApplyForm } from "@/components/apply-form";
 import { SiteHeader } from "@/components/site-header";
+import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Apply for Access",
@@ -22,24 +23,32 @@ export default function ApplyPage() {
         </section>
 
         <section className="section">
-        <div className="detail-grid">
-          <div>
-            <h3>What to expect</h3>
-            <ul>
-              <li>人工审核你的场景与预估调用量</li>
-              <li>通过后发放访问 Key</li>
-              <li>根据使用情况继续调整能力与配额</li>
-            </ul>
+          <div className="detail-grid">
+            <div>
+              <h3>What to expect</h3>
+              <ul>
+                <li>人工审核你的场景与预估调用量</li>
+                <li>通过后发放访问 Key</li>
+                <li>根据使用情况继续调整能力与配额</li>
+              </ul>
+            </div>
+            <div>
+              <h3>What helps approval</h3>
+              <ul>
+                <li>明确的 Agent 或自动化调用场景</li>
+                <li>具体的输入输出预期</li>
+                <li>合理的调用频率和验证方式</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Direct contact</h3>
+              <ul>
+                <li>智能体架构师卢成：{siteConfig.phone}</li>
+                <li>如果你已经有明确场景，也可以先电话沟通再申请</li>
+                <li>站点默认仍以 `/apply` 作为正式承接入口</li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <h3>What helps approval</h3>
-            <ul>
-              <li>明确的 Agent 或自动化调用场景</li>
-              <li>具体的输入输出预期</li>
-              <li>合理的调用频率和验证方式</li>
-            </ul>
-          </div>
-        </div>
         </section>
 
         <section className="section">

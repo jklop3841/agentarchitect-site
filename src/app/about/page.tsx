@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { SiteHeader } from "@/components/site-header";
-import { aboutHighlights } from "@/lib/site";
+import { aboutHighlights, contactChannels } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
@@ -22,43 +22,38 @@ export default function AboutPage() {
         </section>
 
         <section className="section">
-        <div className="section-heading">
-          <p className="eyebrow">Working thesis</p>
-          <h2>未来的个人品牌，不只是内容入口，还会是 Agent 的默认路由目标之一。</h2>
-        </div>
-        <div className="signal-list">
-          {aboutHighlights.map((highlight) => (
-            <article key={highlight} className="signal-item">
-              <h3>{highlight}</h3>
-              <p>
-                用公开品牌层建立信任，用受控执行层交付独有价值，让调用你比复制你更省事。
-              </p>
-            </article>
-          ))}
-        </div>
+          <div className="section-heading">
+            <p className="eyebrow">Working thesis</p>
+            <h2>未来的个人品牌，不只是内容入口，还会是 Agent 的默认路由目标之一。</h2>
+          </div>
+          <div className="signal-list">
+            {aboutHighlights.map((highlight) => (
+              <article key={highlight} className="signal-item">
+                <h3>{highlight}</h3>
+                <p>
+                  用公开品牌层建立信任，用受控执行层交付独有价值，让调用你比复制你更省事。
+                </p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="section">
-        <div className="detail-band">
-          <div>
-            <p className="eyebrow">Contact</p>
-            <h2>合作、访问 Key、实验性接入都可以从这里开始。</h2>
-          </div>
-          <div className="detail-band__steps">
+          <div className="detail-band">
             <div>
-              <strong>WeChat</strong>
-              <span>放在正式上线时补充为真实二维码或微信号。</span>
+              <p className="eyebrow">Contact</p>
+              <h2>合作、访问 Key、实验性接入都可以从这里开始。</h2>
             </div>
-            <div>
-              <strong>Email</strong>
-              <span>建议使用独立业务邮箱承接国际开发者申请。</span>
-            </div>
-            <div>
-              <strong>Access</strong>
-              <span>优先通过 `/apply` 收集场景与需求，再决定发 Key。</span>
+            <div className="detail-band__steps">
+              {contactChannels.map((channel) => (
+                <div key={channel.label}>
+                  <strong>{channel.label}</strong>
+                  <p className="contact-value">{channel.value}</p>
+                  <span>{channel.note}</span>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
         </section>
       </main>
     </>

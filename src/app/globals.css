@@ -261,6 +261,13 @@ h1 {
   font-size: 0.96rem;
 }
 
+.hero__support {
+  margin-top: 0.85rem;
+  max-width: 34rem;
+  color: rgba(143, 211, 255, 0.92);
+  font-size: 0.94rem;
+}
+
 .signal-frame {
   position: relative;
   padding: 1.4rem;
@@ -504,6 +511,14 @@ h1 {
 
 .form-status--error {
   color: var(--danger);
+}
+
+.contact-value,
+.footer-contact {
+  margin: 0.4rem 0;
+  color: var(--text);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.05rem;
 }
 
 .admin-log-list {

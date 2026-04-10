@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint src middleware.ts next.config.ts --ext .ts,.tsx"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.102.1",

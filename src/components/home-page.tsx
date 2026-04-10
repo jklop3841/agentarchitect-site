@@ -1,7 +1,13 @@
 import Link from "next/link";
 
 import { Reveal } from "@/components/reveal";
-import { getHomeCopy, getCapabilitiesForDisplay, homepageSignals } from "@/lib/site";
+import {
+  applicationPath,
+  contactChannels,
+  getHomeCopy,
+  getCapabilitiesForDisplay,
+  homepageSignals,
+} from "@/lib/site";
 import type { Locale } from "@/lib/types";
 
 type HomePageProps = {
@@ -34,6 +40,7 @@ export function HomePage({ locale }: HomePageProps) {
               </Link>
             </div>
             <p className="hero__subline">{copy.brandLine}</p>
+            <p className="hero__support">{copy.supportLine}</p>
           </div>
           <div className="hero__visual">
             <div className="signal-frame">
@@ -69,6 +76,21 @@ export function HomePage({ locale }: HomePageProps) {
             <article key={signal.title} className="signal-item">
               <h3>{signal.title}</h3>
               <p>{signal.body}</p>
+            </article>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal className="section">
+        <div className="section-heading">
+          <p className="eyebrow">Seed access</p>
+          <h2>不是开放平台，而是受控访问。先过滤场景，再发放 Key。</h2>
+        </div>
+        <div className="signal-list">
+          {applicationPath.map((step) => (
+            <article key={step.title} className="signal-item">
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
             </article>
           ))}
         </div>
@@ -117,11 +139,27 @@ export function HomePage({ locale }: HomePageProps) {
         </div>
       </Reveal>
 
+      <Reveal className="section">
+        <div className="section-heading">
+          <p className="eyebrow">Contact</p>
+          <h2>如果你是人，现在可以联系。 如果你是 Agent，现在先读文档再申请访问。</h2>
+        </div>
+        <div className="detail-grid">
+          {contactChannels.map((channel) => (
+            <div key={channel.label}>
+              <h3>{channel.label}</h3>
+              <p className="contact-value">{channel.value}</p>
+              <p>{channel.note}</p>
+            </div>
+          ))}
+        </div>
+      </Reveal>
+
       <Reveal className="section section--cta">
         <div className="cta-panel">
           <div>
             <p className="eyebrow">For humans and agents</p>
-            <h2>先读文档，再申请访问。第一版只做这一个闭环。</h2>
+            <h2>你现在看到的不是宣传页，而是一个已经可访问、可申请、可验证的入口。</h2>
           </div>
           <div className="hero__actions">
             <Link href="/docs" className="button button--ghost">

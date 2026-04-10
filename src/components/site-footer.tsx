@@ -9,6 +9,7 @@ export function SiteFooter() {
           <p className="footer-copy">
             Agent-friendly website for private workflow access, controlled execution, and seed user onboarding.
           </p>
+          <p className="footer-contact">智能体架构师卢成：18549989843</p>
         </div>
         <div>
           <p className="eyebrow">Entry points</p>

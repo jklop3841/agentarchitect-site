@@ -2,6 +2,7 @@
 node_modules
 .vercel
 .omx
+微信小程序
 .env.local
 .env.*.local
 npm-debug.log*
