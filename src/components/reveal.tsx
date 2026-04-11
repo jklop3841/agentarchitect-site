@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { PropsWithChildren } from "react";
+import type { HTMLAttributes, PropsWithChildren } from "react";
 
-type RevealProps = PropsWithChildren<{
+type RevealProps = PropsWithChildren<HTMLAttributes<HTMLDivElement> & {
   className?: string;
 }>;
 
-export function Reveal({ children, className }: RevealProps) {
+export function Reveal({ children, className, ...props }: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
 
@@ -35,7 +35,7 @@ export function Reveal({ children, className }: RevealProps) {
   }, []);
 
   return (
-    <div ref={ref} className={`${className ?? ""} reveal${visible ? " is-visible" : ""}`.trim()}>
+    <div ref={ref} className={`${className ?? ""} reveal${visible ? " is-visible" : ""}`.trim()} {...props}>
       {children}
     </div>
   );

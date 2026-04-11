@@ -1,14 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Reveal } from "@/components/reveal";
 import {
-  applicationPath,
-  contactChannels,
-  featuredProducts,
-  getHomeCopy,
-  getCapabilitiesForDisplay,
-  homepageSignals,
-} from "@/lib/site";
+  articles,
+  authorProfile,
+  blogIntro,
+  productLadder,
+} from "@/lib/content";
+import { featuredProducts } from "@/lib/site";
 import type { Locale } from "@/lib/types";
 
 type HomePageProps = {
@@ -16,67 +16,115 @@ type HomePageProps = {
 };
 
 export function HomePage({ locale }: HomePageProps) {
-  const copy = getHomeCopy(locale);
-  const capabilities = getCapabilitiesForDisplay();
   const isEnglish = locale === "en";
 
   return (
-    <main>
-      <section className="hero">
-        <div className="hero__backdrop" />
-        <div className="hero__orb hero__orb--left" />
-        <div className="hero__orb hero__orb--right" />
-        <div className="hero__grid">
-          <div className="hero__copy">
-            <p className="eyebrow">{copy.kicker}</p>
-            <p className="brand-line">{isEnglish ? "Lu Cheng" : "智能体架构师卢成"}</p>
-            <h1>{copy.headline}</h1>
-            <p className="hero__intro">{copy.intro}</p>
+    <main className="journal-home">
+      <section className="editorial-hero">
+        <div className="editorial-hero__grid">
+          <div className="editorial-hero__copy">
+            <p className="eyebrow">{isEnglish ? "Agent Architect" : "智能体架构师"}</p>
+            <p className="editorial-hero__name">
+              {authorProfile.name} <span>|</span> {authorProfile.title}
+            </p>
+            <p className="editorial-hero__location">{authorProfile.location}</p>
+            <h1 className="editorial-hero__headline">
+              {isEnglish
+                ? "Designing agent systems that can actually ship, scale, and make economic sense."
+                : "把智能体从“会聊天的模型”编排成“能交付结果的系统”。"}
+            </h1>
+            <p className="editorial-hero__intro">{authorProfile.intro}</p>
             <div className="hero__actions">
-              <Link href="/apply" className="button button--primary">
-                {copy.primaryCta}
+              <Link href="/articles" className="button button--primary">
+                {isEnglish ? "Read articles" : "阅读文章"}
               </Link>
-              <Link href="/docs" className="button button--ghost">
-                {copy.secondaryCta}
+              <Link href="#contact" className="button button--ghost">
+                {isEnglish ? "Connect on WeChat" : "微信联系"}
               </Link>
             </div>
-            <p className="hero__subline">{copy.brandLine}</p>
-            <p className="hero__support">{copy.supportLine}</p>
           </div>
-          <div className="hero__visual">
-            <div className="signal-frame">
-              <div className="signal-frame__topline">
-                <span>private workflow runtime</span>
-                <span>signed outputs</span>
-              </div>
-              <div className="signal-frame__main">
-                <p className="signal-frame__label">Execution path</p>
-                <ol>
-                  <li>Agent discovers public docs and machine-readable entry points</li>
-                  <li>Agent requests a key for real execution access</li>
-                  <li>Server returns results, not the hidden workflow logic</li>
-                </ol>
-              </div>
-              <div className="signal-frame__footer">
-                <span>catalog</span>
-                <span>run</span>
-                <span>verify</span>
-              </div>
+          <div className="editorial-hero__portrait">
+            <div className="portrait-frame portrait-frame--main">
+              <Image
+                src="/media/portraits/lucheng-main.png"
+                alt="卢成"
+                fill
+                priority
+                className="portrait-frame__image"
+                sizes="(max-width: 980px) 100vw, 420px"
+              />
             </div>
           </div>
         </div>
       </section>
 
+      <Reveal className="section" id="bio">
+        <div className="section-heading">
+          <p className="eyebrow">Profile</p>
+          <h2>不是追逐 AI 新闻的人，而是把 AI 能力组织成商业系统的人。</h2>
+        </div>
+        <div className="journal-bio">
+          <div className="journal-bio__main">
+            {authorProfile.biography.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+          <div className="journal-bio__sidebar">
+            <p className="eyebrow">工作原则</p>
+            <ul className="principle-list">
+              {authorProfile.principles.map((principle) => (
+                <li key={principle}>{principle}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Reveal>
+
       <Reveal className="section">
         <div className="section-heading">
-          <p className="eyebrow">Why this site exists</p>
-          <h2>不是普通名片站，而是给 Agent 读、比、调、申请访问的能力入口。</h2>
+          <p className="eyebrow">Writing</p>
+          <h2>{blogIntro.title}</h2>
+          <p className="doc-body">{blogIntro.summary}</p>
         </div>
-        <div className="signal-list">
-          {homepageSignals.map((signal) => (
-            <article key={signal.title} className="signal-item">
-              <h3>{signal.title}</h3>
-              <p>{signal.body}</p>
+        <div className="article-grid">
+          {articles.map((article) => (
+            <article key={article.slug} className="article-card">
+              <div className="article-card__meta">
+                <span>{article.date}</span>
+                <span>{article.readTime}</span>
+              </div>
+              <h3>{article.title}</h3>
+              <p className="article-card__subtitle">{article.subtitle}</p>
+              <p>{article.excerpt}</p>
+              <div className="article-card__tags">
+                {article.tags.map((tag) => (
+                  <span key={tag} className="chip">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <Link href={`/articles/${article.slug}`} className="text-link">
+                {isEnglish ? "Read article" : "阅读全文"}
+              </Link>
+            </article>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal className="section" id="products">
+        <div className="section-heading">
+          <p className="eyebrow">Products</p>
+          <h2>免费的产品证明判断力，付费的服务承接更深的智能体系统设计。</h2>
+        </div>
+        <div className="article-grid">
+          {productLadder.map((product) => (
+            <article key={product.name} className="article-card">
+              <p className="capability-item__id">{product.badge}</p>
+              <h3>{product.name}</h3>
+              <p>{product.summary}</p>
+              <Link href={product.href} className="text-link">
+                {product.badge === "Private" ? "咨询合作" : "查看入口"}
+              </Link>
             </article>
           ))}
         </div>
@@ -84,23 +132,8 @@ export function HomePage({ locale }: HomePageProps) {
 
       <Reveal className="section">
         <div className="section-heading">
-          <p className="eyebrow">Seed access</p>
-          <h2>不是开放平台，而是受控访问。先过滤场景，再发放 Key。</h2>
-        </div>
-        <div className="signal-list">
-          {applicationPath.map((step) => (
-            <article key={step.title} className="signal-item">
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-            </article>
-          ))}
-        </div>
-      </Reveal>
-
-      <Reveal className="section">
-        <div className="section-heading">
-          <p className="eyebrow">Free products</p>
-          <h2>先让别人免费用到你的判断力，再决定要不要继续往更深的架构服务走。</h2>
+          <p className="eyebrow">Agent Entry</p>
+          <h2>对人它是博客，对 Agent 它是入口。产品、文档、下载和机器接口都可以从这里继续进入。</h2>
         </div>
         <div className="signal-list">
           {featuredProducts.map((product) => (
@@ -116,78 +149,40 @@ export function HomePage({ locale }: HomePageProps) {
         </div>
       </Reveal>
 
-      <Reveal className="section section--split">
-        <div className="section-heading">
-          <p className="eyebrow">Capability snapshot</p>
-          <h2>第一版只开放少量真实能力，保持窄、稳、可验证。</h2>
-        </div>
-        <div className="capability-list">
-          {capabilities.map((capability) => (
-            <article key={capability.id} className="capability-item">
-              <p className="capability-item__id">{capability.id}</p>
-              <h3>{capability.name}</h3>
-              <p>{capability.summary}</p>
-              <span className="chip">{capability.auth}</span>
-            </article>
-          ))}
-        </div>
-      </Reveal>
-
-      <Reveal className="section section--wide">
-        <div className="detail-band">
-          <div>
-            <p className="eyebrow">How it works</p>
-            <h2>公开层负责发现与理解，受控层负责交付结果。</h2>
-          </div>
-          <div className="detail-band__steps">
-            <div>
-              <strong>01</strong>
-              <p>Read the promise</p>
-              <span>Static pages, docs, agents.txt, agent.json, and OpenAPI stay cheap to crawl.</span>
-            </div>
-            <div>
-              <strong>02</strong>
-              <p>Request access</p>
-              <span>申请 Key 过滤掉无效流量，把真实种子用户留下来。</span>
-            </div>
-            <div>
-              <strong>03</strong>
-              <p>Run and verify</p>
-              <span>执行返回结果、摘要、签名与执行 ID，不返还隐藏 workflow。</span>
+      <Reveal className="section" id="contact">
+        <div className="consulting-band">
+          <div className="consulting-band__copy">
+            <p className="eyebrow">Private Advisory</p>
+            <h2>如果你想做更深的智能体架构设计、GEO 或 workflow 定制，这里是私人承接入口。</h2>
+            <p>
+              第二张头像用于后续私人定制与架构咨询场景。现在先把微信入口和公开联系方式挂上，后续你补更多二维码或分场景联系入口时，这一块继续扩展就行。
+            </p>
+            <p className="contact-value">智能体架构师卢成：{authorProfile.phone}</p>
+            <div className="hero__actions">
+              <Link href="/apply" className="button button--primary">
+                申请合作 / 访问
+              </Link>
             </div>
           </div>
-        </div>
-      </Reveal>
-
-      <Reveal className="section">
-        <div className="section-heading">
-          <p className="eyebrow">Contact</p>
-          <h2>如果你是人，现在可以联系。 如果你是 Agent，现在先读文档再申请访问。</h2>
-        </div>
-        <div className="detail-grid">
-          {contactChannels.map((channel) => (
-            <div key={channel.label}>
-              <h3>{channel.label}</h3>
-              <p className="contact-value">{channel.value}</p>
-              <p>{channel.note}</p>
+          <div className="consulting-band__visuals">
+            <div className="portrait-frame portrait-frame--consulting">
+              <Image
+                src="/media/portraits/lucheng-consulting.png"
+                alt="卢成商务头像"
+                fill
+                className="portrait-frame__image"
+                sizes="(max-width: 980px) 100vw, 360px"
+              />
             </div>
-          ))}
-        </div>
-      </Reveal>
-
-      <Reveal className="section section--cta">
-        <div className="cta-panel">
-          <div>
-            <p className="eyebrow">For humans and agents</p>
-            <h2>你现在看到的不是宣传页，而是一个已经可访问、可申请、可验证的入口。</h2>
-          </div>
-          <div className="hero__actions">
-            <Link href="/docs" className="button button--ghost">
-              查看接入文档
-            </Link>
-            <Link href="/apply" className="button button--primary">
-              申请访问 Key
-            </Link>
+            <div className="qr-card">
+              <Image
+                src="/media/contact/wechat-qr.png"
+                alt="微信二维码"
+                width={560}
+                height={790}
+                className="qr-card__image"
+              />
+            </div>
           </div>
         </div>
       </Reveal>

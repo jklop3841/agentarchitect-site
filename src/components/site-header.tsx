@@ -14,17 +14,17 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
           <span className="brandmark__mono">LC</span>
           <span>
             <strong>Lu Cheng</strong>
-            <small>{isEnglish ? "Agent Systems Architect" : "智能体架构师"}</small>
+            <small>{isEnglish ? "Agent Architect" : "智能体架构师"}</small>
           </span>
         </Link>
         <nav className="site-nav">
-          <Link href="/products/workflow-shield">Shield</Link>
-          <Link href="/products/skill-glue">Glue</Link>
-          <Link href="/products/private-workflow-runtime">Product</Link>
+          <Link href="/articles">文章</Link>
+          <Link href="/#bio">简介</Link>
+          <Link href="/#products">产品</Link>
           <Link href="/docs">Docs</Link>
-          <Link href="/about">About</Link>
+          <Link href="/about">关于</Link>
           <Link href="/apply" className="site-nav__cta">
-            {isEnglish ? "Apply" : "申请 Key"}
+            {isEnglish ? "Apply" : "微信 / 合作"}
           </Link>
         </nav>
       </div>
