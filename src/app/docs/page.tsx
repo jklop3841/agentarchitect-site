@@ -96,6 +96,36 @@ export default function DocsPage() {
 
         <section className="section">
         <div className="section-heading">
+          <p className="eyebrow">Workflow Shield CLI</p>
+          <h2>如果你要保护 workflow 的边界，这里有第一版的轻量 package 工具。</h2>
+        </div>
+        <div className="detail-grid">
+          <div>
+            <h3>Product</h3>
+            <p>理解 Workflow Shield 保护的不是神话，而是 workflow 的边界和抽取成本。</p>
+            <Link href="/products/workflow-shield" className="text-link">
+              打开 Workflow Shield 产品页
+            </Link>
+          </div>
+          <div>
+            <h3>Docs</h3>
+            <p>查看 package spec 结构、边界规则与 CLI 命令。</p>
+            <Link href="/docs/workflow-shield" className="text-link">
+              打开 Workflow Shield 文档
+            </Link>
+          </div>
+          <div>
+            <h3>Download</h3>
+            <p>通过 GitHub 仓库和下载页获取 CLI 与示例 spec。</p>
+            <Link href="/download/workflow-shield" className="text-link">
+              打开下载入口
+            </Link>
+          </div>
+        </div>
+        </section>
+
+        <section className="section">
+        <div className="section-heading">
           <p className="eyebrow">Skill Glue CLI</p>
           <h2>除了远程执行入口，这个站也开始分发可下载的低 token 组合工具。</h2>
         </div>

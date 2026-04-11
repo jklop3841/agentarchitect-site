@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/types";
 import { listCapabilities } from "@/lib/capabilities";
 import { skillGlueCommands } from "@/lib/skill-glue";
+import { workflowShieldCommands } from "@/lib/workflow-shield";
 
 export const siteConfig = {
   name: "Lu Cheng",
@@ -71,12 +72,20 @@ export const docsSections = [
   "GET /api/catalog",
   "POST /v1/run",
   "POST /v1/verify",
+  "Workflow Shield CLI",
   "Skill Glue CLI",
   "Errors",
   "Limits",
 ];
 
 export const featuredProducts = [
+  {
+    name: "Workflow Shield",
+    href: "/products/workflow-shield",
+    badge: "Free",
+    summary: "公开 workflow 的合同层和验证层，把真正高价值的 prompts 与回退逻辑留在更受控的地方。",
+    cta: "查看 Workflow Shield",
+  },
   {
     name: "Skill Glue",
     href: "/products/skill-glue",
@@ -131,6 +140,8 @@ export const skillGlueHighlights = [
     body: `CLI 输出支持 JSON 和 Markdown，两种形态都围绕同一套命令：${skillGlueCommands.map((command) => command.name).join(" / ")}。`,
   },
 ];
+
+export const workflowShieldSummary = `CLI 输出支持 JSON 和 Markdown，两种形态都围绕同一套命令：${workflowShieldCommands.map((command) => command.name).join(" / ")}。`;
 
 export function getCapabilitiesForDisplay() {
   return listCapabilities().map((capability) => ({

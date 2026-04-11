@@ -8,10 +8,13 @@
     "start": "next start",
     "lint": "eslint src middleware.ts next.config.ts --ext .ts,.tsx",
     "skill-glue": "node ./bin/skill-glue.cjs",
-    "skill-glue:demo": "node ./bin/skill-glue.cjs compose ./examples/skill-glue/serial.json --format markdown"
+    "skill-glue:demo": "node ./bin/skill-glue.cjs compose ./examples/skill-glue/serial.json --format markdown",
+    "workflow-shield": "node ./bin/workflow-shield.cjs",
+    "workflow-shield:demo": "node ./bin/workflow-shield.cjs pack ./examples/workflow-shield/basic.json --format markdown"
   },
   "bin": {
-    "skill-glue": "./bin/skill-glue.cjs"
+    "skill-glue": "./bin/skill-glue.cjs",
+    "workflow-shield": "./bin/workflow-shield.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.102.1",

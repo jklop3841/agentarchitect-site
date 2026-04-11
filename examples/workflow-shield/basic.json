@@ -1,0 +1,40 @@
+{
+  "id": "shield-basic-bundle",
+  "summary": "Protect a private workflow by exposing only the contract, not the hidden operator logic.",
+  "access_mode": "controlled-execution",
+  "assets": [
+    {
+      "id": "workflow-contract",
+      "kind": "manifest",
+      "exposure": "public"
+    },
+    {
+      "id": "operator-prompts",
+      "kind": "prompt-pack",
+      "exposure": "hidden"
+    },
+    {
+      "id": "fallback-logic",
+      "kind": "decision-tree",
+      "exposure": "hidden"
+    },
+    {
+      "id": "verification-template",
+      "kind": "signature-check",
+      "exposure": "public"
+    }
+  ],
+  "boundaries": [
+    "Public consumers can inspect inputs, outputs, and validation checks.",
+    "Hidden prompts and fallback branches are never bundled into the public package.",
+    "Use signed execution results to prove origin instead of revealing internals."
+  ],
+  "extraction_cost_notes": [
+    "Extraction is not impossible, but reconstructing hidden branches should cost more than calling the runtime.",
+    "Expose only the contract layer and verification layer."
+  ],
+  "operator_guidance": [
+    "Prefer remote execution for high-value workflows.",
+    "Bundle enough metadata for trust, not enough for reconstruction."
+  ]
+}

@@ -13,6 +13,8 @@ export async function GET() {
         catalog: `${siteConfig.domain}/api/catalog`,
         apply: `${siteConfig.domain}/apply`,
         mcp: `${siteConfig.domain}/mcp`,
+        workflowShieldDocs: `${siteConfig.domain}/docs/workflow-shield`,
+        workflowShieldDownload: `${siteConfig.domain}/download/workflow-shield`,
         skillGlueDocs: `${siteConfig.domain}/docs/skill-glue`,
         skillGlueDownload: `${siteConfig.domain}/download/skill-glue`,
       },

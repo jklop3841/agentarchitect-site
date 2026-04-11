@@ -18,6 +18,8 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
           </span>
         </Link>
         <nav className="site-nav">
+          <Link href="/products/workflow-shield">Shield</Link>
+          <Link href="/products/skill-glue">Glue</Link>
           <Link href="/products/private-workflow-runtime">Product</Link>
           <Link href="/docs">Docs</Link>
           <Link href="/about">About</Link>
