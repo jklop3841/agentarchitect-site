@@ -18,13 +18,21 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
           </span>
         </Link>
         <nav className="site-nav">
-          <Link href="/articles">文章</Link>
-          <Link href="/#bio">简介</Link>
-          <Link href="/#products">产品</Link>
+          <Link href={isEnglish ? "/articles" : "/articles"}>{isEnglish ? "Essays" : "文章"}</Link>
+          <Link href={isEnglish ? "/#bio" : "/zh#bio"}>{isEnglish ? "Profile" : "简介"}</Link>
+          <Link href={isEnglish ? "/#products" : "/zh#products"}>{isEnglish ? "Products" : "产品"}</Link>
           <Link href="/docs">Docs</Link>
-          <Link href="/about">关于</Link>
+          <Link href="/about">{isEnglish ? "About" : "关于"}</Link>
+          <div className="language-switch">
+            <Link href="/" className={isEnglish ? "is-active" : undefined}>
+              EN
+            </Link>
+            <Link href="/zh" className={!isEnglish ? "is-active" : undefined}>
+              中文
+            </Link>
+          </div>
           <Link href="/apply" className="site-nav__cta">
-            {isEnglish ? "Apply" : "微信 / 合作"}
+            {isEnglish ? "Contact" : "微信 / 合作"}
           </Link>
         </nav>
       </div>

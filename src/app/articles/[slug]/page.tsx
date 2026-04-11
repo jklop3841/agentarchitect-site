@@ -56,15 +56,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader locale="en" />
       <Script id={`article-jsonld-${article.slug}`} type="application/ld+json">
         {JSON.stringify(articleJsonLd)}
       </Script>
       <main className="subpage article-page">
         <section className="subpage__hero">
-          <p className="eyebrow">Article</p>
-          <h1>{article.title}</h1>
-          <p className="subpage__lead">{article.subtitle}</p>
+          <p className="eyebrow">Essay</p>
+          <h1>{article.titleEn}</h1>
+          <p className="subpage__lead">{article.subtitleEn}</p>
           <div className="article-card__meta">
             <span>{article.date}</span>
             <span>{article.readTime}</span>
@@ -75,7 +75,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <aside className="article-sidebar">
             <p className="eyebrow">Summary</p>
             <ul className="principle-list">
-              {article.summary.map((item) => (
+              {article.summaryEn.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
@@ -87,14 +87,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               ))}
             </div>
             <Link href="/apply" className="text-link">
-              申请合作 / 深度咨询
+              Request advisory access
             </Link>
           </aside>
           <article className="article-body">
-            <p className="article-body__lead">{article.excerpt}</p>
+            <p className="article-body__lead">{article.excerptEn}</p>
+            <p className="article-body__note">Chinese original below</p>
             {article.sections.map((section) => (
               <section key={section.heading} className="article-body__section">
-                <h2>{section.heading}</h2>
+                <h2>{section.headingEn ?? section.heading}</h2>
                 {section.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}

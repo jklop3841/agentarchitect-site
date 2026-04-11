@@ -1,16 +1,16 @@
 :root {
-  --bg: #f4efe6;
-  --bg-soft: #e9e0d3;
-  --panel: rgba(255, 252, 246, 0.88);
-  --panel-solid: #ffffff;
-  --line: rgba(80, 60, 35, 0.12);
-  --text: #1f1a17;
-  --muted: #73685b;
-  --accent: #9f6b3d;
-  --accent-2: #6b4f32;
+  --bg: #0d0c0a;
+  --bg-soft: #171411;
+  --panel: rgba(243, 236, 227, 0.94);
+  --panel-solid: #f4ede3;
+  --line: rgba(191, 150, 88, 0.18);
+  --text: #1d1712;
+  --muted: #6d6256;
+  --accent: #c89c5b;
+  --accent-2: #8f6a39;
   --danger: #ffb4a3;
   --max: 1180px;
-  --shadow: 0 28px 90px rgba(38, 24, 10, 0.12);
+  --shadow: 0 28px 90px rgba(0, 0, 0, 0.22);
   --font-body: "Aptos", "Segoe UI Variable Text", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-display: "Palatino Linotype", "Book Antiqua", "STSong", "Songti SC", serif;
 }
@@ -27,9 +27,9 @@ body {
   margin: 0;
   min-width: 320px;
   background:
-    radial-gradient(circle at top left, rgba(159, 107, 61, 0.12), transparent 26%),
-    radial-gradient(circle at 85% 10%, rgba(107, 79, 50, 0.08), transparent 24%),
-    linear-gradient(180deg, #f6f1e8 0%, #f0e8dc 100%);
+    radial-gradient(circle at top left, rgba(200, 156, 91, 0.16), transparent 20%),
+    radial-gradient(circle at 85% 10%, rgba(200, 156, 91, 0.08), transparent 18%),
+    linear-gradient(180deg, #090807 0%, #12100d 100%);
   color: var(--text);
   font-family: var(--font-body), sans-serif;
 }
@@ -56,8 +56,8 @@ select {
   top: 0;
   z-index: 30;
   backdrop-filter: blur(16px);
-  background: rgba(246, 241, 232, 0.82);
-  border-bottom: 1px solid rgba(80, 60, 35, 0.08);
+  background: rgba(9, 8, 7, 0.72);
+  border-bottom: 1px solid rgba(200, 156, 91, 0.1);
 }
 
 .site-header__inner,
@@ -112,19 +112,40 @@ h3 {
   display: inline-flex;
   align-items: center;
   gap: 1rem;
-  color: var(--muted);
+  color: rgba(244, 237, 227, 0.7);
 }
 
 .site-nav a:hover {
-  color: var(--text);
+  color: #f7f2ea;
 }
 
 .site-nav__cta {
   padding: 0.7rem 1rem;
   border-radius: 999px;
-  color: var(--text);
-  border: 1px solid rgba(88, 210, 181, 0.34);
-  background: rgba(88, 210, 181, 0.08);
+  color: #f9f3eb;
+  border: 1px solid rgba(200, 156, 91, 0.34);
+  background: rgba(200, 156, 91, 0.1);
+}
+
+.language-switch {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  padding: 0.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(200, 156, 91, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.language-switch a {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+}
+
+.language-switch .is-active {
+  background: rgba(200, 156, 91, 0.18);
+  color: #fff8ef;
 }
 
 .hero {
@@ -151,11 +172,16 @@ h3 {
   align-items: center;
 }
 
+.editorial-hero__portrait {
+  display: grid;
+  gap: 0.9rem;
+}
+
 .editorial-hero__name {
   margin: 0;
   font-family: var(--font-display), serif;
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  letter-spacing: -0.04em;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  letter-spacing: -0.03em;
 }
 
 .editorial-hero__name span {
@@ -170,9 +196,9 @@ h3 {
 
 .editorial-hero__headline {
   margin-top: 1.2rem;
-  max-width: 11ch;
-  font-size: clamp(3.2rem, 8vw, 5.8rem);
-  line-height: 0.94;
+  max-width: 13ch;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  line-height: 1.02;
 }
 
 .editorial-hero__intro {
@@ -186,7 +212,7 @@ h3 {
   position: relative;
   overflow: hidden;
   border-radius: 2rem;
-  background: linear-gradient(135deg, rgba(159, 107, 61, 0.12), rgba(107, 79, 50, 0.08));
+  background: linear-gradient(135deg, rgba(200, 156, 91, 0.1), rgba(255, 255, 255, 0.04));
   box-shadow: var(--shadow);
 }
 
@@ -203,6 +229,22 @@ h3 {
 .portrait-frame__image,
 .qr-card__image {
   object-fit: cover;
+}
+
+.portrait-caption {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.portrait-caption strong {
+  font-family: var(--font-display), serif;
+  color: #f2ebdf;
+  font-size: 1.18rem;
+}
+
+.portrait-caption span {
+  color: rgba(242, 235, 223, 0.68);
+  font-size: 0.95rem;
 }
 
 .journal-bio {
@@ -304,6 +346,13 @@ h3 {
 .article-body__lead {
   font-size: 1.18rem;
   color: var(--text);
+}
+
+.article-body__note {
+  font-size: 0.92rem;
+  color: var(--accent-2);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .article-body__section + .article-body__section {
@@ -739,6 +788,17 @@ h1 {
   display: grid;
   gap: 0.5rem;
   color: var(--muted);
+}
+
+.site-footer {
+  background: rgba(9, 8, 7, 0.78);
+}
+
+.site-footer__grid,
+.footer-copy,
+.footer-links,
+.footer-contact {
+  color: rgba(244, 237, 227, 0.76);
 }
 
 .reveal {

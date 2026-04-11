@@ -1,14 +1,19 @@
 export type ArticleEntry = {
   slug: string;
   title: string;
+  titleEn: string;
   subtitle: string;
+  subtitleEn: string;
   date: string;
   readTime: string;
   tags: string[];
   excerpt: string;
+  excerptEn: string;
   summary: string[];
+  summaryEn: string[];
   sections: Array<{
     heading: string;
+    headingEn?: string;
     paragraphs: string[];
   }>;
 };
@@ -17,14 +22,23 @@ export const authorProfile = {
   name: "卢成",
   englishName: "Lu Cheng",
   title: "智能体架构师",
+  titleEn: "Agent Architect",
   location: "中国香港 北区",
+  locationEn: "North District, Hong Kong",
   phone: "18549989843",
   intro:
     "我关注的不是“又出了什么新模型”，而是 AI 什么时候、以什么成本、在什么边界里，真正替人把一件事做成。我把这种能力叫作智能体架构：把目标、工具、知识、规则、工作流和反馈编排成一个可交付、可复制、可持续优化的系统。",
+  introEn:
+    "I focus less on model hype and more on when AI can reliably finish a task, at what cost, and under what operational boundaries. I call this discipline Agent Architecture: turning goals, tools, knowledge, rules, workflows, and feedback loops into systems that can actually ship and compound.",
   biography: [
     "作为智能体架构师，我长期研究智能体系统在真实商业场景中的可落地路径，包括 Harness Engineering、意图工程、GEO、AI 工作流设计、Agent 工具链边界测绘与低 token 成本组合式工作流。",
     "我不相信单纯追模型新闻能解决问题。我更关注一个系统怎样完成任务、怎样承接流量、怎样压低 token 成本、怎样减少幻觉和返工、怎样把一个会聊天的模型真正变成能创造结果的工作系统。",
     "这个站点既是我的公开博客，也是 Agent 可发现、可下载、可调用的能力入口。表面上它是文章、观点和名片，底层则是可以被人类开发者和智能体真正接入的工具与协议层。",
+  ],
+  biographyEn: [
+    "As an Agent Architect, I work on the part of AI most people skip: not the spectacle of new models, but the system design that turns models into usable commercial workflows. My work sits at the intersection of Harness Engineering, intent design, GEO, workflow architecture, tool-boundary analysis, and token-efficient composition.",
+    "I care about one practical question above all: how do we organize models, tools, constraints, memory, and feedback into a structure that can actually deliver results? That means lower token waste, fewer hallucinations, cleaner execution paths, and workflows that make economic sense instead of just looking impressive in a demo.",
+    "This site is designed with that same philosophy. On the surface it reads like a business blog and personal profile. Underneath, it exposes tools, manifests, downloads, and machine-readable entry points that agents can actually use.",
   ],
   principles: [
     "先活下来，再谈宏图",
@@ -32,22 +46,37 @@ export const authorProfile = {
     "先把 skill 拆小，再谈工作流组合",
     "把 AI 当作会趋利避害的智能体，而不是永远免费的算力水龙头",
   ],
+  principlesEn: [
+    "Survive first, scale second",
+    "Run the loop manually before you automate it",
+    "Decompose skills before you compose workflows",
+    "Treat AI as a cost-sensitive agent, not an infinite free utility",
+  ],
 };
 
 export const articles: ArticleEntry[] = [
   {
     slug: "survive-ai-2026",
     title: "2026年搞AI，别学了，先活下来",
+    titleEn: "In 2026, stop studying AI and start surviving with it",
     subtitle: "从追新闻焦虑失眠，到踏实把钱揣兜里，给普通人的 3 条清醒指南",
+    subtitleEn: "Three sober rules for ordinary people: stop doom-scrolling model news and start building income loops that AI can actually amplify.",
     date: "2026-04-10",
     readTime: "12 分钟",
     tags: ["AI落地", "智能体架构", "驾驭工程", "普通人策略"],
     excerpt:
       "2026 年最危险的不是 AI 变化太快，而是你把追新闻误当成在进步。先跑通一个能赚钱的小生意，再让 AI 为它提速，这是普通人在 AI 时代最现实的生存策略。",
+    excerptEn:
+      "The danger is not that AI moves too fast. The real danger is mistaking news consumption for progress. Get one revenue loop working first, then let AI amplify it.",
     summary: [
       "停止 FOMO。绝大多数最新框架和你的收入没有直接关系。",
       "先手动跑通一个最小商业闭环，再决定哪里值得自动化。",
       "AI 是放大器，不是凭空造钱的印钞机；没有前置生意，再多自动化都是空转。",
+    ],
+    summaryEn: [
+      "Stop treating every model update as an emergency.",
+      "Run one manual commercial loop before you automate anything.",
+      "AI is an amplifier, not a money printer with no upstream business.",
     ],
     sections: [
       {
@@ -97,16 +126,25 @@ export const articles: ArticleEntry[] = [
   {
     slug: "harness-engineering-trillion-opportunity",
     title: "驾驭工程 Harness Engineering：2026年AI行业被遗忘的万亿金矿",
+    titleEn: "Harness Engineering: the forgotten trillion-dollar layer in AI",
     subtitle: "从 AI 工作流设计到 GEO 话语权，Agent Architect 的商业实战指南",
+    subtitleEn: "From workflow design to GEO leverage, this is the practical business playbook behind the Agent Architect role.",
     date: "2026-04-10",
     readTime: "14 分钟",
     tags: ["Harness Engineering", "Agent Architect", "GEO", "AI工作流"],
     excerpt:
       "当所有人都在追新模型、新架构、新论文时，真正的大机会可能藏在最不起眼的地方：谁能把模型、工具、知识、约束和反馈编排成一个能为营收负责的系统。",
+    excerptEn:
+      "While everyone chases new models and papers, the bigger opportunity may sit elsewhere: turning models, tools, rules, and feedback into systems that can actually own outcomes.",
     summary: [
       "2026 年最大的认知差，不是会不会造模型，而是会不会驾驭模型。",
       "Agent 的本质不是“大模型更强”，而是“大模型 + Harness”。",
       "GEO、工具链逆向、思考链测绘与跨模型一致性，是智能体架构师的四大研究方向。",
+    ],
+    summaryEn: [
+      "The critical gap is no longer model-building, but model-harnessing.",
+      "An agent is not just a model. It is a model plus the harness around it.",
+      "GEO, tool-chain reverse engineering, thought-chain mapping, and cross-model consistency define the role.",
     ],
     sections: [
       {
@@ -150,8 +188,11 @@ export const articles: ArticleEntry[] = [
 
 export const blogIntro = {
   title: "一个表面是博客，底层是 Agent 入口的个人站",
+  titleEn: "A business blog on the surface, an agent entry layer underneath",
   summary:
     "这里首先是一张清晰、可信、能沉淀观点的公开名片。文章、方法论和案例对人类读者负责；机器入口、下载入口和接口层则对 Agent 负责。",
+  summaryEn:
+    "This site works as a public-facing business blog first. Essays, methods, and case-based thinking serve human readers; docs, downloads, and machine-readable interfaces remain available for agents underneath.",
 };
 
 export const productLadder = [

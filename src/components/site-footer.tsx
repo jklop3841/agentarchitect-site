@@ -7,7 +7,7 @@ export function SiteFooter() {
         <div>
           <p className="eyebrow">Lu Cheng</p>
           <p className="footer-copy">
-            智能体架构师卢成的公开博客、产品入口与 Agent 可发现站点。文章负责表达观点，产品负责交付工具，接口负责被调用。
+            Lu Cheng&apos;s public business blog and agent-facing entry site. Essays carry the thesis. Tools carry the proof. Interfaces remain available for agents underneath.
           </p>
           <p className="footer-contact">智能体架构师卢成：18549989843</p>
         </div>

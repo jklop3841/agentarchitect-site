@@ -8,25 +8,25 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
   title: {
-    default: `${siteConfig.title} | Agent-Friendly Personal Capability Site`,
+    default: `Lu Cheng | Agent Architect`,
     template: `%s | ${siteConfig.title}`,
   },
   description:
-    "Lu Cheng's agent-friendly website: private workflow runtime, controlled execution, public docs, and access-key onboarding.",
+    "Lu Cheng is an Agent Architect writing about Harness Engineering, GEO, workflow design, and practical AI systems that actually ship.",
   openGraph: {
-    title: `${siteConfig.title} | Agent-Friendly Personal Capability Site`,
+    title: `Lu Cheng | Agent Architect`,
     description:
-      "Public brand on the surface, controlled private workflow execution underneath.",
+      "A business-grade blog and agent-facing site for Harness Engineering, workflow design, GEO, and practical AI systems.",
     url: siteConfig.domain,
     siteName: siteConfig.title,
-    locale: "zh_CN",
+    locale: "en_US",
     type: "website",
   },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body>
         <div className="page-shell">
           {children}
