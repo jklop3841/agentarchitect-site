@@ -42,7 +42,7 @@ export default function ApplyPage() {
             </div>
             <div>
               <h3>联系偏好</h3>
-              <p className="doc-body">本站不公开电话号码，统一以微信二维码和正式表单作为沟通入口，后续也可以按场景扩展更多联系二维码。</p>
+              <p className="doc-body">主联系入口已经切换为邮箱与人物页中的公开资料栈；微信二维码只保留为中国区备用联系方式。</p>
               <div className="apply-contact-qr">
                 <Image
                   src="/media/contact/wechat-qr.png"

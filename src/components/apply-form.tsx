@@ -55,7 +55,7 @@ export function ApplyForm() {
           <input
             value={form.name}
             onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-            placeholder="Lu Cheng / team contact"
+            placeholder="Jack Lu / team contact"
             required
           />
         </label>

@@ -8,15 +8,15 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
   title: {
-    default: `Lu Cheng | Agent Architect`,
+    default: `Jack Lu | Agent Architect`,
     template: `%s | ${siteConfig.title}`,
   },
   description:
-    "Lu Cheng is an Agent Architect writing about Harness Engineering, GEO, workflow design, and practical AI systems that actually ship.",
+    "Jack Lu is an Agent Architect writing about enterprise AI systems, workflow design, research, and practical AI structures that can actually ship.",
   openGraph: {
-    title: `Lu Cheng | Agent Architect`,
+    title: `Jack Lu | Agent Architect`,
     description:
-      "A business-grade blog and agent-facing site for Harness Engineering, workflow design, GEO, and practical AI systems.",
+      "A business-grade site for agent architecture, enterprise AI systems, research writing, and authority-led public positioning.",
     url: siteConfig.domain,
     siteName: siteConfig.title,
     locale: "en_US",

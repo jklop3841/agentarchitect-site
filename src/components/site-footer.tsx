@@ -15,18 +15,17 @@ export function SiteFooter() {
   const pathname = usePathname();
   const locale = resolveLocale(pathname);
   const isEnglish = locale === "en";
-  const homeHref = isEnglish ? "/" : "/zh";
-  const contactHref = `${homeHref}#contact`;
+  const contactHref = "/profile";
 
   return (
     <footer className="site-footer">
       <div className="site-footer__grid">
         <div>
-          <p className="eyebrow">{isEnglish ? "Lu Cheng" : "卢成"}</p>
+          <p className="eyebrow">{isEnglish ? "Jack Lu" : "Jack Lu（卢成）"}</p>
           <p className="footer-copy">
             {isEnglish
-              ? "Research, essays, speaking, and private advisory on agent architecture and practical AI systems."
-              : "围绕智能体架构、AI 工作流设计、公开表达与私人咨询展开的个人站点。"}
+              ? "Research, essays, speaking, and advisory on agent architecture, enterprise AI systems, and long-form public writing."
+              : "围绕智能体架构、企业级 AI 系统、研究写作与公开表达展开的个人站点。"}
           </p>
         </div>
         <div>
@@ -36,7 +35,7 @@ export function SiteFooter() {
               <Link href="/articles">{isEnglish ? "Essays (CN)" : "文章"}</Link>
             </li>
             <li>
-              <Link href="/about">{isEnglish ? "About" : "关于"}</Link>
+              <Link href="/profile">{isEnglish ? "Profile Page" : "人物页"}</Link>
             </li>
             <li>
               <Link href="/apply">{isEnglish ? "Private Advisory" : "合作申请"}</Link>
@@ -47,7 +46,7 @@ export function SiteFooter() {
           <p className="eyebrow">{isEnglish ? "Contact" : "联系"}</p>
           <ul className="footer-links">
             <li>
-              <Link href={contactHref}>{isEnglish ? "WeChat QR" : "微信二维码"}</Link>
+              <Link href={contactHref}>{isEnglish ? "Email & Profiles" : "邮箱与外部资料"}</Link>
             </li>
             <li>
               <Link href="/apply">{isEnglish ? "Application Form" : "申请表单"}</Link>

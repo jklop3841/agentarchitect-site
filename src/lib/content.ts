@@ -22,7 +22,8 @@ export type ArticleEntry = {
 
 export const authorProfile = {
   name: "卢成",
-  englishName: "Lu Cheng",
+  englishName: "Jack Lu",
+  displayName: "Jack Lu (卢成)",
   title: "智能体架构师",
   titleEn: "Agent Architect",
   location: "中国香港 北区",

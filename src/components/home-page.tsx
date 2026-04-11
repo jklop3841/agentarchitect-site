@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Reveal } from "@/components/reveal";
 import { articles, authorProfile, blogIntro } from "@/lib/content";
+import { externalProfiles, primaryContact, researchPapers } from "@/lib/site";
 import type { Locale } from "@/lib/types";
 
 type HomePageProps = {
@@ -77,7 +78,7 @@ export function HomePage({ locale }: HomePageProps) {
           <div className="hero-poster">
             <p className="eyebrow">{isEnglish ? "Agent Architect" : "智能体架构师"}</p>
             <p className="editorial-hero__name">
-              {isEnglish ? authorProfile.englishName : authorProfile.name}
+              {isEnglish ? authorProfile.displayName : `${authorProfile.name} / ${authorProfile.englishName}`}
             </p>
             <p className="editorial-hero__location">{location}</p>
             <h1 className="editorial-hero__headline">
@@ -95,8 +96,8 @@ export function HomePage({ locale }: HomePageProps) {
               <Link href="/articles" className="button button--primary">
                 {isEnglish ? "Read Chinese essays" : "阅读文章"}
               </Link>
-              <Link href="#contact" className="button button--ghost">
-                {isEnglish ? "WeChat contact" : "微信联系"}
+              <Link href="/profile" className="button button--ghost">
+                {isEnglish ? "View profile" : "查看人物页"}
               </Link>
             </div>
           </div>
@@ -237,26 +238,41 @@ export function HomePage({ locale }: HomePageProps) {
       <Reveal className="section" id="contact">
         <div className="contact-stage">
           <div className="contact-stage__copy">
-            <p className="eyebrow">{isEnglish ? "WeChat Contact" : "微信联系"}</p>
+            <p className="eyebrow">{isEnglish ? "Contact & Proof" : "联系与证明"}</p>
             <h2>
               {isEnglish
-                ? "All private conversations route through WeChat first. More QR entrances can be added later by scenario."
-                : "私人沟通统一通过微信二维码进入，后续也可以按场景继续扩展更多二维码入口。"}
+                ? "Email is the primary contact path. Public profiles and research now carry more of the trust layer."
+                : "邮箱成为主联系入口，公开资料与研究成果承担更多信任层。"}
             </h2>
             <p className="doc-body">
               {isEnglish
-                ? "If you are exploring architecture review, speaking, workflow design, or strategic AI adoption, start here."
-                : "如果你正在考虑架构评审、主题演讲、工作流设计或 AI 转型相关合作，可以先从这里建立联系。"}
+                ? "If you are exploring architecture review, speaking, workflow design, or strategic AI adoption, start with email or the profile page."
+                : "如果你在考虑架构评审、主题演讲、工作流设计或 AI 转型合作，可以先发邮件，或者查看人物页里的公开资料与论文。"}
             </p>
-            <div className="hero__actions">
-              <Link href="/apply" className="button button--primary">
-                {isEnglish ? "Open application form" : "打开申请表单"}
+            <div className="contact-stage__meta">
+              <a href={primaryContact.emailHref} className="button button--primary">
+                {primaryContact.email}
+              </a>
+              <Link href="/profile" className="text-link">
+                {isEnglish ? "Open full profile page" : "打开完整人物页"}
               </Link>
+            </div>
+            <div className="proof-list">
+              {externalProfiles.map((profile) => (
+                <a key={profile.label} href={profile.href} target="_blank" rel="noreferrer" className="proof-item">
+                  <strong>{profile.label}</strong>
+                  <span>{profile.handle}</span>
+                </a>
+              ))}
+              <a href={researchPapers[0].href} target="_blank" rel="noreferrer" className="proof-item">
+                <strong>SSRN</strong>
+                <span>{isEnglish ? "Research papers" : "研究论文"}</span>
+              </a>
             </div>
           </div>
           <div className="qr-gallery">
             <div className="qr-card">
-              <p className="eyebrow">{isEnglish ? "Official WeChat" : "官方微信"}</p>
+              <p className="eyebrow">{isEnglish ? "WeChat (China Only)" : "微信（中国区备用）"}</p>
               <Image
                 src="/media/contact/wechat-qr.png"
                 alt="微信二维码"

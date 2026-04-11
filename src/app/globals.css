@@ -447,6 +447,40 @@ h3 {
   max-width: 36rem;
 }
 
+.contact-stage__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.3rem;
+}
+
+.proof-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+}
+
+.proof-item {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(23, 52, 84, 0.08);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.proof-item strong {
+  color: var(--text);
+  font-size: 0.98rem;
+}
+
+.proof-item span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 .qr-gallery {
   display: grid;
   gap: 1rem;
@@ -467,6 +501,68 @@ h3 {
   display: grid;
   grid-template-columns: minmax(250px, 0.35fr) minmax(0, 1fr);
   gap: 1.8rem;
+}
+
+.profile-page__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+  gap: clamp(1.8rem, 4vw, 3rem);
+  align-items: center;
+}
+
+.profile-page__intro {
+  max-width: 42rem;
+}
+
+.profile-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.profile-page__portrait,
+.profile-panel,
+.profile-link-card {
+  border: 1px solid var(--line);
+  background: var(--panel-solid);
+  box-shadow: var(--shadow);
+}
+
+.profile-page__portrait {
+  overflow: hidden;
+  border-radius: 1.8rem;
+  padding: 0.75rem;
+}
+
+.profile-page__portrait-image {
+  width: 100%;
+  height: auto;
+  border-radius: 1.35rem;
+}
+
+.profile-page__grid,
+.profile-links-grid {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.profile-page__grid {
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+}
+
+.profile-links-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.profile-panel,
+.profile-link-card {
+  padding: 1.45rem;
+}
+
+.profile-link-card h3,
+.profile-panel h2 {
+  margin-top: 0;
 }
 
 .article-page__hero {
@@ -1022,6 +1118,9 @@ h1 {
   .article-grid,
   .authority-band,
   .article-page__hero,
+  .profile-page__hero,
+  .profile-page__grid,
+  .profile-links-grid,
   .contact-stage,
   .article-layout,
   .hero__grid,
@@ -1060,6 +1159,10 @@ h1 {
 
   .article-sidebar {
     position: static;
+  }
+
+  .proof-list {
+    grid-template-columns: 1fr;
   }
 }
 

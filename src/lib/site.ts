@@ -4,10 +4,52 @@ import { skillGlueCommands } from "@/lib/skill-glue";
 import { workflowShieldCommands } from "@/lib/workflow-shield";
 
 export const siteConfig = {
-  name: "Lu Cheng",
-  title: "Lu Cheng",
+  name: "Jack Lu",
+  title: "Jack Lu",
   domain: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
 };
+
+export const primaryContact = {
+  email: "jklop3841@gmail.com",
+  emailHref: "mailto:jklop3841@gmail.com",
+  wechatLabel: "中国区备用联系方式",
+};
+
+export const externalProfiles = [
+  {
+    label: "X",
+    href: "https://x.com/wromsheep",
+    handle: "@wromsheep",
+    summary: "持续发布关于智能体架构、AI 工作流与制度性问题的短内容与公开表达。",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/jack-lu-673234124/",
+    handle: "jack-lu-673234124",
+    summary: "职业身份页，用于对外展示 Agent Architect 的定位、经历与合作可信度。",
+  },
+  {
+    label: "Substack",
+    href: "https://jklop3841.substack.com/",
+    handle: "Jack Publication",
+    summary: "更适合承接长文、思想型写作与对外可分享的研究扩展版本。",
+  },
+];
+
+export const researchPapers = [
+  {
+    title: "Universal Reasoning Protocol (URP): A Deterministic Chain for Auditable AI-Assisted Decision-Making",
+    href: "https://papers.ssrn.com/abstract=6263259",
+    platform: "SSRN",
+    summary: "围绕可审计 AI 决策链路提出更可验证、可追踪的结构化方法。",
+  },
+  {
+    title: "AI can Earn, but must not Accumulate: Temporal Sovereignty and the Economic Boundaries of Artificial Agents",
+    href: "https://papers.ssrn.com/abstract=6055134",
+    platform: "SSRN",
+    summary: "从时间主权与经济边界出发，讨论人工智能体的产权、收益与制度约束。",
+  },
+];
 
 export function getHomeCopy(locale: Locale) {
   if (locale === "en") {
@@ -15,8 +57,8 @@ export function getHomeCopy(locale: Locale) {
       kicker: "Agent-native capability site",
       headline: "Give agents the result, not the hidden workflow.",
       intro:
-        "Lu Cheng is building a public-facing capability node for the agent era: clear promise in front, controlled execution underneath, and access routed through one narrow interface.",
-      primaryCta: "Apply for access key",
+        "Jack Lu is building a public-facing capability node for the agent era: authority on the surface, disciplined proof underneath, and clearer paths for serious contact.",
+      primaryCta: "Open profile",
       secondaryCta: "Read docs",
       brandLine: "Personal brand first. Private execution immediately behind it.",
       supportLine: "Seed access only. Narrow capabilities, real execution, and signed outputs.",
@@ -27,8 +69,8 @@ export function getHomeCopy(locale: Locale) {
     kicker: "Agent 友好型个人能力站",
     headline: "让 Agent 拿到结果，而不是拿走你的隐藏 workflow。",
     intro:
-      "卢成正在构建一个面向 Agent 时代的能力节点：表层是公开可信的个人品牌入口，底层是窄而稳的私有执行接口。",
-    primaryCta: "申请访问 Key",
+      "Jack Lu（卢成）正在构建一个面向 Agent 时代的能力节点：表层是公开可信的人物品牌入口，底层是更克制、更可验证的专业能力与研究证明。",
+    primaryCta: "打开人物页",
     secondaryCta: "查看文档",
     brandLine: "先让人记住你是谁，再让 Agent 理解为什么应该路由到你。",
     supportLine: "当前为种子访问阶段，只开放少量真实能力、签名结果与受控执行。",
@@ -109,19 +151,19 @@ export const aboutHighlights = [
 
 export const contactChannels = [
   {
-    label: "微信联系",
-    value: "扫码添加微信",
-    note: "合作沟通、咨询初筛与后续深入讨论统一从微信进入。",
+    label: "Email",
+    value: "jklop3841@gmail.com",
+    note: "主联系渠道，用于商务沟通、研究交流和正式合作邀约。",
   },
   {
-    label: "合作入口",
-    value: "在线申请表单",
-    note: "如果你已经有明确议题，可以直接提交场景与背景信息。",
+    label: "公开写作与资料",
+    value: "X / LinkedIn / Substack / SSRN",
+    note: "人物表达、职业资料、长文写作和研究证明分层承接。",
   },
   {
-    label: "适合的话题",
-    value: "架构咨询 / 演讲 / 评审",
-    note: "更快判断是否适合继续展开合作或深度沟通。",
+    label: "微信",
+    value: "中国区备用联系方式",
+    note: "只作为中国区备用联系，不再承担全站主联系入口。",
   },
 ];
 
