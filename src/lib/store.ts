@@ -25,6 +25,20 @@ const store =
     executionLogs: [],
   });
 
+function mergeApiKeys(...groups: ApiKeyRecord[][]) {
+  const merged = new Map<string, ApiKeyRecord>();
+
+  for (const group of groups) {
+    for (const key of group) {
+      if (!merged.has(key.keyHash)) {
+        merged.set(key.keyHash, key);
+      }
+    }
+  }
+
+  return [...merged.values()];
+}
+
 function getSeedApiKeys() {
   const demoApiKey = process.env.DEMO_API_KEY;
 
@@ -104,6 +118,7 @@ export async function listAccessRequests() {
 }
 
 export async function listApiKeys() {
+  const seedKeys = getSeedApiKeys();
   const supabase = getSupabaseAdminClient();
   if (supabase) {
     const { data } = await supabase
@@ -112,7 +127,7 @@ export async function listApiKeys() {
       .order("created_at", { ascending: false })
       .limit(50);
 
-    return (
+    const dbKeys =
       data?.map((row) => ({
         id: row.id as string,
         label: row.label as string,
@@ -121,11 +136,12 @@ export async function listApiKeys() {
         monthlyQuota: row.monthly_quota as number,
         ownerRequestId: (row.owner_request_id as string | null) ?? undefined,
         createdAt: row.created_at as string,
-      })) ?? []
-    );
+      })) ?? [];
+
+    return mergeApiKeys(dbKeys, seedKeys);
   }
 
-  return [...getSeedApiKeys(), ...store.apiKeys];
+  return mergeApiKeys(seedKeys, store.apiKeys);
 }
 
 export async function findApiKey(rawKey: string) {
