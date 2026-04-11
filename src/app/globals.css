@@ -367,6 +367,27 @@ h3 {
   gap: 1.35rem;
 }
 
+.article-grid--editorial .article-card {
+  overflow: hidden;
+}
+
+.article-card--featured {
+  padding: 0;
+}
+
+.article-card__cover {
+  position: relative;
+  aspect-ratio: 16 / 10;
+}
+
+.article-card__cover-image {
+  object-fit: cover;
+}
+
+.article-card__content {
+  padding: 1.35rem;
+}
+
 .article-card__meta {
   display: flex;
   gap: 0.9rem;
@@ -444,8 +465,36 @@ h3 {
 
 .article-layout {
   display: grid;
-  grid-template-columns: minmax(240px, 0.38fr) minmax(0, 1fr);
-  gap: 1.6rem;
+  grid-template-columns: minmax(250px, 0.35fr) minmax(0, 1fr);
+  gap: 1.8rem;
+}
+
+.article-page__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  gap: clamp(1.6rem, 4vw, 3rem);
+  align-items: center;
+}
+
+.article-page__hero-media {
+  border-radius: 1.8rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--panel-solid);
+  box-shadow: var(--shadow);
+  padding: 0.75rem;
+}
+
+.article-page__hero-image {
+  width: 100%;
+  height: auto;
+  border-radius: 1.35rem;
+}
+
+.article-sidebar {
+  position: sticky;
+  top: 6.5rem;
+  align-self: start;
 }
 
 .article-body__lead {
@@ -972,6 +1021,7 @@ h1 {
   .profile-layout,
   .article-grid,
   .authority-band,
+  .article-page__hero,
   .contact-stage,
   .article-layout,
   .hero__grid,
@@ -1006,6 +1056,10 @@ h1 {
 
   .hero-visual__card {
     min-height: 30rem;
+  }
+
+  .article-sidebar {
+    position: static;
   }
 }
 

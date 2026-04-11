@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Script from "next/script";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -29,6 +30,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       title: article.title,
       description: article.excerpt,
       type: "article",
+      images: [{ url: article.coverImage, alt: article.coverAlt }],
     },
   };
 }
@@ -47,6 +49,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     headline: article.title,
     description: article.excerpt,
     datePublished: article.date,
+    image: article.coverImage,
     author: {
       "@type": "Person",
       name: authorProfile.name,
@@ -56,26 +59,38 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <>
-      <SiteHeader locale="en" />
+      <SiteHeader locale="zh" />
       <Script id={`article-jsonld-${article.slug}`} type="application/ld+json">
         {JSON.stringify(articleJsonLd)}
       </Script>
       <main className="subpage article-page">
-        <section className="subpage__hero">
-          <p className="eyebrow">Essay</p>
-          <h1>{article.titleEn}</h1>
-          <p className="subpage__lead">{article.subtitleEn}</p>
-          <div className="article-card__meta">
-            <span>{article.date}</span>
-            <span>{article.readTime}</span>
+        <section className="subpage__hero article-page__hero">
+          <div className="article-page__hero-copy">
+            <p className="eyebrow">文章</p>
+            <h1>{article.title}</h1>
+            <p className="subpage__lead">{article.subtitle}</p>
+            <div className="article-card__meta">
+              <span>{article.date}</span>
+              <span>{article.readTime}</span>
+            </div>
+          </div>
+          <div className="article-page__hero-media">
+            <Image
+              src={article.coverImage}
+              alt={article.coverAlt}
+              width={1200}
+              height={900}
+              className="article-page__hero-image"
+              priority
+            />
           </div>
         </section>
 
         <section className="section article-layout">
           <aside className="article-sidebar">
-            <p className="eyebrow">Summary</p>
+            <p className="eyebrow">摘要</p>
             <ul className="principle-list">
-              {article.summaryEn.map((item) => (
+              {article.summary.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
@@ -87,15 +102,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               ))}
             </div>
             <Link href="/apply" className="text-link">
-              Request advisory access
+              申请咨询 / 合作
             </Link>
           </aside>
           <article className="article-body">
-            <p className="article-body__lead">{article.excerptEn}</p>
-            <p className="article-body__note">Chinese original below</p>
+            <p className="article-body__lead">{article.excerpt}</p>
             {article.sections.map((section) => (
               <section key={section.heading} className="article-body__section">
-                <h2>{section.headingEn ?? section.heading}</h2>
+                <h2>{section.heading}</h2>
                 {section.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}

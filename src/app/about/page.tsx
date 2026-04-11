@@ -34,7 +34,7 @@ export default function AboutPage() {
             <div className="authority-band__visual authority-band__visual--portrait">
               <Image
                 src="/media/editorial/lu-cheng-summit.png"
-                alt="卢成在 Global AI Summit 现场"
+                alt="卢成的峰会风格现场形象"
                 width={960}
                 height={1440}
                 className="authority-band__image"

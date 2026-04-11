@@ -93,7 +93,7 @@ export function HomePage({ locale }: HomePageProps) {
             </ul>
             <div className="hero__actions">
               <Link href="/articles" className="button button--primary">
-                {isEnglish ? "Read essays" : "阅读文章"}
+                {isEnglish ? "Read Chinese essays" : "阅读文章"}
               </Link>
               <Link href="#contact" className="button button--ghost">
                 {isEnglish ? "WeChat contact" : "微信联系"}
@@ -104,7 +104,7 @@ export function HomePage({ locale }: HomePageProps) {
             <div className="hero-visual__card">
               <Image
                 src="/media/editorial/lu-cheng-keynote.png"
-                alt="卢成在台上演讲"
+                alt="卢成的现场演讲形象"
                 fill
                 priority
                 className="hero-visual__image"
@@ -175,7 +175,7 @@ export function HomePage({ locale }: HomePageProps) {
           <div className="authority-band__visual">
             <Image
               src="/media/editorial/lu-cheng-summit.png"
-              alt="卢成在 Global AI Summit"
+              alt="卢成的峰会风格形象照"
               width={960}
               height={1440}
               className="authority-band__image"
@@ -208,7 +208,7 @@ export function HomePage({ locale }: HomePageProps) {
                 ))}
               </div>
               <Link href={`/articles/${article.slug}`} className="text-link">
-                {isEnglish ? "Read the essay" : "阅读全文"}
+                {isEnglish ? "Read the Chinese essay" : "阅读全文"}
               </Link>
             </article>
           ))}

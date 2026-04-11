@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 function resolveLocale(pathname: string) {
-  if (pathname === "/" || pathname.startsWith("/en") || pathname.startsWith("/articles")) {
+  if (pathname === "/" || pathname.startsWith("/en")) {
     return "en";
   }
 
@@ -33,7 +33,7 @@ export function SiteFooter() {
           <p className="eyebrow">{isEnglish ? "Explore" : "浏览"}</p>
           <ul className="footer-links">
             <li>
-              <Link href="/articles">{isEnglish ? "Essays" : "文章"}</Link>
+              <Link href="/articles">{isEnglish ? "Essays (CN)" : "文章"}</Link>
             </li>
             <li>
               <Link href="/about">{isEnglish ? "About" : "关于"}</Link>

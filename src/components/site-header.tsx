@@ -21,7 +21,7 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
           </span>
         </Link>
         <nav className="site-nav">
-          <Link href="/articles">{isEnglish ? "Essays" : "文章"}</Link>
+          <Link href="/articles">{isEnglish ? "Essays (CN)" : "文章"}</Link>
           <Link href={`${homeHref}#bio`}>{isEnglish ? "Profile" : "简介"}</Link>
           <Link href={authorityHref}>{isEnglish ? "Authority" : "权威表达"}</Link>
           <Link href="/about">{isEnglish ? "About" : "关于"}</Link>
