@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 import { ApplyForm } from "@/components/apply-form";
 import { SiteHeader } from "@/components/site-header";
-import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Apply for Access",
@@ -15,7 +15,7 @@ export default function ApplyPage() {
       <SiteHeader />
       <main className="subpage">
         <section className="subpage__hero">
-          <p className="eyebrow">Apply</p>
+          <p className="eyebrow">合作申请</p>
           <h1>申请访问 Key</h1>
           <p className="subpage__lead">
             当前为种子用户阶段。我们先优先支持真实 Agent 场景、自动化开发者和需要稳定受控输出的小团队。
@@ -25,7 +25,7 @@ export default function ApplyPage() {
         <section className="section">
           <div className="detail-grid">
             <div>
-              <h3>What to expect</h3>
+              <h3>申请流程</h3>
               <ul>
                 <li>人工审核你的场景与预估调用量</li>
                 <li>通过后发放访问 Key</li>
@@ -33,7 +33,7 @@ export default function ApplyPage() {
               </ul>
             </div>
             <div>
-              <h3>What helps approval</h3>
+              <h3>更容易通过的情况</h3>
               <ul>
                 <li>明确的 Agent 或自动化调用场景</li>
                 <li>具体的输入输出预期</li>
@@ -41,12 +41,17 @@ export default function ApplyPage() {
               </ul>
             </div>
             <div>
-              <h3>Direct contact</h3>
-              <ul>
-                <li>智能体架构师卢成：{siteConfig.phone}</li>
-                <li>如果你已经有明确场景，也可以先电话沟通再申请</li>
-                <li>站点默认仍以 `/apply` 作为正式承接入口</li>
-              </ul>
+              <h3>联系偏好</h3>
+              <p className="doc-body">本站不公开电话号码，统一以微信二维码和正式表单作为沟通入口，后续也可以按场景扩展更多联系二维码。</p>
+              <div className="apply-contact-qr">
+                <Image
+                  src="/media/contact/wechat-qr.png"
+                  alt="微信二维码"
+                  width={560}
+                  height={790}
+                  className="apply-contact-qr__image"
+                />
+              </div>
             </div>
           </div>
         </section>

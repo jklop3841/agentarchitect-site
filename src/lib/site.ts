@@ -5,9 +5,8 @@ import { workflowShieldCommands } from "@/lib/workflow-shield";
 
 export const siteConfig = {
   name: "Lu Cheng",
-  title: "智能体架构师卢成",
+  title: "Lu Cheng",
   domain: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  phone: "18549989843",
 };
 
 export function getHomeCopy(locale: Locale) {
@@ -103,26 +102,26 @@ export const featuredProducts = [
 ];
 
 export const aboutHighlights = [
-  "智能体架构与运行流设计",
-  "个人品牌门面 + Agent 接口双层站点策略",
-  "以受控执行而非暴露方法论来交付独有价值",
+  "智能体架构与任务系统设计",
+  "AI 工作流诊断、重组与落地路径梳理",
+  "公开演讲、闭门交流与高层简报",
 ];
 
 export const contactChannels = [
   {
-    label: "智能体架构师卢成",
-    value: "18549989843",
-    note: "合作、种子接入、访问 Key 都可直接联系。",
+    label: "微信联系",
+    value: "扫码添加微信",
+    note: "合作沟通、咨询初筛与后续深入讨论统一从微信进入。",
   },
   {
-    label: "主域名",
-    value: "agentarchitect.me",
-    note: "公开品牌与 Agent 入口统一收敛到这个主域名。",
+    label: "合作入口",
+    value: "在线申请表单",
+    note: "如果你已经有明确议题，可以直接提交场景与背景信息。",
   },
   {
-    label: "接入方式",
-    value: "/apply",
-    note: "先通过申请收集场景，再发 Key，避免匿名高频滥用。",
+    label: "适合的话题",
+    value: "架构咨询 / 演讲 / 评审",
+    note: "更快判断是否适合继续展开合作或深度沟通。",
   },
 ];
 

@@ -7,6 +7,8 @@ type SiteHeaderProps = {
 export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
   const isEnglish = locale === "en";
   const homeHref = isEnglish ? "/" : "/zh";
+  const authorityHref = `${homeHref}#authority`;
+  const contactHref = `${homeHref}#contact`;
 
   return (
     <header className="site-header">
@@ -21,8 +23,7 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
         <nav className="site-nav">
           <Link href="/articles">{isEnglish ? "Essays" : "文章"}</Link>
           <Link href={`${homeHref}#bio`}>{isEnglish ? "Profile" : "简介"}</Link>
-          <Link href={`${homeHref}#products`}>{isEnglish ? "Products" : "产品"}</Link>
-          <Link href="/docs">Docs</Link>
+          <Link href={authorityHref}>{isEnglish ? "Authority" : "权威表达"}</Link>
           <Link href="/about">{isEnglish ? "About" : "关于"}</Link>
           <div className="language-switch">
             <Link href="/" className={isEnglish ? "is-active" : undefined}>
@@ -32,8 +33,8 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
               中文
             </Link>
           </div>
-          <Link href="/apply" className="site-nav__cta">
-            {isEnglish ? "Contact" : "微信 / 合作"}
+          <Link href={contactHref} className="site-nav__cta">
+            {isEnglish ? "WeChat" : "微信联系"}
           </Link>
         </nav>
       </div>

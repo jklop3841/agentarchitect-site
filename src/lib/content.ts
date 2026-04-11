@@ -25,7 +25,6 @@ export const authorProfile = {
   titleEn: "Agent Architect",
   location: "中国香港 北区",
   locationEn: "North District, Hong Kong",
-  phone: "18549989843",
   intro:
     "我关注的不是“又出了什么新模型”，而是 AI 什么时候、以什么成本、在什么边界里，真正替人把一件事做成。我把这种能力叫作智能体架构：把目标、工具、知识、规则、工作流和反馈编排成一个可交付、可复制、可持续优化的系统。",
   introEn:
@@ -190,9 +189,9 @@ export const blogIntro = {
   title: "一个表面是博客，底层是 Agent 入口的个人站",
   titleEn: "A business blog on the surface, an agent entry layer underneath",
   summary:
-    "这里首先是一张清晰、可信、能沉淀观点的公开名片。文章、方法论和案例对人类读者负责；机器入口、下载入口和接口层则对 Agent 负责。",
+    "这里首先是一张清晰、可信、能沉淀观点的公开名片。文章、方法论和案例对人类读者负责，站点同时保留严谨的结构与入口设计。",
   summaryEn:
-    "This site works as a public-facing business blog first. Essays, methods, and case-based thinking serve human readers; docs, downloads, and machine-readable interfaces remain available for agents underneath.",
+    "This site behaves like a business-grade editorial presence first: essays, methods, and case-based thinking for human readers, with a disciplined information structure underneath.",
 };
 
 export const productLadder = [
