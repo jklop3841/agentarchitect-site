@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint src middleware.ts next.config.ts --ext .ts,.tsx"
+    "lint": "eslint src middleware.ts next.config.ts --ext .ts,.tsx",
+    "skill-glue": "node ./bin/skill-glue.cjs",
+    "skill-glue:demo": "node ./bin/skill-glue.cjs compose ./examples/skill-glue/serial.json --format markdown"
+  },
+  "bin": {
+    "skill-glue": "./bin/skill-glue.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.102.1",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { SiteHeader } from "@/components/site-header";
 import { docsSections } from "@/lib/site";
@@ -91,6 +92,36 @@ export default function DocsPage() {
         <pre className="code-block">
           <code>{verifyExample}</code>
         </pre>
+        </section>
+
+        <section className="section">
+        <div className="section-heading">
+          <p className="eyebrow">Skill Glue CLI</p>
+          <h2>除了远程执行入口，这个站也开始分发可下载的低 token 组合工具。</h2>
+        </div>
+        <div className="detail-grid">
+          <div>
+            <h3>Product</h3>
+            <p>先理解为什么 giant skill 越来越不经济，再看 Skill Glue 的产品定位。</p>
+            <Link href="/products/skill-glue" className="text-link">
+              打开 Skill Glue 产品页
+            </Link>
+          </div>
+          <div>
+            <h3>Docs</h3>
+            <p>查看命令、manifest 结构和三组可直接运行的示例。</p>
+            <Link href="/docs/skill-glue" className="text-link">
+              打开 Skill Glue 文档
+            </Link>
+          </div>
+          <div>
+            <h3>Download</h3>
+            <p>通过 GitHub 仓库和下载页获取 CLI 与 manifest 示例。</p>
+            <Link href="/download/skill-glue" className="text-link">
+              打开下载入口
+            </Link>
+          </div>
+        </div>
         </section>
 
         <section className="section">

@@ -1,0 +1,50 @@
+{
+  "id": "parallel-content-stack",
+  "summary": "Split a content workflow into parallel preparation lanes before final assembly.",
+  "steps": [
+    {
+      "id": "topic.intake",
+      "summary": "Convert the incoming topic into a structured topic card.",
+      "inputs": ["topic"],
+      "outputs": ["topic_card"],
+      "cost_hint": { "tokens": "low", "score": 1 },
+      "dependencies": [],
+      "replaceable_with": [],
+      "cacheable": true,
+      "validation_checks": ["topic_card includes audience and tone"]
+    },
+    {
+      "id": "hook.builder",
+      "summary": "Draft multiple hooks from the topic card.",
+      "inputs": ["topic_card"],
+      "outputs": ["hooks"],
+      "cost_hint": { "tokens": "low", "score": 1 },
+      "dependencies": ["topic.intake"],
+      "replaceable_with": ["hook.cached"],
+      "cacheable": true,
+      "validation_checks": ["at least 3 hooks generated"]
+    },
+    {
+      "id": "evidence.bundle",
+      "summary": "Gather the smallest external evidence pack needed to support the piece.",
+      "inputs": ["topic_card"],
+      "outputs": ["evidence"],
+      "cost_hint": { "tokens": "medium", "score": 2 },
+      "dependencies": ["topic.intake"],
+      "replaceable_with": ["evidence.archive"],
+      "cacheable": true,
+      "validation_checks": ["evidence includes source links"]
+    },
+    {
+      "id": "assembly.pass",
+      "summary": "Merge hooks and evidence into a publish-ready outline.",
+      "inputs": ["hooks", "evidence"],
+      "outputs": ["outline"],
+      "cost_hint": { "tokens": "low", "score": 1 },
+      "dependencies": ["hook.builder", "evidence.bundle"],
+      "replaceable_with": [],
+      "cacheable": false,
+      "validation_checks": ["outline includes opening, proof, CTA"]
+    }
+  ]
+}

@@ -46,7 +46,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "executionId and verificationToken are required." }, { status: 422 });
   }
 
-  const log = await findExecutionLog(payload.executionId);
+  let log;
+  try {
+    log = await findExecutionLog(payload.executionId);
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: error instanceof Error ? error.message : "Failed to read execution log.",
+      },
+      { status: 503 },
+    );
+  }
+
   if (!log) {
     return NextResponse.json({ message: "Execution not found." }, { status: 404 });
   }

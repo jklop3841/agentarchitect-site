@@ -4,6 +4,7 @@ import { Reveal } from "@/components/reveal";
 import {
   applicationPath,
   contactChannels,
+  featuredProducts,
   getHomeCopy,
   getCapabilitiesForDisplay,
   homepageSignals,
@@ -91,6 +92,25 @@ export function HomePage({ locale }: HomePageProps) {
             <article key={step.title} className="signal-item">
               <h3>{step.title}</h3>
               <p>{step.body}</p>
+            </article>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal className="section">
+        <div className="section-heading">
+          <p className="eyebrow">Free products</p>
+          <h2>先让别人免费用到你的判断力，再决定要不要继续往更深的架构服务走。</h2>
+        </div>
+        <div className="signal-list">
+          {featuredProducts.map((product) => (
+            <article key={product.name} className="signal-item">
+              <p className="capability-item__id">{product.badge}</p>
+              <h3>{product.name}</h3>
+              <p>{product.summary}</p>
+              <Link href={product.href} className="text-link">
+                {product.cta}
+              </Link>
             </article>
           ))}
         </div>

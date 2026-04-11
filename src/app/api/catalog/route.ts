@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { listCapabilities } from "@/lib/capabilities";
-import { siteConfig } from "@/lib/site";
+import { featuredProducts, siteConfig } from "@/lib/site";
 
 export async function GET() {
   return NextResponse.json(
@@ -13,6 +13,7 @@ export async function GET() {
         execution: "x-api-key required",
       },
       capabilities: listCapabilities(),
+      downloadable_products: featuredProducts,
     },
     {
       headers: {

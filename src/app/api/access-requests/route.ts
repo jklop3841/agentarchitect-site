@@ -34,7 +34,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Missing or invalid request fields." }, { status: 422 });
   }
 
-  const record = await createAccessRequest(payload);
+  let record;
+  try {
+    record = await createAccessRequest(payload);
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: error instanceof Error ? error.message : "Failed to persist access request.",
+      },
+      { status: 503 },
+    );
+  }
 
   return NextResponse.json(
     {

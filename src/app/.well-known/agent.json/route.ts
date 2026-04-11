@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getCapabilitiesForDisplay, siteConfig } from "@/lib/site";
+import { featuredProducts, getCapabilitiesForDisplay, siteConfig } from "@/lib/site";
 
 export async function GET() {
   return NextResponse.json(
@@ -13,12 +13,15 @@ export async function GET() {
         catalog: `${siteConfig.domain}/api/catalog`,
         apply: `${siteConfig.domain}/apply`,
         mcp: `${siteConfig.domain}/mcp`,
+        skillGlueDocs: `${siteConfig.domain}/docs/skill-glue`,
+        skillGlueDownload: `${siteConfig.domain}/download/skill-glue`,
       },
       auth: {
         publicRead: true,
         execution: "x-api-key",
       },
       capabilities: getCapabilitiesForDisplay(),
+      products: featuredProducts,
     },
     {
       headers: {

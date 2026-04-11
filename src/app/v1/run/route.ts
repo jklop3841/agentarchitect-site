@@ -66,17 +66,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Execution signing is not configured." }, { status: 503 });
   }
 
-  await createExecutionLog({
-    executionId,
-    capabilityId: capability.id,
-    callerKeyId: activeKey.id,
-    callerLabel: activeKey.label,
-    inputSummary: summarizeStructuredInput(payload.input),
-    outputSummary: outcome.summary,
-    estimatedCost: outcome.estimatedCost,
-    verificationToken,
-    status: "completed",
-  });
+  try {
+    await createExecutionLog({
+      executionId,
+      capabilityId: capability.id,
+      callerKeyId: activeKey.id,
+      callerLabel: activeKey.label,
+      inputSummary: summarizeStructuredInput(payload.input),
+      outputSummary: outcome.summary,
+      estimatedCost: outcome.estimatedCost,
+      verificationToken,
+      status: "completed",
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: error instanceof Error ? error.message : "Failed to persist execution log.",
+      },
+      { status: 503 },
+    );
+  }
 
   return NextResponse.json({
     executionId,

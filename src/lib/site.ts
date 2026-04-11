@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/types";
 import { listCapabilities } from "@/lib/capabilities";
+import { skillGlueCommands } from "@/lib/skill-glue";
 
 export const siteConfig = {
   name: "Lu Cheng",
@@ -70,8 +71,26 @@ export const docsSections = [
   "GET /api/catalog",
   "POST /v1/run",
   "POST /v1/verify",
+  "Skill Glue CLI",
   "Errors",
   "Limits",
+];
+
+export const featuredProducts = [
+  {
+    name: "Skill Glue",
+    href: "/products/skill-glue",
+    badge: "Free",
+    summary: "把多个小 skill 拼成低 token 成本的 workflow，而不是堆一个巨型 prompt。",
+    cta: "查看 Skill Glue",
+  },
+  {
+    name: "Private Workflow Runtime",
+    href: "/products/private-workflow-runtime",
+    badge: "Seed",
+    summary: "受控执行私有 workflow，交付结果、摘要和验证信息，不暴露内部逻辑。",
+    cta: "查看 Runtime",
+  },
 ];
 
 export const aboutHighlights = [
@@ -95,6 +114,21 @@ export const contactChannels = [
     label: "接入方式",
     value: "/apply",
     note: "先通过申请收集场景，再发 Key，避免匿名高频滥用。",
+  },
+];
+
+export const skillGlueHighlights = [
+  {
+    title: "像拼零件，不像写巨型 prompt",
+    body: "每个 skill 先拆成小原子节点，再决定串行、并行、替换和缓存，不靠一个大 prompt 撑全场。",
+  },
+  {
+    title: "先估算，再执行",
+    body: "先给出步骤结构和 token 预算，再决定要不要真的跑，这比先烧 token 再后悔经济得多。",
+  },
+  {
+    title: "给 Agent 读，也给人读",
+    body: `CLI 输出支持 JSON 和 Markdown，两种形态都围绕同一套命令：${skillGlueCommands.map((command) => command.name).join(" / ")}。`,
   },
 ];
 

@@ -1,0 +1,52 @@
+{
+  "id": "replaceable-agent-stack",
+  "summary": "Show how a workflow can swap heavy steps for cheaper alternatives.",
+  "steps": [
+    {
+      "id": "intent.card",
+      "summary": "Turn the user request into a compact intent card.",
+      "inputs": ["request"],
+      "outputs": ["intent_card"],
+      "cost_hint": { "tokens": "low", "score": 1 },
+      "dependencies": [],
+      "replaceable_with": [],
+      "cacheable": true,
+      "validation_checks": ["intent_card includes task type"]
+    },
+    {
+      "id": "planner.heavy",
+      "summary": "Use a richer planner to create a detailed route when complexity is high.",
+      "inputs": ["intent_card"],
+      "outputs": ["route_plan"],
+      "cost_hint": { "tokens": "high", "score": 4 },
+      "dependencies": ["intent.card"],
+      "replaceable_with": ["planner.light"],
+      "cacheable": false,
+      "condition": "Use only when the task has 3 or more branches.",
+      "validation_checks": ["route_plan includes branches and dependencies"]
+    },
+    {
+      "id": "planner.light",
+      "summary": "Use a lighter planner for narrow tasks to reduce total token burn.",
+      "inputs": ["intent_card"],
+      "outputs": ["route_plan"],
+      "cost_hint": { "tokens": "low", "score": 1 },
+      "dependencies": ["intent.card"],
+      "replaceable_with": ["planner.heavy"],
+      "cacheable": false,
+      "condition": "Use when the task is narrow and branch count is below 3.",
+      "validation_checks": ["route_plan covers the single path"]
+    },
+    {
+      "id": "executor.pass",
+      "summary": "Execute the final narrow route without revisiting global planning.",
+      "inputs": ["route_plan"],
+      "outputs": ["delivery"],
+      "cost_hint": { "tokens": "medium", "score": 2 },
+      "dependencies": ["planner.heavy", "planner.light"],
+      "replaceable_with": [],
+      "cacheable": false,
+      "validation_checks": ["delivery follows the chosen route"]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "serial-brief-stack",
+  "summary": "Compose a lean brief pipeline from intake to publish-ready summary.",
+  "steps": [
+    {
+      "id": "brief.intake",
+      "summary": "Normalize the user brief into a structured intake object.",
+      "inputs": ["raw_brief"],
+      "outputs": ["intake"],
+      "cost_hint": { "tokens": "low", "score": 1 },
+      "dependencies": [],
+      "replaceable_with": ["brief.minify"],
+      "cacheable": true,
+      "validation_checks": ["intake has objective", "intake has audience"]
+    },
+    {
+      "id": "research.squeeze",
+      "summary": "Extract only the 3-5 external facts needed for the task.",
+      "inputs": ["intake"],
+      "outputs": ["fact_pack"],
+      "cost_hint": { "tokens": "medium", "score": 2 },
+      "dependencies": ["brief.intake"],
+      "replaceable_with": ["research.cached-pack"],
+      "cacheable": true,
+      "validation_checks": ["fact_pack has at least 3 sources"]
+    },
+    {
+      "id": "draft.output",
+      "summary": "Generate the final brief without re-running upstream reasoning.",
+      "inputs": ["intake", "fact_pack"],
+      "outputs": ["final_brief"],
+      "cost_hint": { "tokens": "low", "score": 1 },
+      "dependencies": ["research.squeeze"],
+      "replaceable_with": [],
+      "cacheable": false,
+      "validation_checks": ["final_brief fits requested format"]
+    }
+  ]
+}

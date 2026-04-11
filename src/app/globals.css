@@ -255,6 +255,17 @@ h1 {
   background: rgba(255, 255, 255, 0.04);
 }
 
+.text-link {
+  display: inline-flex;
+  margin-top: 0.8rem;
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
+.text-link:hover {
+  color: var(--text);
+}
+
 .hero__subline {
   margin-top: 1.2rem;
   color: rgba(243, 247, 251, 0.7);

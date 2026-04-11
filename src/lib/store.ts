@@ -68,7 +68,7 @@ export async function createAccessRequest(input: AccessRequestInput) {
 
   const supabase = getSupabaseAdminClient();
   if (supabase) {
-    await supabase.from("access_requests").insert({
+    const { error } = await supabase.from("access_requests").insert({
       id: record.id,
       name: record.name,
       email: record.email,
@@ -81,6 +81,10 @@ export async function createAccessRequest(input: AccessRequestInput) {
       notes: null,
       created_at: record.createdAt,
     });
+
+    if (error) {
+      throw new Error(`Failed to persist access request: ${error.message}`);
+    }
   } else {
     store.accessRequests.unshift(record);
   }
@@ -91,11 +95,15 @@ export async function createAccessRequest(input: AccessRequestInput) {
 export async function listAccessRequests() {
   const supabase = getSupabaseAdminClient();
   if (supabase) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("access_requests")
       .select("*")
       .order("created_at", { ascending: false })
       .limit(50);
+
+    if (error) {
+      throw new Error(`Failed to list access requests: ${error.message}`);
+    }
 
     return (
       data?.map((row) => ({
@@ -121,11 +129,15 @@ export async function listApiKeys() {
   const seedKeys = getSeedApiKeys();
   const supabase = getSupabaseAdminClient();
   if (supabase) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("api_keys")
       .select("*")
       .order("created_at", { ascending: false })
       .limit(50);
+
+    if (error) {
+      throw new Error(`Failed to list API keys: ${error.message}`);
+    }
 
     const dbKeys =
       data?.map((row) => ({
@@ -160,7 +172,7 @@ export async function createExecutionLog(input: Omit<ExecutionLogRecord, "id" | 
 
   const supabase = getSupabaseAdminClient();
   if (supabase) {
-    await supabase.from("execution_logs").insert({
+    const { error } = await supabase.from("execution_logs").insert({
       id: record.id,
       execution_id: record.executionId,
       capability_id: record.capabilityId,
@@ -173,6 +185,10 @@ export async function createExecutionLog(input: Omit<ExecutionLogRecord, "id" | 
       status: record.status,
       created_at: record.createdAt,
     });
+
+    if (error) {
+      throw new Error(`Failed to persist execution log: ${error.message}`);
+    }
   } else {
     store.executionLogs.unshift(record);
   }
@@ -183,11 +199,15 @@ export async function createExecutionLog(input: Omit<ExecutionLogRecord, "id" | 
 export async function listExecutionLogs() {
   const supabase = getSupabaseAdminClient();
   if (supabase) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("execution_logs")
       .select("*")
       .order("created_at", { ascending: false })
       .limit(50);
+
+    if (error) {
+      throw new Error(`Failed to list execution logs: ${error.message}`);
+    }
 
     return (
       data?.map((row) => ({
@@ -212,11 +232,15 @@ export async function listExecutionLogs() {
 export async function findExecutionLog(executionId: string) {
   const supabase = getSupabaseAdminClient();
   if (supabase) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("execution_logs")
       .select("*")
       .eq("execution_id", executionId)
       .maybeSingle();
+
+    if (error) {
+      throw new Error(`Failed to fetch execution log: ${error.message}`);
+    }
 
     if (!data) {
       return null;
