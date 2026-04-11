@@ -6,11 +6,12 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
   const isEnglish = locale === "en";
+  const homeHref = isEnglish ? "/" : "/zh";
 
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <Link href={isEnglish ? "/en" : "/"} className="brandmark">
+        <Link href={homeHref} className="brandmark">
           <span className="brandmark__mono">LC</span>
           <span>
             <strong>Lu Cheng</strong>
@@ -18,9 +19,9 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
           </span>
         </Link>
         <nav className="site-nav">
-          <Link href={isEnglish ? "/articles" : "/articles"}>{isEnglish ? "Essays" : "文章"}</Link>
-          <Link href={isEnglish ? "/#bio" : "/zh#bio"}>{isEnglish ? "Profile" : "简介"}</Link>
-          <Link href={isEnglish ? "/#products" : "/zh#products"}>{isEnglish ? "Products" : "产品"}</Link>
+          <Link href="/articles">{isEnglish ? "Essays" : "文章"}</Link>
+          <Link href={`${homeHref}#bio`}>{isEnglish ? "Profile" : "简介"}</Link>
+          <Link href={`${homeHref}#products`}>{isEnglish ? "Products" : "产品"}</Link>
           <Link href="/docs">Docs</Link>
           <Link href="/about">{isEnglish ? "About" : "关于"}</Link>
           <div className="language-switch">

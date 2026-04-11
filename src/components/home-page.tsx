@@ -54,7 +54,7 @@ export function HomePage({ locale }: HomePageProps) {
             <p className="editorial-hero__location">{location}</p>
             <h1 className="editorial-hero__headline">
               {isEnglish
-                ? "Designing business-grade agent systems that can actually ship."
+                ? "Agent systems for the real economy, not just the demo stage."
                 : "把智能体从“会聊天的模型”编排成“能交付结果的系统”。"}
             </h1>
             <p className="editorial-hero__intro">{intro}</p>
