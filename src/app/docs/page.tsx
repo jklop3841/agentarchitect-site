@@ -155,6 +155,60 @@ export default function DocsPage() {
         </section>
 
         <section className="section">
+        <div className="section-heading">
+          <p className="eyebrow">Agent Capability Map</p>
+          <h2>第三个 MVP 不做平台，先把标准测评提示词和履历卡输出模板公开出来。</h2>
+        </div>
+        <div className="detail-grid">
+          <div>
+            <h3>Product</h3>
+            <p>先看产品定位、适用对象和明确边界，确认这是一套公开方法包，不是在线评分系统。</p>
+            <Link href="/products/agent-capability-map" className="text-link">
+              打开 Agent Capability Map 产品页
+            </Link>
+          </div>
+          <div>
+            <h3>Docs</h3>
+            <p>查看适用场景、使用流程，以及如何阅读标准化的 capability audit 履历卡。</p>
+            <Link href="/docs/agent-capability-map" className="text-link">
+              打开 Agent Capability Map 文档
+            </Link>
+          </div>
+          <div>
+            <h3>Templates</h3>
+            <p>直接复制标准测评提示词和 Markdown 履历表示例，开始做第一份 capability audit。</p>
+            <Link href="/docs/agent-capability-map/templates/standard-eval-prompt" className="text-link">
+              打开标准测评提示词模板
+            </Link>
+          </div>
+        </div>
+        </section>
+
+        <section className="section">
+        <div className="section-heading">
+          <p className="eyebrow">High-End Custom Architecture</p>
+          <h2>第四个产品不是公开模板或 seed access，而是高判断密度合作的私人联系入口。</h2>
+        </div>
+        <div className="detail-grid">
+          <div>
+            <h3>What it is</h3>
+            <p>它是高端定制架构合作入口，适合真正需要系统重写、边界设计、架构诊断与定制化工作流重构的合作方。</p>
+          </div>
+          <div>
+            <h3>What it is not</h3>
+            <p>它不是下载页、不是模板包、不是在线评分器，也不是 runtime key 申请入口。</p>
+          </div>
+          <div>
+            <h3>Next step</h3>
+            <p>如果你已经确认是高判断密度合作，直接进入联系栈和公开资料层，再通过邮箱建立联系。</p>
+            <Link href="/profile" className="text-link">
+              打开 Profile / Contact Stack
+            </Link>
+          </div>
+        </div>
+        </section>
+
+        <section className="section">
         <div className="detail-grid">
           <div>
             <h3>Errors</h3>

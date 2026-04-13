@@ -4,6 +4,8 @@ import { listCapabilities } from "@/lib/capabilities";
 import { featuredProducts, siteConfig } from "@/lib/site";
 
 export async function GET() {
+  const downloadableProducts = featuredProducts.filter((product) => product.delivery === "download");
+
   return NextResponse.json(
     {
       site: siteConfig.title,
@@ -13,7 +15,8 @@ export async function GET() {
         execution: "x-api-key required",
       },
       capabilities: listCapabilities(),
-      downloadable_products: featuredProducts,
+      products: featuredProducts,
+      downloadable_products: downloadableProducts,
     },
     {
       headers: {

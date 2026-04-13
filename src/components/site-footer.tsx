@@ -35,10 +35,10 @@ export function SiteFooter() {
               <Link href="/articles">{isEnglish ? "Essays (CN)" : "文章"}</Link>
             </li>
             <li>
-              <Link href="/profile">{isEnglish ? "Profile Page" : "人物页"}</Link>
+              <Link href="/agent">{isEnglish ? "Agent Page" : "Agent 页面"}</Link>
             </li>
             <li>
-              <Link href="/apply">{isEnglish ? "Private Advisory" : "合作申请"}</Link>
+              <Link href="/profile">{isEnglish ? "Profile Page" : "人物页"}</Link>
             </li>
           </ul>
         </div>
@@ -49,7 +49,12 @@ export function SiteFooter() {
               <Link href={contactHref}>{isEnglish ? "Email & Profiles" : "邮箱与外部资料"}</Link>
             </li>
             <li>
-              <Link href="/apply">{isEnglish ? "Application Form" : "申请表单"}</Link>
+              <Link href="/profile">
+                {isEnglish ? "High-End Custom Architecture" : "高端定制架构合作"}
+              </Link>
+            </li>
+            <li>
+              <Link href="/apply">{isEnglish ? "Runtime Key Application" : "Runtime Key 申请表单"}</Link>
             </li>
           </ul>
         </div>

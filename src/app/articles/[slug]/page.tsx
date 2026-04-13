@@ -101,7 +101,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 </span>
               ))}
             </div>
-            <Link href="/apply" className="text-link">
+            <Link href="/profile" className="text-link">
               申请咨询 / 合作
             </Link>
           </aside>

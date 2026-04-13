@@ -27,7 +27,10 @@ export default function ProfilePage() {
             <p className="eyebrow">人物页</p>
             <h1>{authorProfile.displayName}</h1>
             <p className="subpage__lead">
-              Agent Architect | AI Workflow Design | Enterprise AI Systems | Research & Advisory
+              Agent Architect | High-End Custom Architecture | Enterprise AI Systems | Research & Advisory
+            </p>
+            <p className="doc-body">
+              如果你是从高端定制架构入口进入这里，请先看公开资料、研究成果与联系栈；这不是 seed access 表单，而是更高判断密度合作的正式起点。
             </p>
             <div className="profile-page__actions">
               <a href={primaryContact.emailHref} className="button button--primary">

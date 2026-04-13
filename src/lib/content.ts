@@ -429,14 +429,14 @@ export const productLadder = [
   },
   {
     name: "Agent Capability Map",
-    badge: "Soon",
-    href: "/apply",
-    summary: "把不同 Agent 的真实工具链、能力边界与最佳使用方式整理成可比较的履历表。",
+    badge: "MVP",
+    href: "/products/agent-capability-map",
+    summary: "把不同 Agent 的真实工具面、能力边界与最佳使用方式整理成可比较的履历卡。",
   },
   {
-    name: "私人定制 / 架构咨询",
+    name: "High-End Custom Architecture",
     badge: "Private",
-    href: "/apply",
-    summary: "围绕 AI 工作流设计、Harness Engineering、GEO 与商业闭环做定制化架构服务。",
+    href: "/profile",
+    summary: "面向真正高判断密度合作的高端定制架构入口，直接进入公开资料与邮箱联系栈。",
   },
 ];

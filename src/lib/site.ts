@@ -1,4 +1,6 @@
 import type { Locale } from "@/lib/types";
+import { highEndCustomArchitectureName } from "@/lib/agent-first";
+import { agentCapabilityMapName } from "@/lib/agent-capability-map";
 import { listCapabilities } from "@/lib/capabilities";
 import { skillGlueCommands } from "@/lib/skill-glue";
 import { workflowShieldCommands } from "@/lib/workflow-shield";
@@ -115,6 +117,7 @@ export const docsSections = [
   "POST /v1/verify",
   "Workflow Shield CLI",
   "Skill Glue CLI",
+  "Agent Capability Map",
   "Errors",
   "Limits",
 ];
@@ -126,6 +129,9 @@ export const featuredProducts = [
     badge: "Free",
     summary: "公开 workflow 的合同层和验证层，把真正高价值的 prompts 与回退逻辑留在更受控的地方。",
     cta: "查看 Workflow Shield",
+    docsHref: "/docs/workflow-shield",
+    downloadHref: "/download/workflow-shield",
+    delivery: "download",
   },
   {
     name: "Skill Glue",
@@ -133,13 +139,27 @@ export const featuredProducts = [
     badge: "Free",
     summary: "把多个小 skill 拼成低 token 成本的 workflow，而不是堆一个巨型 prompt。",
     cta: "查看 Skill Glue",
+    docsHref: "/docs/skill-glue",
+    downloadHref: "/download/skill-glue",
+    delivery: "download",
   },
   {
-    name: "Private Workflow Runtime",
-    href: "/products/private-workflow-runtime",
-    badge: "Seed",
-    summary: "受控执行私有 workflow，交付结果、摘要和验证信息，不暴露内部逻辑。",
-    cta: "查看 Runtime",
+    name: agentCapabilityMapName,
+    href: "/products/agent-capability-map",
+    badge: "MVP",
+    summary: "用统一结构输出 Agent Resume / Capability Audit，先把工具面、边界和最佳使用方式写清楚。",
+    cta: "查看 Agent Capability Map",
+    docsHref: "/docs/agent-capability-map",
+    delivery: "docs_only",
+  },
+  {
+    name: highEndCustomArchitectureName,
+    href: "/profile",
+    badge: "Private",
+    summary: "面向高判断密度合作的高端定制架构入口，适合真正需要系统重写、边界设计与架构诊断的合作方。",
+    cta: "打开联系栈",
+    contactHref: "/profile",
+    delivery: "contact",
   },
 ];
 
