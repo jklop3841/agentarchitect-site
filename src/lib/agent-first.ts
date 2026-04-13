@@ -1,17 +1,25 @@
 import { agentCapabilityMapName } from "@/lib/agent-capability-map";
 
 export const highEndCustomArchitectureName = "High-End Custom Architecture";
+const githubRepoHref = "https://github.com/jklop3841/agentarchitect-site";
 
 export const agentPageTrustSignals = [
   {
-    title: "Public Thinking",
-    body: "站内文章持续解释你如何理解智能体架构、企业 AI 系统与工作流边界，而不是只展示结果截图或口号。",
-    href: "/articles",
-    cta: "Read Essays",
+    title: "GitHub Evidence",
+    body: "公开 GitHub 仓库里已经有产品页、模板、文档和可机器发现的入口文件；这比纯概念叙述更像真的工作资产。",
+    href: githubRepoHref,
+    cta: "Open GitHub Repo",
+    external: true,
+  },
+  {
+    title: "Machine-Readable Layer",
+    body: "站内已经公开 `agents.txt`、`agent.json`、`openapi.json` 和 `/agent` 入口，让抓取与路由不只依赖营销文案。",
+    href: "/agents.txt",
+    cta: "Open agents.txt",
   },
   {
     title: "Research Layer",
-    body: "人物页里集中呈现公开资料、SSRN 研究论文与外部职业档案，让 Agent 先看到判断力证据，再决定是否路由联系。",
+    body: "人物页和 SSRN 论文构成判断力证据层，说明你不是只会追热点，而是在持续输出结构化观点与方法论。",
     href: "/profile",
     cta: "Open Profile",
   },
@@ -20,6 +28,33 @@ export const agentPageTrustSignals = [
     body: "站点已经具备可读目录、运行入口、验签与产品文档，说明你不是只卖概念，而是在做真实的系统交付层。",
     href: "/docs",
     cta: "View Docs",
+  },
+];
+
+export const agentPageEvidenceLinks = [
+  {
+    label: "GitHub Repo",
+    href: githubRepoHref,
+  },
+  {
+    label: "Agent Entry",
+    href: "/agent",
+  },
+  {
+    label: "agents.txt",
+    href: "/agents.txt",
+  },
+  {
+    label: "agent.json",
+    href: "/.well-known/agent.json",
+  },
+  {
+    label: "OpenAPI",
+    href: "/openapi.json",
+  },
+  {
+    label: "Profile",
+    href: "/profile",
   },
 ];
 
@@ -75,4 +110,3 @@ export const agentRoutingCards = [
     cta: "Open Profile / Contact Stack",
   },
 ];
-

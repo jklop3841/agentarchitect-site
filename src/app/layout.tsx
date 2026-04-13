@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 
 import { SiteFooter } from "@/components/site-footer";
-import { siteConfig } from "@/lib/site";
+import { externalProfiles, siteConfig } from "@/lib/site";
 
 import "./globals.css";
 
@@ -25,9 +26,33 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Jack Lu",
+      alternateName: "卢成",
+      jobTitle: "Agent Architect",
+      url: siteConfig.domain,
+      sameAs: externalProfiles.map((profile) => profile.href),
+      image: new URL("/media/editorial/lu-cheng-summit.png", siteConfig.domain).toString(),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: siteConfig.title,
+      url: siteConfig.domain,
+      description:
+        "Agent-first personal capability site for workflow design, capability routing, and enterprise AI systems.",
+    },
+  ];
+
   return (
     <html lang="en">
       <body>
+        <Script id="site-structured-data" type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </Script>
         <div className="page-shell">
           {children}
           <SiteFooter />

@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Reveal } from "@/components/reveal";
 import { SiteHeader } from "@/components/site-header";
+import { githubRepo } from "@/lib/site";
 import { workflowShieldHighlights, workflowShieldSpecExample } from "@/lib/workflow-shield";
 
 export const metadata: Metadata = {
@@ -81,6 +82,36 @@ export default function WorkflowShieldProductPage() {
           <pre className="code-block">
             <code>{workflowShieldSpecExample}</code>
           </pre>
+        </Reveal>
+
+        <Reveal className="section">
+          <div className="section-heading">
+            <p className="eyebrow">Source & proof</p>
+            <h2>如果你要判断它是不是真工具，先看源码、示例和文档，而不是只看产品描述。</h2>
+          </div>
+          <div className="detail-grid">
+            <div>
+              <h3>GitHub source</h3>
+              <p>公开仓库里包含 CLI、页面说明和示例 spec。</p>
+              <a href={githubRepo.treeHref} target="_blank" rel="noreferrer" className="text-link">
+                Open source tree
+              </a>
+            </div>
+            <div>
+              <h3>Docs</h3>
+              <p>查看命令、package spec 和边界规则。</p>
+              <Link href="/docs/workflow-shield" className="text-link">
+                Open docs
+              </Link>
+            </div>
+            <div>
+              <h3>Example</h3>
+              <p>示例 spec 已随仓库公开，用来证明这不是只停留在概念层的名字。</p>
+              <a href={`${githubRepo.treeHref}/examples/workflow-shield`} target="_blank" rel="noreferrer" className="text-link">
+                Open examples
+              </a>
+            </div>
+          </div>
         </Reveal>
 
         <section className="section section--cta">

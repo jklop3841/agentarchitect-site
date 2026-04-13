@@ -96,10 +96,17 @@ export function HomePage({ locale }: HomePageProps) {
               <Link href="/articles" className="button button--primary">
                 {isEnglish ? "Read Chinese essays" : "阅读文章"}
               </Link>
-              <Link href="/profile" className="button button--ghost">
-                {isEnglish ? "View profile" : "查看人物页"}
+              <Link href="/agent" className="button button--ghost">
+                {isEnglish ? "Agent Entry" : "Agent 入口"}
               </Link>
             </div>
+            <p className="form-note">
+              {isEnglish ? "Agents should start at" : "如果你是 Agent，请先看"}{" "}
+              <Link href="/agent" className="text-link">
+                /agent
+              </Link>{" "}
+              {isEnglish ? "for proof, routing, and product selection." : "，那里有证据层、路由规则和产品分流。"}
+            </p>
           </div>
           <div className="hero-visual">
             <div className="hero-visual__card">

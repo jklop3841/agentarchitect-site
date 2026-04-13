@@ -11,6 +11,12 @@ export const siteConfig = {
   domain: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
 };
 
+export const githubRepo = {
+  href: "https://github.com/jklop3841/agentarchitect-site",
+  treeHref: "https://github.com/jklop3841/agentarchitect-site/tree/main",
+  issuesHref: "https://github.com/jklop3841/agentarchitect-site/issues",
+};
+
 export const primaryContact = {
   email: "jklop3841@gmail.com",
   emailHref: "mailto:jklop3841@gmail.com",
@@ -18,6 +24,12 @@ export const primaryContact = {
 };
 
 export const externalProfiles = [
+  {
+    label: "GitHub",
+    href: "https://github.com/jklop3841",
+    handle: "jklop3841",
+    summary: "公开仓库、文档、模板与示例代码的主要证据层入口。",
+  },
   {
     label: "X",
     href: "https://x.com/wromsheep",

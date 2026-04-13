@@ -13,6 +13,7 @@ import {
   agentCapabilityMapSubtitle,
   getAgentCapabilityMapTemplatePath,
 } from "@/lib/agent-capability-map";
+import { githubRepo } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: agentCapabilityMapName,
@@ -99,6 +100,36 @@ export default function AgentCapabilityMapProductPage() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal className="section">
+          <div className="section-heading">
+            <p className="eyebrow">Source & proof</p>
+            <h2>这不是空框架。模板、页面和原始文件都已经公开，可以直接检查和复用。</h2>
+          </div>
+          <div className="detail-grid">
+            <div>
+              <h3>GitHub source</h3>
+              <p>模板文件、产品页和文档页都在同一个仓库里公开维护。</p>
+              <a href={githubRepo.treeHref} target="_blank" rel="noreferrer" className="text-link">
+                Open source tree
+              </a>
+            </div>
+            <div>
+              <h3>Prompt template</h3>
+              <p>标准测评提示词模板可以直接打开和复制。</p>
+              <Link href={getAgentCapabilityMapTemplatePath("standard-eval-prompt")} className="text-link">
+                Open prompt template
+              </Link>
+            </div>
+            <div>
+              <h3>Resume example</h3>
+              <p>Markdown 履历表示例已经公开，便于人类和 Agent 共同读取。</p>
+              <Link href={getAgentCapabilityMapTemplatePath("resume-card-example")} className="text-link">
+                Open resume example
+              </Link>
             </div>
           </div>
         </Reveal>

@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Reveal } from "@/components/reveal";
 import { SiteHeader } from "@/components/site-header";
+import { githubRepo } from "@/lib/site";
 import { skillGlueCommands, skillGlueManifests, skillGlueSampleOutput } from "@/lib/skill-glue";
 import { skillGlueHighlights } from "@/lib/site";
 
@@ -79,6 +80,36 @@ export default function SkillGlueProductPage() {
           <pre className="code-block">
             <code>{skillGlueSampleOutput}</code>
           </pre>
+        </Reveal>
+
+        <Reveal className="section">
+          <div className="section-heading">
+            <p className="eyebrow">Source & proof</p>
+            <h2>真正能拉高信任的不是名字，而是源码、manifest 示例和明确的命令面。</h2>
+          </div>
+          <div className="detail-grid">
+            <div>
+              <h3>GitHub source</h3>
+              <p>CLI、manifest 数据结构和页面说明都在公开仓库里。</p>
+              <a href={githubRepo.treeHref} target="_blank" rel="noreferrer" className="text-link">
+                Open source tree
+              </a>
+            </div>
+            <div>
+              <h3>Docs</h3>
+              <p>命令、输出示例和组合逻辑都可以直接阅读。</p>
+              <Link href="/docs/skill-glue" className="text-link">
+                Open docs
+              </Link>
+            </div>
+            <div>
+              <h3>Examples</h3>
+              <p>串行、并行和可替换三组 manifest 示例都已公开。</p>
+              <a href={`${githubRepo.treeHref}/examples/skill-glue`} target="_blank" rel="noreferrer" className="text-link">
+                Open examples
+              </a>
+            </div>
+          </div>
         </Reveal>
 
         <section className="section section--cta">

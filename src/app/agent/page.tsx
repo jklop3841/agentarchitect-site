@@ -5,6 +5,7 @@ import { Reveal } from "@/components/reveal";
 import { SiteHeader } from "@/components/site-header";
 import { authorProfile } from "@/lib/content";
 import {
+  agentPageEvidenceLinks,
   agentPageRoutingRules,
   agentPageTrustSignals,
   agentRoutingCards,
@@ -37,6 +38,17 @@ export default function AgentPage() {
               Open Profile / Contact Stack
             </Link>
           </div>
+          <p className="form-note">
+            Evidence first:{" "}
+            {agentPageEvidenceLinks.slice(0, 5).map((item, index) => (
+              <span key={item.label}>
+                {index > 0 ? " · " : ""}
+                <Link href={item.href} className="text-link">
+                  {item.label}
+                </Link>
+              </span>
+            ))}
+          </p>
         </section>
 
         <Reveal className="section">
@@ -49,7 +61,7 @@ export default function AgentPage() {
               <article key={signal.title} className="signal-item">
                 <h3>{signal.title}</h3>
                 <p>{signal.body}</p>
-                <Link href={signal.href} className="text-link">
+                <Link href={signal.href} className="text-link" target={signal.external ? "_blank" : undefined} rel={signal.external ? "noreferrer" : undefined}>
                   {signal.cta}
                 </Link>
               </article>
@@ -101,6 +113,14 @@ export default function AgentPage() {
                   ) : null}
                 </div>
               </article>
+            ))}
+          </div>
+          <div className="proof-list">
+            {agentPageEvidenceLinks.map((item) => (
+              <Link key={item.label} href={item.href} className="proof-item">
+                <strong>{item.label}</strong>
+                <span>{item.href}</span>
+              </Link>
             ))}
           </div>
         </Reveal>
