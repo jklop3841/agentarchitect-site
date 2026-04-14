@@ -43,3 +43,13 @@ export const workflowShieldSpecExample = `{
     "Hidden prompts are never bundled into the public package."
   ]
 }`;
+
+export const workflowShieldCaseStudy = {
+  title: "Before / After",
+  before:
+    "Before：团队把整套 workflow 直接交给外部接入方，输入、输出、fallback prompt 和 operator notes 混在一起。结果是别人知道怎么调用，也知道怎么完整拆解。",
+  after:
+    "After：只公开 contract、validation checks 和 verification 信息，把 prompts、fallback branches 和 operator notes 留在隐藏层。接入仍成立，但完整重组成本明显上升。",
+  verdict:
+    "它最适合“我必须让别人能接，但不想把高价值 operator logic 一起送出去”的场景。",
+};

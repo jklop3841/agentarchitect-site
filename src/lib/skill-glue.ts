@@ -67,6 +67,16 @@ export const skillGlueSampleOutput = `{
   "cacheable_steps": ["topic.intake", "hook.builder", "evidence.bundle"]
 }`;
 
+export const skillGlueCaseStudy = {
+  title: "Before / After",
+  before:
+    "Before：把选题、研究、hooks、整合全塞进一个巨型 prompt，结果 token 消耗高、输出不稳、每次改一点都要整体重跑。",
+  after:
+    "After：拆成 intake、hook builder、evidence bundle、assembly pass 四个节点，能并行的并行，能缓存的缓存，解释和估算都更清楚。",
+  verdict:
+    "它最适合那些已经知道大 prompt 越来越贵，但还没把 workflow 结构显式化的任务。",
+};
+
 export const skillGlueManifests: SkillGlueManifest[] = [
   {
     id: "serial-brief-stack",

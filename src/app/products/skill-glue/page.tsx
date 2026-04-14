@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SiteHeader } from "@/components/site-header";
 import { githubRepo } from "@/lib/site";
-import { skillGlueCommands, skillGlueManifests, skillGlueSampleOutput } from "@/lib/skill-glue";
+import { skillGlueCaseStudy, skillGlueCommands, skillGlueManifests, skillGlueSampleOutput } from "@/lib/skill-glue";
 import { skillGlueHighlights } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -108,6 +108,27 @@ export default function SkillGlueProductPage() {
               <a href={`${githubRepo.treeHref}/examples/skill-glue`} target="_blank" rel="noreferrer" className="text-link">
                 Open examples
               </a>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal className="section">
+          <div className="section-heading">
+            <p className="eyebrow">{skillGlueCaseStudy.title}</p>
+            <h2>这个产品最有价值的地方，不是它会不会执行，而是它先把 workflow 结构显式化了。</h2>
+          </div>
+          <div className="detail-grid">
+            <div>
+              <h3>Before</h3>
+              <p>{skillGlueCaseStudy.before}</p>
+            </div>
+            <div>
+              <h3>After</h3>
+              <p>{skillGlueCaseStudy.after}</p>
+            </div>
+            <div>
+              <h3>Verdict</h3>
+              <p>{skillGlueCaseStudy.verdict}</p>
             </div>
           </div>
         </Reveal>

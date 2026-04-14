@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import {
   agentCapabilityMapAudience,
   agentCapabilityMapBoundaries,
+  agentCapabilityMapCaseStudy,
   agentCapabilityMapDefinition,
   agentCapabilityMapDeliverables,
   agentCapabilityMapName,
@@ -130,6 +131,27 @@ export default function AgentCapabilityMapProductPage() {
               <Link href={getAgentCapabilityMapTemplatePath("resume-card-example")} className="text-link">
                 Open resume example
               </Link>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal className="section">
+          <div className="section-heading">
+            <p className="eyebrow">{agentCapabilityMapCaseStudy.title}</p>
+            <h2>这个产品不是在制造新 Agent，而是在制造更清楚的能力判断。</h2>
+          </div>
+          <div className="detail-grid">
+            <div>
+              <h3>Before</h3>
+              <p>{agentCapabilityMapCaseStudy.before}</p>
+            </div>
+            <div>
+              <h3>After</h3>
+              <p>{agentCapabilityMapCaseStudy.after}</p>
+            </div>
+            <div>
+              <h3>Verdict</h3>
+              <p>{agentCapabilityMapCaseStudy.verdict}</p>
             </div>
           </div>
         </Reveal>

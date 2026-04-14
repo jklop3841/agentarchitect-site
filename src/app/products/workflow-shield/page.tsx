@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SiteHeader } from "@/components/site-header";
 import { githubRepo } from "@/lib/site";
-import { workflowShieldHighlights, workflowShieldSpecExample } from "@/lib/workflow-shield";
+import { workflowShieldCaseStudy, workflowShieldHighlights, workflowShieldSpecExample } from "@/lib/workflow-shield";
 
 export const metadata: Metadata = {
   title: "Workflow Shield",
@@ -110,6 +110,27 @@ export default function WorkflowShieldProductPage() {
               <a href={`${githubRepo.treeHref}/examples/workflow-shield`} target="_blank" rel="noreferrer" className="text-link">
                 Open examples
               </a>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal className="section">
+          <div className="section-heading">
+            <p className="eyebrow">{workflowShieldCaseStudy.title}</p>
+            <h2>这个产品真正改变的不是“能不能藏”，而是“接入和重组之间的成本关系”。</h2>
+          </div>
+          <div className="detail-grid">
+            <div>
+              <h3>Before</h3>
+              <p>{workflowShieldCaseStudy.before}</p>
+            </div>
+            <div>
+              <h3>After</h3>
+              <p>{workflowShieldCaseStudy.after}</p>
+            </div>
+            <div>
+              <h3>Verdict</h3>
+              <p>{workflowShieldCaseStudy.verdict}</p>
             </div>
           </div>
         </Reveal>

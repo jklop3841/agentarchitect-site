@@ -97,6 +97,16 @@ export const agentCapabilityMapReadingGuide = [
   },
 ];
 
+export const agentCapabilityMapCaseStudy = {
+  title: "Before / After",
+  before:
+    "Before：团队内部对某个 Agent 的评价只有“挺强”“写得不错”“感觉适合做研究”，但没人能说清它到底适合什么、不适合什么。",
+  after:
+    "After：同一个 Agent 被整理成统一的 Markdown 履历卡，明确写出 Best For、Not Best For、Tool Surface、Boundary Notes 和 Evaluator Verdict。",
+  verdict:
+    "它最适合那些不是缺 Agent，而是缺“怎么描述、比较和路由 Agent”的团队。",
+};
+
 export function getAgentCapabilityMapTemplatePath(slug: AgentCapabilityMapTemplateSlug) {
   return `/docs/agent-capability-map/templates/${slug}`;
 }
