@@ -47,3 +47,22 @@
 - 用户完成登录后，最后 URL 为头条发布页：`https://mp.toutiao.com/profile_v4/graphic/publish`。
 - `auth_manager.py status` 已确认 `Authenticated: Yes`。
 - 复用方式：后续头条认证优先使用 Edge profile + periodic saver，不要只依赖固定 URL 跳转检测。
+
+## 2026-04-20：头条 dry-run 被 AI assistant drawer 遮罩阻断
+
+- 登录态可用，发布页可进入。
+- 第一次 dry-run 未发布，但也未成功填入标题/正文。
+- 主要阻塞是头条发布页的 `ai-assistant-drawer` 遮罩拦截点击，同时标题/正文选择器需要重新识别。
+- 后续修复方向：先移除 `.ai-assistant-drawer` / `.byte-drawer-wrapper` / `.byte-drawer-mask`，再执行字段定位。
+
+## 2026-04-20：头条草稿填充跑通
+
+- 通过 `scripts/toutiao_dry_run_probe.py` 找到稳定选择器：
+  - 标题：`textarea[placeholder*="文章标题"]`
+  - 正文：`.ProseMirror`
+- 通过 `scripts/toutiao_draft_fill.py` 完成 dry-run：
+  - 标题填入成功。
+  - 正文填入成功。
+  - 无封面选择成功。
+  - 未发布。
+- 复用方式：头条 adapter 应以新脚本为基础，先保持 draft-only。

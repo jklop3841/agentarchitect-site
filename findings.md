@@ -194,3 +194,72 @@ C:\Users\97566\.agents\skills\toutiao-publisher\.venv\Scripts\python.exe C:\User
 - 头条登录优先使用 Edge 通道。
 - 站点不稳定跳转时，用周期性保存 storage state 比等待固定 URL 更稳。
 - 登录态文件在技能目录，不写入仓库。
+
+## 2026-04-20：头条 dry-run 第一次失败原因
+
+测试命令：
+
+```powershell
+C:\Users\97566\.agents\skills\toutiao-publisher\.venv\Scripts\python.exe C:\Users\97566\.agents\skills\toutiao-publisher\scripts\run.py publisher.py --title "Agent内容分发不是群发" --content "D:\websit\tmp\social-tests\toutiao-dry-run.md" --dry-run --no-cover
+```
+
+结果：
+
+- 登录态有效，成功进入 `https://mp.toutiao.com/profile_v4/graphic/publish`。
+- 没有点击最终发布。
+- 标题未填入：脚本找不到标题输入框。
+- 正文未填入：脚本没有找到 `.ProseMirror` 编辑器。
+- 选择无封面失败：`ai-assistant-drawer` 的 `.byte-drawer-mask` 遮罩拦截点击。
+
+判断：
+
+- 这是页面 UI/选择器问题，不是登录态问题。
+- 头条页面打开后可能默认弹出 AI assistant drawer，必须先移除完整 drawer wrapper，而不只是 mask。
+
+复用建议：
+
+- 在头条脚本里更早执行遮罩清理。
+- 需要清理的选择器包括 `.ai-assistant-drawer`、`.byte-drawer-wrapper`、`.byte-drawer-mask`、`.byte-modal-mask`。
+- 清理后再定位标题和正文编辑器。
+
+## 2026-04-20：头条 dry-run 第二次成功
+
+新增诊断脚本：
+
+- `scripts/toutiao_dry_run_probe.py`
+
+用途：
+
+- 使用 Edge 登录态进入头条发布页。
+- 移除 AI assistant drawer 遮罩。
+- 导出 `textarea`、`input`、`contenteditable`、button 候选。
+- 保存截图和候选 JSON 到 `tmp/social-tests/`。
+
+诊断结果：
+
+- 标题框：`textarea[placeholder*="文章标题"]`，placeholder 为 `请输入文章标题（2～30个字）`。
+- 正文编辑器：`.ProseMirror`，`contenteditable="true"`。
+- 发布按钮存在，但 dry-run 不点击。
+
+新增草稿填充脚本：
+
+- `scripts/toutiao_draft_fill.py`
+
+第二次 dry-run 结果：
+
+```json
+{
+  "url": "https://mp.toutiao.com/profile_v4/graphic/publish",
+  "titleFilled": true,
+  "bodyFilled": true,
+  "noCoverSelected": true,
+  "published": false
+}
+```
+
+截图确认标题、正文、无封面设置成功。
+
+复用建议：
+
+- 头条草稿模式优先使用 `scripts/toutiao_draft_fill.py`，不要直接复用旧 publisher 的选择器。
+- 继续保持 `published: false`，直到 3-7 天草稿模式稳定。

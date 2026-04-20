@@ -83,3 +83,29 @@
   - Edge 通道 + 周期性保存更适合这台机器。
 - 下一步：
   - 用当前登录态跑头条 dry-run 草稿填充。
+
+### Phase 4 尝试：头条 dry-run 第一次
+
+- 测试稿：`tmp/social-tests/toutiao-dry-run.md`，约 1063 字符。
+- 命令：`publisher.py --title "Agent内容分发不是群发" --content "D:\websit\tmp\social-tests\toutiao-dry-run.md" --dry-run --no-cover`。
+- 结果：流程完成且未发布，但标题/正文未成功填入。
+- 失败原因：
+  - 标题输入框定位失败。
+  - `.ProseMirror` 编辑器定位失败。
+  - AI assistant drawer 遮罩拦截无封面点击。
+- 下一步：
+  - 加强头条脚本遮罩清理。
+  - 重新识别标题/正文选择器。
+  - 再跑 dry-run。
+
+### Phase 4 完成：头条 dry-run 草稿填充
+
+- 新增诊断脚本：`scripts/toutiao_dry_run_probe.py`。
+- 新增草稿填充脚本：`scripts/toutiao_draft_fill.py`。
+- 第二次 dry-run 结果：
+  - `titleFilled: true`
+  - `bodyFilled: true`
+  - `noCoverSelected: true`
+  - `published: false`
+- 截图：`tmp/social-tests/toutiao-draft-fill.png`。
+- 结论：头条号已具备自动填草稿能力，暂不自动发布。
