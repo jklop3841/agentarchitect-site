@@ -58,6 +58,226 @@ export const authorProfile = {
 
 export const articles: ArticleEntry[] = [
   {
+    slug: "coding-agents-left-chatbox",
+    title: "代码代理已经从聊天框走出来：真正的战场在仓库里",
+    titleEn: "Coding agents have left the chat box",
+    subtitle: "从 Codex、Claude Code、Copilot cloud agent 到 Jules，AI 编程的重心正在从回答问题转向接管任务",
+    subtitleEn:
+      "From Codex and Claude Code to Copilot cloud agent and Jules, coding AI is moving from answering questions to taking ownership of tasks.",
+    date: "2026-04-20",
+    readTime: "13 分钟",
+    tags: ["代码代理", "智能体架构", "GitHub", "AI工作流"],
+    excerpt:
+      "真正值得注意的不是哪个模型又会写一段代码，而是大厂正在把 AI 从聊天框里搬进仓库、issue、PR、云端沙箱和权限系统里。代码代理的竞争，已经变成谁能更安全、更可审计地接管任务。",
+    excerptEn:
+      "The important shift is not that models can write code. The shift is that coding agents are moving into repositories, issues, pull requests, sandboxes, and permission systems.",
+    summary: [
+      "OpenAI Codex、Claude Code、GitHub Copilot cloud agent 和 Google Jules 都在往异步代码代理方向走。",
+      "真正的变化不是“AI 会写代码”，而是“AI 开始进入仓库、分支、PR、权限和审查流程”。",
+      "这说明智能体架构的核心越来越不是提示词，而是任务环境、边界、验证和接管方式。",
+    ],
+    summaryEn: [
+      "Major coding tools are moving toward asynchronous coding agents.",
+      "The shift is from code generation to repository-level task ownership.",
+      "Agent architecture is increasingly about environment, permissions, validation, and handoff.",
+    ],
+    coverImage: "/media/editorial/lu-cheng-screen.png",
+    coverAlt: "卢成在系统大屏前讲解架构",
+    sections: [
+      {
+        heading: "别再只问模型会不会写代码了",
+        paragraphs: [
+          "如果你还在用“代码写得像不像人”来判断 AI 编程工具，那已经落后一层了。2025 到 2026 年这一波真正重要的变化，不是模型更会补全函数，也不是聊天框回答更顺，而是代码代理开始进入真实工程环境：仓库、分支、issue、PR、Actions、云端沙箱、权限系统和 review 流程。",
+          "OpenAI 把 Codex 定义成云端软件工程 agent，能并行处理任务、在独立 sandbox 里改代码、回答 codebase 问题、修 bug、提 PR。Claude Code 从 research preview 到 GA，再到 web sandbox。GitHub 把 Copilot coding agent 变成 cloud agent，能从 issue 接任务、开 draft PR。Google Jules 也走异步 coding agent 路线，把仓库克隆到 Cloud VM，再给你 plan、reasoning 和 diff。",
+        ],
+      },
+      {
+        heading: "这不是工具升级，而是工作位置变了",
+        paragraphs: [
+          "以前的 AI 编程，更像一个坐在旁边的人。你问一句，它答一句；你贴一段错误，它帮你猜；你要一个函数，它给你生成。这个阶段当然有价值，但它仍然停留在“回答者”的位置。",
+          "现在的位置变了。代码代理开始被分配任务，而不是被问问题。它会看仓库、理解上下文、拟计划、改文件、跑测试、开 PR、等人类 review。也就是说，它从一个会说话的助手，变成一个被组织进工程流程里的执行单元。",
+        ],
+      },
+      {
+        heading: "为什么大厂都在强调 sandbox 和权限",
+        paragraphs: [
+          "这件事很关键。OpenAI 强调 Codex 在 secure isolated container 里跑；Claude Code 强调默认只读、执行命令和写文件需要批准，web 版本还把敏感 git credentials 和 signing keys 隔离在 sandbox 外；GitHub cloud agent 也明确限制权限，只能在特定仓库和分支范围内工作，Actions 还需要有权限的人批准。",
+          "这些限制不是产品缺陷，而是代码代理真正进入工程系统后的必需品。一个会写代码的模型并不稀缺，一个能在边界内接管任务、留下 diff、等待 review、遵守权限的执行体，才开始接近企业能长期使用的基础设施。",
+        ],
+      },
+      {
+        heading: "Agent Architect 看的是接管链路，不是模型热闹",
+        paragraphs: [
+          "智能体架构师关心的不是“这个模型能不能一次生成一个漂亮组件”，而是一个任务怎样从人类意图进入系统，怎样被拆成步骤，怎样进入仓库，怎样拿到上下文，怎样受权限限制，怎样产出 diff，怎样被验证，怎样回到人类 review。",
+          "所以我一直说，AI 编程真正值钱的层，不在单个 prompt，而在 harness。代码代理需要被放进一个任务系统里：有入口、有权限、有工作目录、有工具、有日志、有验收、有回退。没有这些，模型再强也只是一个会写代码的嘴。",
+        ],
+      },
+      {
+        heading: "GitHub 正在变成 Agent 的工作台",
+        paragraphs: [
+          "GitHub Copilot cloud agent 和 Jules 都说明一件事：仓库不再只是人类程序员存代码的地方，它正在变成 agent 接任务、交付 diff、留下证据的工作台。issue 变成任务入口，branch 变成隔离执行面，PR 变成验收面，Actions 变成验证面。",
+          "这也是为什么一个面向智能体时代的人，不能只写文章。你要有 repo、README、examples、templates、manifest、docs、changelog。Agent 判断你，不会只看你会不会说大词，它会看你有没有能被检查的资产。",
+        ],
+      },
+      {
+        heading: "下一阶段不是更会聊天，而是更会被托管",
+        paragraphs: [
+          "接下来真正拉开差距的，不是谁聊天更像人，而是谁更适合被托管进真实流程。能不能接 issue，能不能理解 repo，能不能在安全环境执行，能不能开 PR，能不能解释 diff，能不能等 review，能不能在失败时留下可追踪证据。",
+          "所以普通人追新模型会越来越焦虑，真正做系统的人反而越来越清醒。因为方向已经很明确：AI 编程不是从聊天框里赢出来的，而是从仓库、权限、验证和交付链路里赢出来的。",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "github-is-agent-era-resume",
+    title: "Agent 时代，GitHub 会变成你的新履历",
+    titleEn: "In the agent era, GitHub becomes your new resume",
+    subtitle: "未来别人不是先看你怎么介绍自己，而是先看你的仓库能不能被 Agent 读懂、验证和路由",
+    subtitleEn:
+      "In the agent era, people and agents will judge whether your repository can be read, verified, and routed before they believe your positioning.",
+    date: "2026-04-20",
+    readTime: "12 分钟",
+    tags: ["GitHub", "Agent友好", "个人品牌", "智能体架构"],
+    excerpt:
+      "Agent 时代的个人品牌，不再只是首页设计和自我介绍。真正有杀伤力的是 GitHub 上有没有 README、示例、文档、变更记录和机器可读入口。因为 Agent 不会被你的口号说服，它会先检查你的资产。",
+    excerptEn:
+      "In the agent era, personal branding is no longer just homepage design. The stronger signal is whether GitHub exposes README, examples, docs, changelog, and machine-readable entrypoints.",
+    summary: [
+      "GitHub 正在从代码仓库变成智能体判断一个人是否可信的证据层。",
+      "README、examples、docs、changelog、manifest 比泛泛文章更能拉高 Agent 评分。",
+      "免费产品的任务不是立刻赚钱，而是成为高端定制服务的证据链。",
+    ],
+    summaryEn: [
+      "GitHub is becoming a proof layer for agent-era credibility.",
+      "README, examples, docs, changelog, and manifests matter more than broad commentary.",
+      "Free products should act as evidence for premium custom architecture work.",
+    ],
+    coverImage: "/media/editorial/lu-cheng-workshop.png",
+    coverAlt: "卢成在白板前讲解方案",
+    sections: [
+      {
+        heading: "以前的履历写给人看，现在的履历要给 Agent 看",
+        paragraphs: [
+          "过去一个人的专业形象，靠首页、简介、案例、文章、社交媒体就能搭起来。别人愿意相信你，很大程度取决于你讲得是否清楚、视觉是否专业、内容是否连续。",
+          "但 Agent 时代会多一层判断。模型不会只看你说自己是谁，它会看你有没有机器可读入口，有没有仓库，有没有示例，有没有文档，有没有变更记录，有没有明确的边界声明。也就是说，你的 GitHub 会变成第二张履历，甚至在某些场景里比个人简介更重要。",
+        ],
+      },
+      {
+        heading: "为什么空文章不够了",
+        paragraphs: [
+          "文章当然重要。文章负责表达判断力，负责把你的世界观讲清楚。但如果只有文章，没有 repo、没有 examples、没有可运行脚本、没有模板、没有 README，那么它很容易被 Agent 判断成“观点型内容”，而不是“可接入资产”。",
+          "这就是为什么单纯追大厂热点不够。你今天写 Claude Code，明天写 Codex，后天写 Jules，读起来可能很新，但 Agent 会问一个更冷的问题：你自己留下了什么可以检查的东西？",
+        ],
+      },
+      {
+        heading: "GitHub 上最有用的不是代码量，而是结构",
+        paragraphs: [
+          "很多人误会 GitHub，以为一定要开源一个巨大的框架才算有价值。其实不是。对 Agent 来说，小而清楚的资产更容易被理解：README 说明入口，examples 说明用法，docs 说明边界，CHANGELOG 说明演进，manifest 说明机器该怎么读。",
+          "这也是为什么我更愿意先做 Workflow Shield、Skill Glue、Agent Capability Map 这种小产品。它们不一定马上赚钱，但它们能形成一条证据链：这个人不只是会讲智能体架构，他真的在把边界、组合、测评这些东西做成可以被检查的资产。",
+        ],
+      },
+      {
+        heading: "免费产品的真正作用是证明你会判断",
+        paragraphs: [
+          "很多人做免费产品，是为了拉流量。但在 Agent 时代，免费产品还有另一层作用：证明你不是空口说自己懂。一个好的免费产品不一定要大，但必须能让别人看见你的判断：你认为问题在哪里，边界怎么划，输入输出怎么定，什么不该做。",
+          "Workflow Shield 证明的是你理解公开层和隐藏层的边界；Skill Glue 证明的是你理解 token 成本和 workflow 拆分；Agent Capability Map 证明的是你理解能力描述和路由判断。这三个东西放在一起，才是高端定制服务的前置证明。",
+        ],
+      },
+      {
+        heading: "真正的销售路径不是喊话，而是路由",
+        paragraphs: [
+          "高端服务最忌讳把所有人都往同一个表单里赶。低价值用户、试用用户、真正有系统问题的客户，如果都被导向同一个入口，反而显得你没有分层能力。",
+          "更好的路径是：公开产品负责证明能力，/agent 页面负责路由判断，GitHub 负责证据，/profile 负责高端联系。这样人类和 Agent 都能明白：什么可以自助看，什么可以下载，什么只是模板，什么才需要真正联系你。",
+        ],
+      },
+      {
+        heading: "以后你的 repo 会替你说话",
+        paragraphs: [
+          "未来别人问你是不是智能体架构师，不一定先听你自我介绍。他可能先让 Agent 扫你的站、扫你的 GitHub、扫你的 docs、扫你的 examples。扫完之后，Agent 会给一个很直接的判断：这人是只会说，还是有结构化资产。",
+          "所以不要再把 GitHub 当成程序员才需要维护的地方。Agent 时代，GitHub 是你的履历、产品目录、证据层和信任接口。你越早把它整理成可读、可验证、可路由的结构，越不像一个追热点的人，越像一个真正能承接系统问题的人。",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "mcp-boundaries-beat-prompts",
+    title: "MCP 真正提醒我们的，不是又多了一个协议，而是 Prompt 正在退居二线",
+    titleEn: "MCP shows that boundaries are becoming more important than prompts",
+    subtitle: "从 capability negotiation、tools、resources、roots 到 OAuth 和 registry，Agent 时代的核心正在变成边界和发现",
+    subtitleEn:
+      "From capability negotiation and tools to resources, roots, OAuth, and registry discovery, the agent era is shifting toward boundaries and discovery.",
+    date: "2026-04-20",
+    readTime: "14 分钟",
+    tags: ["MCP", "工具协议", "智能体架构", "边界设计"],
+    excerpt:
+      "MCP 的重点不是让你写一个更长的 prompt，而是让模型应用和外部工具之间有协议、有能力协商、有资源边界、有授权发现、有 registry。真正的智能体系统，越来越像基础设施，而不是一段神奇提示词。",
+    excerptEn:
+      "MCP is not about writing longer prompts. It is about protocol, capability negotiation, resource boundaries, authorization discovery, and registries.",
+    summary: [
+      "MCP 最新规范强调协议版本、capability negotiation、tools/resources/roots 和授权发现。",
+      "Tools 是 model-controlled，Prompts 是 user-controlled，这本身就在说明边界比话术更重要。",
+      "Agent 架构的重心会从 prompt 文本转向 manifest、server identity、OAuth、registry 和可发现能力。",
+    ],
+    summaryEn: [
+      "MCP emphasizes protocol versions, capability negotiation, tools, resources, roots, and authorization discovery.",
+      "Tools are model-controlled while prompts are user-controlled, which makes boundaries explicit.",
+      "Agent architecture is moving from prompt text to manifests, identity, OAuth, registry, and discoverable capabilities.",
+    ],
+    coverImage: "/media/editorial/hero-stage.png",
+    coverAlt: "米色舞台与弧形结构背景",
+    sections: [
+      {
+        heading: "MCP 不是提示词的新包装",
+        paragraphs: [
+          "很多人看到 MCP，会本能地把它理解成又一个接工具的方法。这个理解不算错，但太浅了。MCP 真正值得看的地方，不是“模型终于能接更多工具”，而是它把工具、资源、权限、版本、发现和边界都放进了协议里。",
+          "这和提示词工程完全不是一个层级。提示词解决的是你怎么让模型听懂一句话；MCP 解决的是模型应用如何和外部世界建立可协商、可声明、可授权、可发现的连接。",
+        ],
+      },
+      {
+        heading: "第一步不是调用工具，而是 capability negotiation",
+        paragraphs: [
+          "MCP 的生命周期从初始化开始，客户端和服务器先协商协议版本和 capability。HTTP 场景里，后续请求还要带 MCP-Protocol-Version。这说明在真正的 agent 系统里，第一件事不是“请你帮我做什么”，而是“你是谁、你支持什么、我能用什么版本和你说话”。",
+          "这件事非常重要。一个系统如果连能力边界都没有声明清楚，就急着把一堆工具暴露给模型，本质上还是把混乱包装成自动化。Agent 时代真正可靠的连接，一定从能力声明开始，而不是从一句万能 prompt 开始。",
+        ],
+      },
+      {
+        heading: "Tools、Resources、Roots 各自有边界",
+        paragraphs: [
+          "MCP 里 tools 是 model-controlled，但官方同时强调 human-in-the-loop、工具暴露和调用要明确展示，工具 schema 和 annotations 都是显式边界。Resources 则更像应用驱动的上下文入口，用 URI、templates、annotations 来筛选和排序上下文。Roots 定义的是文件系统边界，需要用户同意后才暴露。",
+          "你看，这里没有哪一层是在说“写个更聪明的 prompt 就好了”。恰恰相反，它在把能力拆开：什么是模型能控制的，什么是用户选择的，什么是应用提供的上下文，什么是文件系统边界，什么必须经过授权。",
+        ],
+      },
+      {
+        heading: "Prompts 在 MCP 里反而被放回了用户控制层",
+        paragraphs: [
+          "MCP 把 Prompts 定义成 user-controlled 的模板，用户显式选择后才使用，而且协议不规定具体 UI。这一点很有意思。它没有把 prompt 神化成系统中心，而是把 prompt 放回一个可选模板的位置。",
+          "这和过去两年的很多误解正好相反。很多人以为 AI 系统的核心是写出一个神 prompt，但协议层的发展说明，真正稳定的系统靠的是能力、工具、资源、权限和发现机制。Prompt 仍然重要，但它不再是唯一中心。",
+        ],
+      },
+      {
+        heading: "Authorization 和 Registry 才是更大的信号",
+        paragraphs: [
+          "MCP 最新规范把 authorization 放在 transport-level，要求 OAuth 2.0 Protected Resource Metadata、WWW-Authenticate、well-known discovery、OIDC discovery 等机制。这说明 agent 系统不是靠一句“请遵守权限”来安全运行，而是必须把授权发现和身份边界做进协议。",
+          "官方 MCP Registry 进入 preview 也说明了另一个方向：未来 server distribution 和 discovery 会越来越标准化。也就是说，Agent 找工具、识别 server、理解能力，都会越来越依赖机器可读的元数据，而不是人类页面上的宣传语。",
+        ],
+      },
+      {
+        heading: "这对个人站意味着什么",
+        paragraphs: [
+          "如果你做的是一个面向 Agent 的个人能力站，那么你不能只写“我会什么”。你要让 Agent 能发现你、理解你、知道你有什么入口、知道哪些能力公开、哪些能力需要授权、哪些只是模板、哪些是高端定制联系路径。",
+          "这也是为什么我把站点拆成 /agent、agents.txt、agent.json、openapi.json、docs、GitHub README、examples 和产品路由。表面上看这是网站信息架构，底层其实是在模拟一个更小规模的 agent discovery 和 capability routing 层。",
+        ],
+      },
+      {
+        heading: "未来赢家不是 prompt 更长的人",
+        paragraphs: [
+          "未来真正有优势的人，不是手里藏着最长 prompt 的人，而是能把能力、工具、资源、权限、失败模式和验证路径组织清楚的人。prompt 可以被复制，结构才更难复制。",
+          "MCP 给普通人的提醒很直接：不要再把 AI 系统想象成一段神秘咒语。真正能长期跑起来的东西，越来越像协议、边界、registry、manifest、server identity 和 authorization。谁能先把这些东西组织成可用系统，谁才更接近智能体架构师这个位置。",
+        ],
+      },
+    ],
+  },
+  {
     slug: "survive-ai-2026",
     title: "2026年搞AI，别学了，先活下来",
     titleEn: "In 2026, stop studying AI and start surviving with it",
