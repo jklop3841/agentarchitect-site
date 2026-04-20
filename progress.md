@@ -32,3 +32,39 @@
 - 结果：失败。
 - 原因：PyPI SSL 连接异常，无法获取 `patchright`。
 - 处理：已记录到 `findings.md`，暂不重复同一路径；先推进平台分发稿 schema。
+
+### Phase 2 完成：头条依赖修复
+
+- 操作：通过 PyPI JSON API 获取 `patchright==1.55.2` Windows wheel 直链并安装。
+- 结果：成功。
+- 验证：
+  - `import patchright` 成功。
+  - `auth_manager.py status` 成功运行，当前未登录。
+  - `publisher.py --help` 成功运行，确认发布脚本支持 dry-run 和 headless 参数。
+- 下一步：需要用户配合执行头条扫码登录 setup，生成持久登录态。
+
+### Phase 2 完成：通用 Cookie 管理器验证
+
+- 操作：
+  - 运行 `cookie_manager.py list`。
+  - 运行 `media_publisher.py info zhihu`。
+  - 运行 `media_publisher.py workflow zhihu --format json`。
+  - 用临时 Cookie 文件测试 `add/export/delete`。
+- 结果：
+  - 当前没有已保存真实账号 Cookie。
+  - 知乎平台信息和发布工作流可以正常生成。
+  - 临时 Cookie 写入、导出、删除成功。
+  - 删除后账号列表为空，未留下测试账号。
+
+### Phase 3 完成：分发稿 schema + 生成器
+
+- 新增：`docs/social-publishing-distribution-schema.md`。
+- 新增：`scripts/social_distribution.py`。
+- 验证：
+  - 临时文章 JSON 输入成功生成分发稿。
+  - 输出 JSON 合法。
+  - 自动补 `GEO` 标签。
+  - 对低于 900 字的分发稿给出 `validationWarnings`。
+- 下一步：
+  - 将每日文章自动化改为同时产出主站文章和分发稿 JSON。
+  - 之后接入头条草稿填充。
