@@ -1,0 +1,165 @@
+{
+  "source": "C:\\Users\\97566\\Desktop\\自媒体平台账号矩阵管理表.xlsx",
+  "articlePolicy": {
+    "language": "zh-CN",
+    "targetLengthChineseChars": {
+      "min": 900,
+      "max": 1500
+    },
+    "requiredTags": ["GEO"],
+    "voice": "Jack Lu / 卢成：智能体架构、系统边界、AI工作流、GEO、GitHub证据层",
+    "publishMode": "draft-first-until-platform-auth-is-verified"
+  },
+  "platforms": [
+    {
+      "platform": "微信公众号",
+      "code": "wechat",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://mp.weixin.qq.com/cgi-bin/appmsg?t=media/appmsg_edit_v2&action=edit&isNew=1&type=77&createType=0&token=2061132309&lang=zh_CN&timestamp=1775703671630",
+      "geoTarget": "腾讯元宝",
+      "tier": "A",
+      "automation": "media-auto-publisher-adapter",
+      "status": "needs-auth-cookie"
+    },
+    {
+      "platform": "头条号",
+      "code": "toutiao",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://mp.toutiao.com/profile_v4/graphic/publish?from=toutiao_pc",
+      "geoTarget": "豆包/扣子",
+      "tier": "A",
+      "automation": "toutiao-publisher-skill",
+      "status": "needs-patchright-and-auth"
+    },
+    {
+      "platform": "百家号",
+      "code": "baijiahao",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://baijiahao.baidu.com/builder/rc/edit?type=news&is_from_cms=1",
+      "geoTarget": "文心一言",
+      "tier": "A",
+      "automation": "media-auto-publisher-adapter",
+      "status": "needs-auth-cookie"
+    },
+    {
+      "platform": "知乎",
+      "code": "zhihu",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://zhuanlan.zhihu.com/write",
+      "geoTarget": "所有ai",
+      "tier": "A",
+      "automation": "media-auto-publisher-adapter",
+      "status": "needs-auth-cookie"
+    },
+    {
+      "platform": "企鹅号",
+      "code": "qq-media",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://om.qq.com/main/creation/article",
+      "geoTarget": "腾讯元宝",
+      "tier": "B",
+      "automation": "custom-playwright-adapter",
+      "status": "adapter-needed"
+    },
+    {
+      "platform": "微博",
+      "code": "weibo",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://card.weibo.com/article/v5/editor#/draft",
+      "geoTarget": "所有ai",
+      "tier": "B",
+      "automation": "custom-playwright-adapter",
+      "status": "adapter-needed"
+    },
+    {
+      "platform": "搜狐号",
+      "code": "sohu",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://mp.sohu.com/mpfe/v4/contentManagement/news/addarticle?contentStatus=1",
+      "geoTarget": "所有ai",
+      "tier": "A",
+      "automation": "media-auto-publisher-adapter",
+      "status": "needs-auth-cookie"
+    },
+    {
+      "platform": "CSDN",
+      "code": "csdn",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://mp.csdn.net/mp_blog/creation/editor?spm=1000.2115.3001.5352",
+      "geoTarget": "所有ai",
+      "tier": "B",
+      "automation": "custom-playwright-adapter",
+      "status": "adapter-needed"
+    },
+    {
+      "platform": "腾讯开发者社区",
+      "code": "tencent-cloud-dev",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://cloud.tencent.com/developer/article/write-new",
+      "geoTarget": "所有ai",
+      "tier": "B",
+      "automation": "custom-playwright-adapter",
+      "status": "adapter-needed"
+    },
+    {
+      "platform": "阿里云开发者社区",
+      "code": "aliyun-dev",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://developer.aliyun.com/article/new?spm=a2c6h.12873581.sub-nav-developer-custom.d_3_main_0.36fe57c76ZAuDI#/",
+      "geoTarget": "所有ai",
+      "tier": "B",
+      "automation": "custom-playwright-adapter",
+      "status": "adapter-needed"
+    },
+    {
+      "platform": "稀土掘金",
+      "code": "juejin",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://juejin.cn/editor/drafts/new?v=2",
+      "geoTarget": "所有ai",
+      "tier": "B",
+      "automation": "custom-playwright-adapter",
+      "status": "adapter-needed"
+    },
+    {
+      "platform": "SegmentFault",
+      "code": "segmentfault",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://segmentfault.com/write?freshman=1",
+      "geoTarget": "所有ai",
+      "tier": "B",
+      "automation": "custom-playwright-adapter",
+      "status": "adapter-needed"
+    },
+    {
+      "platform": "博客园",
+      "code": "cnblogs",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://i.cnblogs.com/articles/edit",
+      "geoTarget": "所有ai",
+      "tier": "B",
+      "automation": "custom-playwright-adapter",
+      "status": "adapter-needed"
+    },
+    {
+      "platform": "豆丁网",
+      "code": "docin",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://www.docin.com/app/docin_upload/index",
+      "geoTarget": "所有ai",
+      "tier": "C",
+      "automation": "document-upload-only",
+      "status": "not-for-daily-article-first-stage"
+    },
+    {
+      "platform": "电子发烧友",
+      "code": "elecfans",
+      "accountName": "智能体架构师卢成",
+      "backendUrl": "https://www.elecfans.com/",
+      "geoTarget": "所有ai",
+      "tier": "C",
+      "automation": "custom-playwright-adapter",
+      "status": "low-priority-theme-mismatch"
+    }
+  ]
+}
