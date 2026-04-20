@@ -68,3 +68,18 @@
 - 下一步：
   - 将每日文章自动化改为同时产出主站文章和分发稿 JSON。
   - 之后接入头条草稿填充。
+
+### Phase 2 完成：头条 Edge 登录态保存
+
+- 操作：
+  - 使用 `msedge` 通道打开头条发布页。
+  - 启动 10 分钟周期性 storage state 保存。
+  - 用户完成登录后，页面停在 `https://mp.toutiao.com/profile_v4/graphic/publish`。
+- 结果：
+  - `state.json` 已保存。
+  - `auth_manager.py status` 返回 `Authenticated: Yes`。
+- 经验：
+  - 原脚本只靠 URL 跳转检测不够稳。
+  - Edge 通道 + 周期性保存更适合这台机器。
+- 下一步：
+  - 用当前登录态跑头条 dry-run 草稿填充。

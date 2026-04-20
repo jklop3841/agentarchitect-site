@@ -164,3 +164,33 @@ C:\Users\97566\.agents\skills\toutiao-publisher\.venv\Scripts\python.exe -m pip 
 - 每日文章自动化应先生成完整主站文章，再生成平台分发稿。
 - 分发稿不足 900 字时不应进入自动发布，应回到改写步骤扩展内容。
 - `technical` 变体适合 CSDN、掘金、开发者社区；`general` 变体适合头条、百家、搜狐、公众号。
+
+## 2026-04-20：头条 Edge 登录态保存成功
+
+Chrome 通道登录流程曾经超时，脚本没有检测到登录跳转。
+
+有效路径：
+
+- 使用 Edge (`msedge`) 通道。
+- 使用独立持久 profile：`C:\Users\97566\.agents\skills\toutiao-publisher\data\browser_state\edge_profile`。
+- 不再只依赖跳转检测，而是每 5 秒保存一次 `storage_state`。
+- 用户登录后页面停在 `https://mp.toutiao.com/profile_v4/graphic/publish`。
+- 最终 `state.json` 成功保存到：`C:\Users\97566\.agents\skills\toutiao-publisher\data\browser_state\state.json`。
+
+验证：
+
+```powershell
+C:\Users\97566\.agents\skills\toutiao-publisher\.venv\Scripts\python.exe C:\Users\97566\.agents\skills\toutiao-publisher\scripts\run.py auth_manager.py status
+```
+
+结果：
+
+- `Authenticated: Yes`
+- `State age: 0.0 hours`
+- `Last auth: 2026-04-20 13:00:02`
+
+复用建议：
+
+- 头条登录优先使用 Edge 通道。
+- 站点不稳定跳转时，用周期性保存 storage state 比等待固定 URL 更稳。
+- 登录态文件在技能目录，不写入仓库。

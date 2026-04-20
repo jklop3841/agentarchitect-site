@@ -39,3 +39,11 @@
   - 输出 `default` / `technical` / `general` 三种变体。
   - 对不满足 `900-1500` 字的稿件写 `validationWarnings`。
 - 复用方式：后续每日文章自动化应在主站文章生成后调用该脚本，分发稿通过后再交给平台 adapter。
+
+## 2026-04-20：头条登录态用 Edge 周期保存方案跑通
+
+- 原 Chrome 通道登录流程超时，未保存 state。
+- 改用 Edge (`msedge`) 通道，并每 5 秒保存 `storage_state`。
+- 用户完成登录后，最后 URL 为头条发布页：`https://mp.toutiao.com/profile_v4/graphic/publish`。
+- `auth_manager.py status` 已确认 `Authenticated: Yes`。
+- 复用方式：后续头条认证优先使用 Edge profile + periodic saver，不要只依赖固定 URL 跳转检测。

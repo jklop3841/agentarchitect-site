@@ -13,7 +13,7 @@
 ## Phase 2：修复第一批发布运行环境
 
 - [x] 修复 `toutiao-publisher` 依赖，确认 `patchright` 可用。
-- [ ] 跑通头条号登录状态检测。
+- [x] 跑通头条号登录状态检测。
 - [ ] 确认通用 `media-auto-publisher` 能保存/读取 Cookie。
 - [ ] 为微信公众号、百家号、知乎、搜狐号建立登录态检查步骤。
 
