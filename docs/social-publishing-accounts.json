@@ -17,9 +17,9 @@
       "accountName": "智能体架构师卢成",
       "backendUrl": "https://mp.weixin.qq.com/cgi-bin/appmsg?t=media/appmsg_edit_v2&action=edit&isNew=1&type=77&createType=0&token=2061132309&lang=zh_CN&timestamp=1775703671630",
       "geoTarget": "腾讯元宝",
-      "tier": "A",
+      "tier": "manual",
       "automation": "media-auto-publisher-adapter",
-      "status": "needs-auth-cookie"
+      "status": "skip-first-stage-manual-only"
     },
     {
       "platform": "头条号",
@@ -87,9 +87,9 @@
       "accountName": "智能体架构师卢成",
       "backendUrl": "https://mp.csdn.net/mp_blog/creation/editor?spm=1000.2115.3001.5352",
       "geoTarget": "所有ai",
-      "tier": "B",
+      "tier": "A",
       "automation": "custom-playwright-adapter",
-      "status": "adapter-needed"
+      "status": "replace-wechat-first-stage-adapter-needed"
     },
     {
       "platform": "腾讯开发者社区",
