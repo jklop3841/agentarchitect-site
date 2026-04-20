@@ -112,6 +112,60 @@
 - CSDN 更适合技术文章、MCP、GitHub 证据层、代码代理和智能体架构内容。
 - CSDN 对搜索/技术读者/GEO 的价值更直接，适合先做草稿模式。
 
+## 2026-04-20：CSDN 探测被网络连接阻断
+
+新增脚本：
+
+- `scripts/csdn_dry_run_probe.py`
+
+尝试访问：
+
+- `https://mp.csdn.net/mp_blog/creation/editor?spm=1000.2115.3001.5352`
+- `https://www.csdn.net/`
+- `https://passport.csdn.net/login`
+
+结果：
+
+- 编辑器 URL：`net::ERR_CONNECTION_CLOSED`
+- 首页：`net::ERR_TIMED_OUT`
+- 登录页：`net::ERR_ABORTED`
+
+判断：
+
+- 当前不是选择器问题，而是本机/网络到 CSDN 的访问不稳定。
+- CSDN 仍保留为第一批候选，但当前不能继续做 dry-run。
+
+复用建议：
+
+- 网络恢复后从 `scripts/csdn_dry_run_probe.py` 继续。
+- 当前执行顺序应切换到知乎或百家号，避免被 CSDN 网络阻塞。
+
+## 2026-04-20：知乎探测进入登录页
+
+新增脚本：
+
+- `scripts/zhihu_dry_run_probe.py`
+
+访问：
+
+- `https://zhuanlan.zhihu.com/write`
+
+结果：
+
+- 被重定向到：`https://www.zhihu.com/signin?next=http%3A%2F%2Fzhuanlan.zhihu.com%2Fwrite`
+- 页面包含手机号、短信验证码、网易易盾验证码字段。
+- 未进入编辑器，因此暂未获得标题/正文选择器。
+
+判断：
+
+- 知乎需要人工登录一次。
+- 不应尝试绕过短信验证码或人机验证。
+
+复用建议：
+
+- 后续让用户完成知乎登录后，再重新运行 `scripts/zhihu_dry_run_probe.py`。
+- 知乎 adapter 当前状态应保持 `needs-manual-login`。
+
 ## 2026-04-20：头条发布环境依赖安装失败
 
 尝试命令：

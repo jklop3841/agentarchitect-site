@@ -116,3 +116,27 @@
 - 已将微信公众号移出第一批自动化。
 - 已将 CSDN 提升为第一批平台。
 - 后续第一批为：网站、头条号、百家号、知乎、搜狐号、CSDN。
+
+### Phase 4 尝试：CSDN 探测
+
+- 新增脚本：`scripts/csdn_dry_run_probe.py`。
+- 第一次访问编辑器失败：`ERR_CONNECTION_CLOSED`。
+- 增强脚本后依次尝试编辑器、首页、登录页、编辑器。
+- 结果：
+  - 编辑器仍为 `ERR_CONNECTION_CLOSED`。
+  - 首页为 `ERR_TIMED_OUT`。
+  - 登录页为 `ERR_ABORTED`。
+- 处理：
+  - 记录为网络层阻塞。
+  - 暂停 CSDN dry-run，切换到知乎/百家号。
+
+### Phase 4 尝试：知乎探测
+
+- 新增脚本：`scripts/zhihu_dry_run_probe.py`。
+- 访问 `https://zhuanlan.zhihu.com/write`。
+- 结果：重定向到知乎登录页。
+- 检测到字段：
+  - 手机号。
+  - 短信验证码。
+  - 网易易盾验证码。
+- 结论：需要用户人工登录后再继续。
