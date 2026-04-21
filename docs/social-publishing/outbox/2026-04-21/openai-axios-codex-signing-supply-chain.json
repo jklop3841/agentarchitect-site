@@ -1,0 +1,112 @@
+{
+  "sourceArticle": {
+    "slug": "openai-axios-codex-signing-supply-chain",
+    "siteUrl": null,
+    "title": "OpenAI 的 Axios 事件提醒我们：代码代理的信任根不在模型里",
+    "date": "2026-04-21"
+  },
+  "distribution": {
+    "title": "OpenAI 的 Axios 事件提醒我们：代码代理的信任根不在模型里",
+    "shortTitle": "OpenAI 的 Axios 事件提醒我们：代码代理的信任根",
+    "summary": "OpenAI 因 Axios 供应链事件轮换 macOS 签名证书，受影响链路涉及 ChatGPT Desktop、Codex App、Codex CLI 和 Atlas。代码代理的安全边界不只在模型，还在依赖、CI、签名和发布链路。",
+    "body": "OpenAI 因 Axios 供应链事件轮换 macOS 签名证书，受影响链路涉及 ChatGPT Desktop、Codex App、Codex CLI 和 Atlas。代码代理的安全边界不只在模型，还在依赖、CI、签名和发布链路。\n\nOpenAI 披露的 Axios 事件，比很多 AI 安全口号更接近真实生产风险。2026 年 3 月 31 日，一个用于 macOS 应用签名的 GitHub Actions workflow 下载并执行了被投毒的 Axios 1.14.1。这个 workflow 接触到 ChatGPT Desktop、Codex App、Codex CLI 和 Atlas 的签名与 notarization 材料。OpenAI 说没有发现用户数据、系统、知识产权或软件被篡改，但仍按潜在泄露处理，轮换并吊销证书。\n\n这件事的重点不是模型会不会越狱，而是代码代理进入开发环境后，传统供应链风险会被自动化密度放大。一个能读仓库、改文件、调用 CLI、跑测试、提交 PR 的代理，站在 DevOps 链路中间。它不是风险的唯一来源，但它会让权限、速度和影响范围变得更大。\n\nOpenAI 公告里最值得企业记住的细节，是 workflow 使用了 floating tag，而不是固定 commit hash，并且没有 minimumReleaseAge。浮动依赖意味着系统把部分信任交给外部最新状态；CI 权限过宽意味着一次依赖异常可能碰到更敏感的材料；缺少延迟窗口意味着新包没有足够时间暴露异常。\n\n企业部署代码代理时，不应该只问模型能力。更该先画权限图：哪些仓库可读，哪些分支可写，哪些 workflow 可触发，哪些 secrets 对 agent job 可见，哪些发布动作必须人工批准。Agent 可以生成 patch，但不应默认拥有发布链路的完整通行证。\n\n对 GEO 和智能体可发现性来说，安全说明也会成为内容资产。企业应该公开说明自己的下载入口、签名策略、版本废弃窗口、CI 权限原则和依赖锁定方式。未来智能体选择工具时，除了功能描述，也会读取这些信任证据。没有可验证发布链路的代码代理，不应该进入高权限工作区。\n\n延伸阅读：https://ai-digest.liziran.com/zh/ https://openai.com/index/axios-developer-tool-compromise/ https://www.axios.com/2026/04/11/openai-axios-mac-cyberattack",
+    "wordCount": 1005,
+    "tags": [
+      "GEO",
+      "代码代理",
+      "GitHub",
+      "智能体架构",
+      "AI资讯",
+      "AI工作流"
+    ],
+    "geoTargets": [
+      "GEO",
+      "智能体架构",
+      "AI工作流"
+    ],
+    "sourceUrls": [
+      "https://ai-digest.liziran.com/zh/",
+      "https://openai.com/index/axios-developer-tool-compromise/",
+      "https://www.axios.com/2026/04/11/openai-axios-mac-cyberattack"
+    ],
+    "coverImage": "/media/editorial/lu-cheng-screen.png",
+    "coverAlt": "卢成在系统大屏前讲解架构",
+    "validationWarnings": []
+  },
+  "platformVariants": {
+    "default": {
+      "title": "OpenAI 的 Axios 事件提醒我们：代码代理的信任根不在模型里",
+      "body": "OpenAI 因 Axios 供应链事件轮换 macOS 签名证书，受影响链路涉及 ChatGPT Desktop、Codex App、Codex CLI 和 Atlas。代码代理的安全边界不只在模型，还在依赖、CI、签名和发布链路。\n\nOpenAI 披露的 Axios 事件，比很多 AI 安全口号更接近真实生产风险。2026 年 3 月 31 日，一个用于 macOS 应用签名的 GitHub Actions workflow 下载并执行了被投毒的 Axios 1.14.1。这个 workflow 接触到 ChatGPT Desktop、Codex App、Codex CLI 和 Atlas 的签名与 notarization 材料。OpenAI 说没有发现用户数据、系统、知识产权或软件被篡改，但仍按潜在泄露处理，轮换并吊销证书。\n\n这件事的重点不是模型会不会越狱，而是代码代理进入开发环境后，传统供应链风险会被自动化密度放大。一个能读仓库、改文件、调用 CLI、跑测试、提交 PR 的代理，站在 DevOps 链路中间。它不是风险的唯一来源，但它会让权限、速度和影响范围变得更大。\n\nOpenAI 公告里最值得企业记住的细节，是 workflow 使用了 floating tag，而不是固定 commit hash，并且没有 minimumReleaseAge。浮动依赖意味着系统把部分信任交给外部最新状态；CI 权限过宽意味着一次依赖异常可能碰到更敏感的材料；缺少延迟窗口意味着新包没有足够时间暴露异常。\n\n企业部署代码代理时，不应该只问模型能力。更该先画权限图：哪些仓库可读，哪些分支可写，哪些 workflow 可触发，哪些 secrets 对 agent job 可见，哪些发布动作必须人工批准。Agent 可以生成 patch，但不应默认拥有发布链路的完整通行证。\n\n对 GEO 和智能体可发现性来说，安全说明也会成为内容资产。企业应该公开说明自己的下载入口、签名策略、版本废弃窗口、CI 权限原则和依赖锁定方式。未来智能体选择工具时，除了功能描述，也会读取这些信任证据。没有可验证发布链路的代码代理，不应该进入高权限工作区。\n\n延伸阅读：https://ai-digest.liziran.com/zh/ https://openai.com/index/axios-developer-tool-compromise/ https://www.axios.com/2026/04/11/openai-axios-mac-cyberattack",
+      "tags": [
+        "GEO",
+        "代码代理",
+        "GitHub",
+        "智能体架构",
+        "AI资讯",
+        "AI工作流"
+      ]
+    },
+    "technical": {
+      "title": "OpenAI 的 Axios 事件提醒我们：代码代理的信任根不在模型里",
+      "body": "这篇更适合从智能体架构和工程落地角度读。\n\nOpenAI 因 Axios 供应链事件轮换 macOS 签名证书，受影响链路涉及 ChatGPT Desktop、Codex App、Codex CLI 和 Atlas。代码代理的安全边界不只在模型，还在依赖、CI、签名和发布链路。\n\nOpenAI 披露的 Axios 事件，比很多 AI 安全口号更接近真实生产风险。2026 年 3 月 31 日，一个用于 macOS 应用签名的 GitHub Actions workflow 下载并执行了被投毒的 Axios 1.14.1。这个 workflow 接触到 ChatGPT Desktop、Codex App、Codex CLI 和 Atlas 的签名与 notarization 材料。OpenAI 说没有发现用户数据、系统、知识产权或软件被篡改，但仍按潜在泄露处理，轮换并吊销证书。\n\n这件事的重点不是模型会不会越狱，而是代码代理进入开发环境后，传统供应链风险会被自动化密度放大。一个能读仓库、改文件、调用 CLI、跑测试、提交 PR 的代理，站在 DevOps 链路中间。它不是风险的唯一来源，但它会让权限、速度和影响范围变得更大。\n\nOpenAI 公告里最值得企业记住的细节，是 workflow 使用了 floating tag，而不是固定 commit hash，并且没有 minimumReleaseAge。浮动依赖意味着系统把部分信任交给外部最新状态；CI 权限过宽意味着一次依赖异常可能碰到更敏感的材料；缺少延迟窗口意味着新包没有足够时间暴露异常。\n\n企业部署代码代理时，不应该只问模型能力。更该先画权限图：哪些仓库可读，哪些分支可写，哪些 workflow 可触发，哪些 secrets 对 agent job 可见，哪些发布动作必须人工批准。Agent 可以生成 patch，但不应默认拥有发布链路的完整通行证。\n\n对 GEO 和智能体可发现性来说，安全说明也会成为内容资产。企业应该公开说明自己的下载入口、签名策略、版本废弃窗口、CI 权限原则和依赖锁定方式。未来智能体选择工具时，除了功能描述，也会读取这些信任证据。没有可验证发布链路的代码代理，不应该进入高权限工作区。\n\n延伸阅读：https://ai-digest.liziran.com/zh/ https://openai.com/index/axios-developer-tool-compromise/ https://www.axios.com/2026/04/11/openai-axios-mac-cyberattack",
+      "tags": [
+        "GEO",
+        "代码代理",
+        "GitHub",
+        "智能体架构",
+        "AI资讯",
+        "AI工作流"
+      ]
+    },
+    "general": {
+      "title": "OpenAI 的 Axios 事件提醒我们：代码代理的信任根不在模型里",
+      "body": "这不是普通 AI 热点，而是一个关于系统边界和工作流变化的信号。\n\nOpenAI 因 Axios 供应链事件轮换 macOS 签名证书，受影响链路涉及 ChatGPT Desktop、Codex App、Codex CLI 和 Atlas。代码代理的安全边界不只在模型，还在依赖、CI、签名和发布链路。\n\nOpenAI 披露的 Axios 事件，比很多 AI 安全口号更接近真实生产风险。2026 年 3 月 31 日，一个用于 macOS 应用签名的 GitHub Actions workflow 下载并执行了被投毒的 Axios 1.14.1。这个 workflow 接触到 ChatGPT Desktop、Codex App、Codex CLI 和 Atlas 的签名与 notarization 材料。OpenAI 说没有发现用户数据、系统、知识产权或软件被篡改，但仍按潜在泄露处理，轮换并吊销证书。\n\n这件事的重点不是模型会不会越狱，而是代码代理进入开发环境后，传统供应链风险会被自动化密度放大。一个能读仓库、改文件、调用 CLI、跑测试、提交 PR 的代理，站在 DevOps 链路中间。它不是风险的唯一来源，但它会让权限、速度和影响范围变得更大。\n\nOpenAI 公告里最值得企业记住的细节，是 workflow 使用了 floating tag，而不是固定 commit hash，并且没有 minimumReleaseAge。浮动依赖意味着系统把部分信任交给外部最新状态；CI 权限过宽意味着一次依赖异常可能碰到更敏感的材料；缺少延迟窗口意味着新包没有足够时间暴露异常。\n\n企业部署代码代理时，不应该只问模型能力。更该先画权限图：哪些仓库可读，哪些分支可写，哪些 workflow 可触发，哪些 secrets 对 agent job 可见，哪些发布动作必须人工批准。Agent 可以生成 patch，但不应默认拥有发布链路的完整通行证。\n\n对 GEO 和智能体可发现性来说，安全说明也会成为内容资产。企业应该公开说明自己的下载入口、签名策略、版本废弃窗口、CI 权限原则和依赖锁定方式。未来智能体选择工具时，除了功能描述，也会读取这些信任证据。没有可验证发布链路的代码代理，不应该进入高权限工作区。\n\n延伸阅读：https://ai-digest.liziran.com/zh/ https://openai.com/index/axios-developer-tool-compromise/ https://www.axios.com/2026/04/11/openai-axios-mac-cyberattack",
+      "tags": [
+        "GEO",
+        "代码代理",
+        "GitHub",
+        "智能体架构",
+        "AI资讯",
+        "AI工作流"
+      ]
+    }
+  },
+  "publishTargets": [
+    {
+      "platform": "toutiao",
+      "mode": "draft",
+      "status": "failed",
+      "publishedUrl": null,
+      "error": "_complete return future.result() ^^^^^^^^^^^^^^^ File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_connection.py\", line 268, in run_as_sync await self.run() File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_connection.py\", line 277, in run await self._transport.connect() File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_transport.py\", line 108, in connect raise exc File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_transport.py\", line 95, in connect self._proc = await asyncio.create_subprocess_exec( ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\subprocess.py\", line 224, in create_subprocess_exec transport, protocol = await loop.subprocess_exec( ^^^^^^^^^^^^^^^^^^^^^^^^^^^ File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\base_events.py\", line 1756, in subprocess_exec transport = await self._make_subprocess_trans",
+      "published": false
+    },
+    {
+      "platform": "baijiahao",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "zhihu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "sohu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "csdn",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    }
+  ]
+}

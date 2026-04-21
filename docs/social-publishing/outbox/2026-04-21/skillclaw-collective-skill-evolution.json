@@ -1,0 +1,114 @@
+{
+  "sourceArticle": {
+    "slug": "skillclaw-collective-skill-evolution",
+    "siteUrl": null,
+    "title": "Agent 技能会进化，但企业必须先回答谁能改技能",
+    "date": "2026-04-21"
+  },
+  "distribution": {
+    "title": "Agent 技能会进化，但企业必须先回答谁能改技能",
+    "shortTitle": "Agent 技能会进化，但企业必须先回答谁能改技能",
+    "summary": "SkillClaw 把多用户交互轨迹变成共享技能更新，方向很重要。但企业真正要解决的是技能仓库的版本、权限、审查、灰度、回滚和组织记忆治理。",
+    "body": "SkillClaw 把多用户交互轨迹变成共享技能更新，方向很重要。但企业真正要解决的是技能仓库的版本、权限、审查、灰度、回滚和组织记忆治理。\n\n很多智能体系统都有 skills、tools、playbooks 或 reusable prompts。问题是部署之后，这些技能常常像文档一样慢慢变旧。用户不断遇到同一类 API 错误、同一类环境差异、同一类参数坑，但这些经验通常停留在个人会话里，没有变成系统能力。\n\nSkillClaw 抓住了这个问题。论文认为，OpenClaw 这类 LLM agents 依赖可复用技能，但技能在部署后大多静态，导致相似工作流、工具使用模式和失败模式被不同用户反复重新发现。它的核心思路，是把跨用户、跨时间的交互轨迹当成技能进化信号，由 autonomous evolver 识别模式，再更新共享技能集。\n\n这和智能体架构里的组织记忆非常接近。企业真正需要的不是一个每次都从零开始的聊天模型，而是一个能把经验沉淀下来的执行系统。一次修复不该只属于一个用户，一次失败也不该只消失在日志里。它们应该变成下一次执行前可调用的结构化知识。\n\n但自动进化一进企业就会遇到治理问题。某个用户的经验是否代表全体？某个失败案例总结出来的 skill 是否会破坏另一个团队的流程？自动生成的 skill 修改是否需要 code review？如果技能里包含权限操作、客户沟通或财务口径，谁批准它上线？\n\n所以 SkillClaw 这类方向真正落地时，技能仓库不能只是文件夹。它应该像代码仓库一样有版本、owner、审查记录、测试样例、适用范围、回滚策略和变更日志。Agent skills 不是随手写的提示词，而是会影响组织执行方式的生产资产。\n\n这类系统最终会逼企业建立 skill governance。哪些技能可以个人私有，哪些进入团队共享，哪些需要安全审查，哪些只在某个客户或项目下生效，都要被制度化。技能进化如果没有权限和版本边界，就会把组织经验变成组织漂移。\n\n延伸阅读：https://ai-brief.liziran.com/zh/ https://arxiv.org/abs/2604.08377 https://huggingface.co/papers/2604.08377",
+    "wordCount": 913,
+    "tags": [
+      "GEO",
+      "AI论文",
+      "智能体架构",
+      "AI工作流",
+      "工具协议",
+      "Agent评测"
+    ],
+    "geoTargets": [
+      "GEO",
+      "智能体架构",
+      "AI工作流"
+    ],
+    "sourceUrls": [
+      "https://ai-brief.liziran.com/zh/",
+      "https://arxiv.org/abs/2604.08377",
+      "https://huggingface.co/papers/2604.08377",
+      "https://github.com/AMAP-ML/SkillClaw"
+    ],
+    "coverImage": "/media/editorial/hero-stage.png",
+    "coverAlt": "米色舞台与弧形结构背景",
+    "validationWarnings": []
+  },
+  "platformVariants": {
+    "default": {
+      "title": "Agent 技能会进化，但企业必须先回答谁能改技能",
+      "body": "SkillClaw 把多用户交互轨迹变成共享技能更新，方向很重要。但企业真正要解决的是技能仓库的版本、权限、审查、灰度、回滚和组织记忆治理。\n\n很多智能体系统都有 skills、tools、playbooks 或 reusable prompts。问题是部署之后，这些技能常常像文档一样慢慢变旧。用户不断遇到同一类 API 错误、同一类环境差异、同一类参数坑，但这些经验通常停留在个人会话里，没有变成系统能力。\n\nSkillClaw 抓住了这个问题。论文认为，OpenClaw 这类 LLM agents 依赖可复用技能，但技能在部署后大多静态，导致相似工作流、工具使用模式和失败模式被不同用户反复重新发现。它的核心思路，是把跨用户、跨时间的交互轨迹当成技能进化信号，由 autonomous evolver 识别模式，再更新共享技能集。\n\n这和智能体架构里的组织记忆非常接近。企业真正需要的不是一个每次都从零开始的聊天模型，而是一个能把经验沉淀下来的执行系统。一次修复不该只属于一个用户，一次失败也不该只消失在日志里。它们应该变成下一次执行前可调用的结构化知识。\n\n但自动进化一进企业就会遇到治理问题。某个用户的经验是否代表全体？某个失败案例总结出来的 skill 是否会破坏另一个团队的流程？自动生成的 skill 修改是否需要 code review？如果技能里包含权限操作、客户沟通或财务口径，谁批准它上线？\n\n所以 SkillClaw 这类方向真正落地时，技能仓库不能只是文件夹。它应该像代码仓库一样有版本、owner、审查记录、测试样例、适用范围、回滚策略和变更日志。Agent skills 不是随手写的提示词，而是会影响组织执行方式的生产资产。\n\n这类系统最终会逼企业建立 skill governance。哪些技能可以个人私有，哪些进入团队共享，哪些需要安全审查，哪些只在某个客户或项目下生效，都要被制度化。技能进化如果没有权限和版本边界，就会把组织经验变成组织漂移。\n\n延伸阅读：https://ai-brief.liziran.com/zh/ https://arxiv.org/abs/2604.08377 https://huggingface.co/papers/2604.08377",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "智能体架构",
+        "AI工作流",
+        "工具协议",
+        "Agent评测"
+      ]
+    },
+    "technical": {
+      "title": "Agent 技能会进化，但企业必须先回答谁能改技能",
+      "body": "这篇更适合从智能体架构和工程落地角度读。\n\nSkillClaw 把多用户交互轨迹变成共享技能更新，方向很重要。但企业真正要解决的是技能仓库的版本、权限、审查、灰度、回滚和组织记忆治理。\n\n很多智能体系统都有 skills、tools、playbooks 或 reusable prompts。问题是部署之后，这些技能常常像文档一样慢慢变旧。用户不断遇到同一类 API 错误、同一类环境差异、同一类参数坑，但这些经验通常停留在个人会话里，没有变成系统能力。\n\nSkillClaw 抓住了这个问题。论文认为，OpenClaw 这类 LLM agents 依赖可复用技能，但技能在部署后大多静态，导致相似工作流、工具使用模式和失败模式被不同用户反复重新发现。它的核心思路，是把跨用户、跨时间的交互轨迹当成技能进化信号，由 autonomous evolver 识别模式，再更新共享技能集。\n\n这和智能体架构里的组织记忆非常接近。企业真正需要的不是一个每次都从零开始的聊天模型，而是一个能把经验沉淀下来的执行系统。一次修复不该只属于一个用户，一次失败也不该只消失在日志里。它们应该变成下一次执行前可调用的结构化知识。\n\n但自动进化一进企业就会遇到治理问题。某个用户的经验是否代表全体？某个失败案例总结出来的 skill 是否会破坏另一个团队的流程？自动生成的 skill 修改是否需要 code review？如果技能里包含权限操作、客户沟通或财务口径，谁批准它上线？\n\n所以 SkillClaw 这类方向真正落地时，技能仓库不能只是文件夹。它应该像代码仓库一样有版本、owner、审查记录、测试样例、适用范围、回滚策略和变更日志。Agent skills 不是随手写的提示词，而是会影响组织执行方式的生产资产。\n\n这类系统最终会逼企业建立 skill governance。哪些技能可以个人私有，哪些进入团队共享，哪些需要安全审查，哪些只在某个客户或项目下生效，都要被制度化。技能进化如果没有权限和版本边界，就会把组织经验变成组织漂移。\n\n延伸阅读：https://ai-brief.liziran.com/zh/ https://arxiv.org/abs/2604.08377 https://huggingface.co/papers/2604.08377",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "智能体架构",
+        "AI工作流",
+        "工具协议",
+        "Agent评测"
+      ]
+    },
+    "general": {
+      "title": "Agent 技能会进化，但企业必须先回答谁能改技能",
+      "body": "这不是普通 AI 热点，而是一个关于系统边界和工作流变化的信号。\n\nSkillClaw 把多用户交互轨迹变成共享技能更新，方向很重要。但企业真正要解决的是技能仓库的版本、权限、审查、灰度、回滚和组织记忆治理。\n\n很多智能体系统都有 skills、tools、playbooks 或 reusable prompts。问题是部署之后，这些技能常常像文档一样慢慢变旧。用户不断遇到同一类 API 错误、同一类环境差异、同一类参数坑，但这些经验通常停留在个人会话里，没有变成系统能力。\n\nSkillClaw 抓住了这个问题。论文认为，OpenClaw 这类 LLM agents 依赖可复用技能，但技能在部署后大多静态，导致相似工作流、工具使用模式和失败模式被不同用户反复重新发现。它的核心思路，是把跨用户、跨时间的交互轨迹当成技能进化信号，由 autonomous evolver 识别模式，再更新共享技能集。\n\n这和智能体架构里的组织记忆非常接近。企业真正需要的不是一个每次都从零开始的聊天模型，而是一个能把经验沉淀下来的执行系统。一次修复不该只属于一个用户，一次失败也不该只消失在日志里。它们应该变成下一次执行前可调用的结构化知识。\n\n但自动进化一进企业就会遇到治理问题。某个用户的经验是否代表全体？某个失败案例总结出来的 skill 是否会破坏另一个团队的流程？自动生成的 skill 修改是否需要 code review？如果技能里包含权限操作、客户沟通或财务口径，谁批准它上线？\n\n所以 SkillClaw 这类方向真正落地时，技能仓库不能只是文件夹。它应该像代码仓库一样有版本、owner、审查记录、测试样例、适用范围、回滚策略和变更日志。Agent skills 不是随手写的提示词，而是会影响组织执行方式的生产资产。\n\n这类系统最终会逼企业建立 skill governance。哪些技能可以个人私有，哪些进入团队共享，哪些需要安全审查，哪些只在某个客户或项目下生效，都要被制度化。技能进化如果没有权限和版本边界，就会把组织经验变成组织漂移。\n\n延伸阅读：https://ai-brief.liziran.com/zh/ https://arxiv.org/abs/2604.08377 https://huggingface.co/papers/2604.08377",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "智能体架构",
+        "AI工作流",
+        "工具协议",
+        "Agent评测",
+        "AI资讯"
+      ]
+    }
+  },
+  "publishTargets": [
+    {
+      "platform": "toutiao",
+      "mode": "draft",
+      "status": "failed",
+      "publishedUrl": null,
+      "error": "_complete return future.result() ^^^^^^^^^^^^^^^ File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_connection.py\", line 268, in run_as_sync await self.run() File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_connection.py\", line 277, in run await self._transport.connect() File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_transport.py\", line 108, in connect raise exc File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_transport.py\", line 95, in connect self._proc = await asyncio.create_subprocess_exec( ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\subprocess.py\", line 224, in create_subprocess_exec transport, protocol = await loop.subprocess_exec( ^^^^^^^^^^^^^^^^^^^^^^^^^^^ File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\base_events.py\", line 1756, in subprocess_exec transport = await self._make_subprocess_trans",
+      "published": false
+    },
+    {
+      "platform": "baijiahao",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "zhihu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "sohu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "csdn",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    }
+  ]
+}

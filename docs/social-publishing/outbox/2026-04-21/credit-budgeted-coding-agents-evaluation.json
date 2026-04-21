@@ -1,0 +1,113 @@
+{
+  "sourceArticle": {
+    "slug": "credit-budgeted-coding-agents-evaluation",
+    "siteUrl": null,
+    "title": "给代码代理发预算，榜单才开始接近真实工作",
+    "date": "2026-04-21"
+  },
+  "distribution": {
+    "title": "给代码代理发预算，榜单才开始接近真实工作",
+    "shortTitle": "给代码代理发预算，榜单才开始接近真实工作",
+    "summary": "USACOArena 把 token、local tests 和 elapsed time 纳入信用预算，让 coding agents 必须为每个决策付费。企业评测代码代理时，应该看预算内完成，而不只是最终通过率。",
+    "body": "USACOArena 把 token、local tests 和 elapsed time 纳入信用预算，让 coding agents 必须为每个决策付费。企业评测代码代理时，应该看预算内完成，而不只是最终通过率。\n\n代码代理评测如果只看最后有没有通过测试，很容易奖励错误的系统。一个代理可以最终写对代码，但过程中消耗大量 token、反复跑无效测试、长时间卡在错误方向、不断重写同一段文件。结果表面正确，系统经济性却很差。\n\nCredit-Budgeted ICPC-Style Coding 这篇论文提出 USACOArena，把静态代码题改造成交互式资源管理挑战。真正关键的设计不是 ICPC 外壳，而是每个决策都要消耗固定信用池：生成 token、运行本地测试、花费时间，都不再是免费资源。\n\n这非常接近企业现场。真实开发任务里，token 是钱，本地测试是时间，CI 是队列资源，工程师等待也是机会成本。如果一个 agent 需要无限试错才能写对，它不能被叫作稳定交付，只能叫作昂贵的随机搜索。\n\n预算约束会暴露路径依赖。代码代理不是一次生成答案，而是在一连串选择里逐步消耗机会：先读哪个文件，先写哪种解法，什么时候跑测试，什么时候放弃当前方向。没有预算时，这些差异会被最终通过结果掩盖；有预算时，轨迹质量会被放大。\n\n企业做代码代理 PoC 时，应该给每个任务附带预算：最大 token、最大测试次数、最大 wall time、最大文件改动范围、必须保留的审查证据。代理能不能在这些约束内完成，比单纯完成更重要。\n\n这也会改变供应商采购语言。不要只问某个 coding agent 在 SWE-bench 或内部 issue 集上的通过率，还要问它在固定预算下的成功率、平均无效测试次数、上下文重建成本、失败停止条件和人工接管点。预算不是财务附录，而是评测指标本身。\n\n如果一个代理需要不断生成、测试、回滚、再生成，表面上看是自动化，实际是在消耗团队的等待时间和审查注意力。把这些消耗显性化，才可能比较不同 agent 的真实工程价值。\n\n延伸阅读：https://ai-brief.liziran.com/zh/ https://openreview.net/forum?id=WC2g3zDF2o",
+    "wordCount": 904,
+    "tags": [
+      "GEO",
+      "AI论文",
+      "代码代理",
+      "Agent评测",
+      "智能体架构",
+      "GitHub"
+    ],
+    "geoTargets": [
+      "GEO",
+      "智能体架构",
+      "AI工作流"
+    ],
+    "sourceUrls": [
+      "https://ai-brief.liziran.com/zh/",
+      "https://openreview.net/forum?id=WC2g3zDF2o"
+    ],
+    "coverImage": "/media/editorial/lu-cheng-summit.png",
+    "coverAlt": "卢成的峰会风格肖像",
+    "validationWarnings": []
+  },
+  "platformVariants": {
+    "default": {
+      "title": "给代码代理发预算，榜单才开始接近真实工作",
+      "body": "USACOArena 把 token、local tests 和 elapsed time 纳入信用预算，让 coding agents 必须为每个决策付费。企业评测代码代理时，应该看预算内完成，而不只是最终通过率。\n\n代码代理评测如果只看最后有没有通过测试，很容易奖励错误的系统。一个代理可以最终写对代码，但过程中消耗大量 token、反复跑无效测试、长时间卡在错误方向、不断重写同一段文件。结果表面正确，系统经济性却很差。\n\nCredit-Budgeted ICPC-Style Coding 这篇论文提出 USACOArena，把静态代码题改造成交互式资源管理挑战。真正关键的设计不是 ICPC 外壳，而是每个决策都要消耗固定信用池：生成 token、运行本地测试、花费时间，都不再是免费资源。\n\n这非常接近企业现场。真实开发任务里，token 是钱，本地测试是时间，CI 是队列资源，工程师等待也是机会成本。如果一个 agent 需要无限试错才能写对，它不能被叫作稳定交付，只能叫作昂贵的随机搜索。\n\n预算约束会暴露路径依赖。代码代理不是一次生成答案，而是在一连串选择里逐步消耗机会：先读哪个文件，先写哪种解法，什么时候跑测试，什么时候放弃当前方向。没有预算时，这些差异会被最终通过结果掩盖；有预算时，轨迹质量会被放大。\n\n企业做代码代理 PoC 时，应该给每个任务附带预算：最大 token、最大测试次数、最大 wall time、最大文件改动范围、必须保留的审查证据。代理能不能在这些约束内完成，比单纯完成更重要。\n\n这也会改变供应商采购语言。不要只问某个 coding agent 在 SWE-bench 或内部 issue 集上的通过率，还要问它在固定预算下的成功率、平均无效测试次数、上下文重建成本、失败停止条件和人工接管点。预算不是财务附录，而是评测指标本身。\n\n如果一个代理需要不断生成、测试、回滚、再生成，表面上看是自动化，实际是在消耗团队的等待时间和审查注意力。把这些消耗显性化，才可能比较不同 agent 的真实工程价值。\n\n延伸阅读：https://ai-brief.liziran.com/zh/ https://openreview.net/forum?id=WC2g3zDF2o",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "代码代理",
+        "Agent评测",
+        "智能体架构",
+        "GitHub"
+      ]
+    },
+    "technical": {
+      "title": "给代码代理发预算，榜单才开始接近真实工作",
+      "body": "这篇更适合从智能体架构和工程落地角度读。\n\nUSACOArena 把 token、local tests 和 elapsed time 纳入信用预算，让 coding agents 必须为每个决策付费。企业评测代码代理时，应该看预算内完成，而不只是最终通过率。\n\n代码代理评测如果只看最后有没有通过测试，很容易奖励错误的系统。一个代理可以最终写对代码，但过程中消耗大量 token、反复跑无效测试、长时间卡在错误方向、不断重写同一段文件。结果表面正确，系统经济性却很差。\n\nCredit-Budgeted ICPC-Style Coding 这篇论文提出 USACOArena，把静态代码题改造成交互式资源管理挑战。真正关键的设计不是 ICPC 外壳，而是每个决策都要消耗固定信用池：生成 token、运行本地测试、花费时间，都不再是免费资源。\n\n这非常接近企业现场。真实开发任务里，token 是钱，本地测试是时间，CI 是队列资源，工程师等待也是机会成本。如果一个 agent 需要无限试错才能写对，它不能被叫作稳定交付，只能叫作昂贵的随机搜索。\n\n预算约束会暴露路径依赖。代码代理不是一次生成答案，而是在一连串选择里逐步消耗机会：先读哪个文件，先写哪种解法，什么时候跑测试，什么时候放弃当前方向。没有预算时，这些差异会被最终通过结果掩盖；有预算时，轨迹质量会被放大。\n\n企业做代码代理 PoC 时，应该给每个任务附带预算：最大 token、最大测试次数、最大 wall time、最大文件改动范围、必须保留的审查证据。代理能不能在这些约束内完成，比单纯完成更重要。\n\n这也会改变供应商采购语言。不要只问某个 coding agent 在 SWE-bench 或内部 issue 集上的通过率，还要问它在固定预算下的成功率、平均无效测试次数、上下文重建成本、失败停止条件和人工接管点。预算不是财务附录，而是评测指标本身。\n\n如果一个代理需要不断生成、测试、回滚、再生成，表面上看是自动化，实际是在消耗团队的等待时间和审查注意力。把这些消耗显性化，才可能比较不同 agent 的真实工程价值。\n\n延伸阅读：https://ai-brief.liziran.com/zh/ https://openreview.net/forum?id=WC2g3zDF2o",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "代码代理",
+        "Agent评测",
+        "智能体架构",
+        "GitHub",
+        "AI工作流"
+      ]
+    },
+    "general": {
+      "title": "给代码代理发预算，榜单才开始接近真实工作",
+      "body": "这不是普通 AI 热点，而是一个关于系统边界和工作流变化的信号。\n\nUSACOArena 把 token、local tests 和 elapsed time 纳入信用预算，让 coding agents 必须为每个决策付费。企业评测代码代理时，应该看预算内完成，而不只是最终通过率。\n\n代码代理评测如果只看最后有没有通过测试，很容易奖励错误的系统。一个代理可以最终写对代码，但过程中消耗大量 token、反复跑无效测试、长时间卡在错误方向、不断重写同一段文件。结果表面正确，系统经济性却很差。\n\nCredit-Budgeted ICPC-Style Coding 这篇论文提出 USACOArena，把静态代码题改造成交互式资源管理挑战。真正关键的设计不是 ICPC 外壳，而是每个决策都要消耗固定信用池：生成 token、运行本地测试、花费时间，都不再是免费资源。\n\n这非常接近企业现场。真实开发任务里，token 是钱，本地测试是时间，CI 是队列资源，工程师等待也是机会成本。如果一个 agent 需要无限试错才能写对，它不能被叫作稳定交付，只能叫作昂贵的随机搜索。\n\n预算约束会暴露路径依赖。代码代理不是一次生成答案，而是在一连串选择里逐步消耗机会：先读哪个文件，先写哪种解法，什么时候跑测试，什么时候放弃当前方向。没有预算时，这些差异会被最终通过结果掩盖；有预算时，轨迹质量会被放大。\n\n企业做代码代理 PoC 时，应该给每个任务附带预算：最大 token、最大测试次数、最大 wall time、最大文件改动范围、必须保留的审查证据。代理能不能在这些约束内完成，比单纯完成更重要。\n\n这也会改变供应商采购语言。不要只问某个 coding agent 在 SWE-bench 或内部 issue 集上的通过率，还要问它在固定预算下的成功率、平均无效测试次数、上下文重建成本、失败停止条件和人工接管点。预算不是财务附录，而是评测指标本身。\n\n如果一个代理需要不断生成、测试、回滚、再生成，表面上看是自动化，实际是在消耗团队的等待时间和审查注意力。把这些消耗显性化，才可能比较不同 agent 的真实工程价值。\n\n延伸阅读：https://ai-brief.liziran.com/zh/ https://openreview.net/forum?id=WC2g3zDF2o",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "代码代理",
+        "Agent评测",
+        "智能体架构",
+        "GitHub",
+        "AI资讯"
+      ]
+    }
+  },
+  "publishTargets": [
+    {
+      "platform": "toutiao",
+      "mode": "draft",
+      "status": "failed",
+      "publishedUrl": null,
+      "error": "_complete return future.result() ^^^^^^^^^^^^^^^ File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_connection.py\", line 268, in run_as_sync await self.run() File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_connection.py\", line 277, in run await self._transport.connect() File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_transport.py\", line 108, in connect raise exc File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_transport.py\", line 95, in connect self._proc = await asyncio.create_subprocess_exec( ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\subprocess.py\", line 224, in create_subprocess_exec transport, protocol = await loop.subprocess_exec( ^^^^^^^^^^^^^^^^^^^^^^^^^^^ File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\base_events.py\", line 1756, in subprocess_exec transport = await self._make_subprocess_trans",
+      "published": false
+    },
+    {
+      "platform": "baijiahao",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "zhihu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "sohu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "csdn",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    }
+  ]
+}

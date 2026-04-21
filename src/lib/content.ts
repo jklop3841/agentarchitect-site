@@ -1,3 +1,5 @@
+import { dailyArticles20260421 } from "./daily-articles-2026-04-21";
+
 export type ArticleEntry = {
   slug: string;
   title: string;
@@ -57,6 +59,263 @@ export const authorProfile = {
 };
 
 export const articles: ArticleEntry[] = [
+  ...dailyArticles20260421,
+  {
+    slug: "linux-ai-code-policy-human-signoff",
+    title: "Linux 给 AI 代码划线：可以辅助，但不能替人负责",
+    titleEn: "Linux draws the line for AI code: assistance is allowed, ownership is not outsourced",
+    subtitle: "内核项目新文档不是反 AI，而是把代码代理重新放回责任、签名、许可和审查链路里",
+    subtitleEn:
+      "The kernel's new AI coding assistant guidance is less anti-AI than pro-accountability: signatures, licensing, review, and human ownership still define the boundary.",
+    date: "2026-04-20",
+    readTime: "12 分钟",
+    tags: ["代码代理", "GitHub", "智能体架构", "AI工作流", "AI资讯"],
+    excerpt:
+      "Linux 内核允许 AI 辅助贡献，但明确禁止 AI 添加 Signed-off-by，要求人类提交者审查、保证许可合规并承担全部责任。这是代码代理进入关键基础设施后最值得看的边界样本。",
+    excerptEn:
+      "The Linux kernel now allows AI-assisted contributions while keeping Signed-off-by, licensing, review, and full responsibility with humans. It is a useful boundary sample for coding agents in critical infrastructure.",
+    summary: [
+      "Linux 7.0 文档新增 AI Coding Assistants 指南，允许 AI 辅助但不承认 AI 可以签署 DCO。",
+      "真正的重点不是“AI 能不能写代码”，而是提交、许可、审查、署名和责任链必须仍由人类承担。",
+      "对企业代码代理来说，这更像一份架构样板：自动化可以进入流程，责任不能被自动化。",
+    ],
+    summaryEn: [
+      "Linux 7.0 documentation adds AI Coding Assistants guidance for kernel contributors.",
+      "The key boundary is not whether AI can write code, but who owns review, licensing, sign-off, and responsibility.",
+      "For enterprise coding agents, this is an architecture pattern: automation may enter the workflow, accountability cannot be automated away.",
+    ],
+    coverImage: "/media/editorial/lu-cheng-screen.png",
+    coverAlt: "卢成在系统大屏前讲解架构",
+    sections: [
+      {
+        heading: "这不是 Linux 拥抱 AI 的胜利新闻",
+        paragraphs: [
+          "很多人看到 Linux 内核新增 AI Coding Assistants 文档，会急着把它解读成“Linux 终于接受 AI 代码”。这个角度太浅了。真正有价值的不是内核项目是否允许 Copilot、Claude 或其他工具辅助写代码，而是它把 AI 代码重新放回了一个非常传统、非常硬的工程责任链里。",
+          "内核文档说得很清楚：AI 工具可以帮助开发，但必须遵守标准内核开发流程、编码风格、补丁提交规则和许可证要求。换句话说，AI 不是被授予一个新身份，而是被归类为一种工具。工具可以提升效率，但不能获得作者身份，不能替人签字，也不能替人承担法律和技术责任。",
+        ],
+      },
+      {
+        heading: "Signed-off-by 是智能体边界，不是格式细节",
+        paragraphs: [
+          "最关键的一句是：AI agents 不得添加 Signed-off-by。只有人类才能认证 Developer Certificate of Origin。对很多做产品的人来说，这可能只是一个开源流程里的标签；对智能体架构来说，它是边界本身。",
+          "Signed-off-by 不是“谁敲了键盘”的记录，而是“谁愿意为这段贡献负责”的记录。代码代理可以生成 patch，可以建议重构，可以解释 bug，但一旦进入内核这种关键基础设施，最后的责任点必须回到一个可以被追问、被审查、被拒绝、被追责的人身上。",
+        ],
+      },
+      {
+        heading: "Assisted-by 才是 AI 在工程系统里的合理位置",
+        paragraphs: [
+          "Linux 文档给 AI 留的位置是 Assisted-by，而不是 Author，也不是 Signed-off-by。这个设计非常值得企业照抄。它承认 AI 参与了工作，同时不让 AI 抢走责任锚点。参与痕迹要记录，责任主体要分开。",
+          "这比很多企业现在的 AI 编程试点成熟得多。很多团队把 AI 生成代码直接塞进 PR，最多在描述里写一句“用了 AI”。这不够。真正可治理的做法应该把模型、版本、工具和辅助范围变成元数据，让 reviewer 能判断风险，也让后续追溯有据可查。",
+        ],
+      },
+      {
+        heading: "代码代理进入基础设施后，问题会从能力变成治理",
+        paragraphs: [
+          "当 AI 只是帮你写一个内部脚本时，团队还能靠默认信任和人工补救撑过去。但当它进入内核、支付、医疗、生产系统、企业权限层，问题就会完全变形：不是它会不会写，而是它写出的东西谁检查、谁签名、谁证明许可证没有问题、谁为漏洞和回归负责。",
+          "这正是我反复说的，代码代理的竞争不在“生成速度”这一层。真正决定能不能长期用的，是它能否被放进责任链里：生成只是一个节点，后面还有 diff、测试、审查、签名、合规、发布和回退。",
+        ],
+      },
+      {
+        heading: "来源与延伸阅读",
+        paragraphs: [
+          "AI 资讯速览只作为选题雷达：https://ai-digest.liziran.com/zh/ 。主要核验来源包括 Linux Kernel 官方文档 AI Coding Assistants：https://docs.kernel.org/process/coding-assistants.html ，以及 torvalds/linux 仓库中的 Documentation/process/coding-assistants.rst：https://github.com/torvalds/linux/blob/master/Documentation/process/coding-assistants.rst 。",
+          "我没有把这些来源改写成中文摘要，而是把它们作为边界样本来读：AI 辅助可以进入工作流，但 DCO、许可合规、补丁理解和最终责任仍然属于人类提交者。",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "claude-code-cache-ttl-cost-boundary",
+    title: "Claude Code 缓存争议提醒我们：Agent 成本不是模型价格，而是工作流寿命",
+    titleEn: "The Claude Code cache dispute shows agent cost is workflow lifetime, not model price",
+    subtitle: "一次 5 分钟与 1 小时 TTL 的差异，暴露了代码代理真正昂贵的地方：长任务、子代理、上下文复用和不可见的默认值",
+    subtitleEn:
+      "The difference between 5-minute and 1-hour cache TTLs exposes where coding agents become expensive: long tasks, sub-agents, context reuse, and invisible defaults.",
+    date: "2026-04-20",
+    readTime: "13 分钟",
+    tags: ["代码代理", "AI工作流", "智能体架构", "Agent评测", "AI资讯"],
+    excerpt:
+      "围绕 Claude Code 缓存 TTL 的社区数据并不只是一次账单抱怨。它提醒所有做 Agent 系统的人：长任务的经济性取决于上下文能活多久、在哪个节点失效、默认值是否可见。",
+    excerptEn:
+      "The Claude Code cache TTL dispute is more than a billing complaint. It reminds agent builders that long-task economics depend on context lifetime, invalidation points, and visible defaults.",
+    summary: [
+      "Anthropic 文档显示 prompt caching 有 5 分钟和 1 小时两种 TTL，1 小时更适合超过 5 分钟的 agentic side-agent 或长对话场景。",
+      "社区 GitHub issue 用 119,866 次 API 调用记录指出 Claude Code 曾出现 1 小时到 5 分钟的缓存行为变化，并引发配额与成本争议。",
+      "对 Agent 架构来说，这件事的重点不是责怪某家公司，而是把缓存、子代理、上下文复用和成本监控纳入系统设计。",
+    ],
+    summaryEn: [
+      "Anthropic documents both 5-minute and 1-hour prompt cache TTLs, with 1-hour caching fitting side-agents and longer conversations.",
+      "A community GitHub issue analyzed 119,866 API calls and alleged a Claude Code cache behavior shift that inflated quota and cost.",
+      "For agent architecture, the lesson is to design caching, sub-agent boundaries, context reuse, and cost observability as first-class system concerns.",
+    ],
+    coverImage: "/media/editorial/lu-cheng-keynote.png",
+    coverAlt: "卢成在演讲现场展示系统观点",
+    sections: [
+      {
+        heading: "Agent 的账单问题，往往不是单价问题",
+        paragraphs: [
+          "很多人评估代码代理成本，只看模型每百万 token 多少钱。这种算法在聊天机器人时代还勉强够用，但到了 coding agent 和 sub-agent 工作流里就会失真。真正决定成本的不是一次调用有多贵，而是同一份上下文能否被复用、能活多久、什么时候被重新写入缓存。",
+          "Claude Code 最近围绕缓存 TTL 的争议，正好把这个问题暴露出来。社区 issue 指出，某些 Claude Code 会话里的 cache_creation 从 1 小时行为转向 5 分钟行为，导致长会话里上下文更频繁地重新写入。无论这是不是产品有意策略，它都说明一个事实：Agent 经济性藏在系统默认值里，不只藏在公开价格表里。",
+        ],
+      },
+      {
+        heading: "5 分钟和 1 小时，不是小参数",
+        paragraphs: [
+          "Anthropic 的 prompt caching 文档本身就把场景说得很明白。5 分钟缓存适合高频重复的系统提示；1 小时缓存适合可能超过 5 分钟才继续的场景，例如 agentic side-agent、长对话、较长文档和需要跨步骤保留上下文的任务。",
+          "这正是代码代理的典型工作方式。它不是一次问答，而是读仓库、开分支、跑测试、遇到错误、搜索文件、再修复、再验证。中间任何一步超过 5 分钟都很正常。如果缓存寿命和任务寿命不匹配，系统就会把本来应该是 cache read 的东西变成 cache write，成本和配额都会被重新计算。",
+        ],
+      },
+      {
+        heading: "子代理让成本边界更难看见",
+        paragraphs: [
+          "这类争议最值得注意的地方，是它涉及 sub-agent。很多人把子代理理解成“并行更快”，但从成本架构看，子代理也是上下文复制、缓存断裂和观察盲区的高发点。一个主代理看起来很省，多个子代理可能在后台重复写入相似上下文。",
+          "所以我一直不喜欢只用“多 Agent 很酷”来讲系统。多 Agent 真正要设计的是边界：哪些上下文共享，哪些上下文隔离，哪些工具可以复用，哪些缓存必须可见，哪些任务超过阈值就要换执行策略。没有这些设计，并行只是把账单也并行放大。",
+        ],
+      },
+      {
+        heading: "企业不该等账单爆了才做观测",
+        paragraphs: [
+          "这件事对企业最直接的启发，是不要把模型供应商的默认行为当成稳定基础设施。缓存 TTL、上下文压缩、子代理策略、工具调用重试、失败后的回放，这些都会改变真实成本。只看月度总账单，等发现问题时已经太晚。",
+          "Agent 系统应该从第一天就记录：每个任务用了多少输入、多少输出、多少缓存写入、多少缓存读取、哪些步骤触发重试、哪些子代理复制了上下文。没有这些观测，你无法判断一个工作流是因为模型贵，还是因为架构浪费。",
+        ],
+      },
+      {
+        heading: "来源与延伸阅读",
+        paragraphs: [
+          "AI 资讯速览只作为选题雷达：https://ai-digest.liziran.com/zh/ 。主要核验来源包括 Anthropic/Claude API Prompt caching 文档：https://platform.claude.com/docs/en/build-with-claude/prompt-caching ，以及 anthropics/claude-code GitHub issue #46829：https://github.com/anthropics/claude-code/issues/46829 。",
+          "我把 GitHub issue 视为社区可复核证据而非官方结论：它提供了调用日志、时间窗口和成本测算；官方文档则提供了 5 分钟与 1 小时 TTL 的设计语义。文章关注的是 Agent 成本架构，而不是复述争议本身。",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "entropy-guided-branching-agent-tool-routing",
+    title: "工具越多，Agent 越需要知道在哪里犹豫",
+    titleEn: "The more tools an agent has, the more it must know where to hesitate",
+    subtitle: "Entropy-Guided Branching 把大规模工具库问题从“选对一个工具”推进到“把搜索预算花在真正不确定的步骤上”",
+    subtitleEn:
+      "Entropy-Guided Branching reframes large tool libraries from picking the right tool once to spending search budget where uncertainty is actually high.",
+    date: "2026-04-20",
+    readTime: "14 分钟",
+    tags: ["AI论文", "工具协议", "智能体架构", "Agent评测", "AI工作流"],
+    excerpt:
+      "Amazon 实习期间完成的 EGB/SLATE 论文提醒我们，大工具库里的 Agent 失败不只是模型不聪明，而是计划级搜索、执行反馈和预算分配没有被当成一等公民。",
+    excerptEn:
+      "The EGB/SLATE paper completed during an Amazon internship suggests large tool-space failures are not just model failures; they are planning, feedback, and budget-allocation failures.",
+    summary: [
+      "论文提出 SLATE，用大规模电商 API 工具库评估长程工具执行，不再只看单步工具选择。",
+      "Entropy-Guided Branching 用预测熵决定在哪些失败轨迹节点展开搜索，把预算花在高不确定步骤。",
+      "这对企业 Agent 很关键：工具数量越多，越不能把路由简化成 top-1 调用，而要设计计划级回放和分支策略。",
+    ],
+    summaryEn: [
+      "The paper introduces SLATE, a large-scale e-commerce API benchmark for long-horizon tool execution.",
+      "Entropy-Guided Branching uses predictive entropy to decide where to branch along failed traces.",
+      "For enterprise agents, large tool catalogs require plan-level replay and branching, not just top-1 tool routing.",
+    ],
+    coverImage: "/media/editorial/hero-stage.png",
+    coverAlt: "米色舞台与弧形结构背景",
+    sections: [
+      {
+        heading: "工具库扩张会让 Agent 变笨，而不是自动变强",
+        paragraphs: [
+          "企业做 Agent 最常见的误判，是以为接入更多工具就等于能力更强。CRM、工单、知识库、邮件、数据库、审批、BI、代码仓库全都接上，看起来像一个强大的企业智能体。问题是，工具越多，选择空间越大，错误路径也越多。",
+          "《Long-Horizon Plan Execution in Large Tool Spaces through Entropy-Guided Branching》这篇论文最有价值的地方，是它没有把问题停留在“模型会不会调用工具”。它问的是：当工具库很大、任务很长、有效路径不止一条时，Agent 怎样知道哪里该快速推进，哪里该停下来多探索几条路。",
+        ],
+      },
+      {
+        heading: "SLATE 重要在计划级，而不是又一个榜单",
+        paragraphs: [
+          "论文提出 SLATE，一个面向电商场景的大规模 API 工具库基准。这里的重点不是电商本身，而是它把任务设计成长期执行、上下文相关、多个工具连续调用，并且允许不同但功能等价的执行路径。",
+          "这比很多单步 tool-use benchmark 更接近真实企业系统。真实流程里，一个 Agent 不只是“选对工具”，还要在前一步输出影响后一步输入的链条里持续修正。只看单步准确率，很容易把会猜工具的模型误判成会完成任务的系统。",
+        ],
+      },
+      {
+        heading: "预测熵是犹豫的信号",
+        paragraphs: [
+          "Entropy-Guided Branching 的思路很朴素：如果一条轨迹失败，不要平均地到处展开搜索，也不要只在最后一步补救，而是回看过程中哪些节点的预测分布最不确定。熵高的地方，说明模型本来就没有把握；搜索预算应该优先花在那里。",
+          "这和人类工程判断很像。一个流程失败后，靠谱的工程师不会把每一步都重做一遍，而会问：哪一步当时判断最模糊，哪一步工具选择最像猜的，哪一步参数最可能分叉。EGB 把这种诊断变成了可执行算法。",
+        ],
+      },
+      {
+        heading: "Agent 架构要有回放，而不是只会重试",
+        paragraphs: [
+          "很多生产 Agent 的重试机制非常粗糙：失败了就再问一次模型，或者把错误贴回上下文让它自己修。这样当然偶尔有效，但在大工具库和长任务里，它更像赌运气。真正有价值的是把失败轨迹记录下来，知道每一步的候选、置信、工具返回和后续影响。",
+          "一旦有了这种执行日志，系统就可以做计划级回放：从高不确定节点分支，而不是从头重跑；在低不确定节点直接复用，而不是浪费 token；把搜索预算变成架构参数，而不是模型临场发挥。",
+        ],
+      },
+      {
+        heading: "来源与延伸阅读",
+        paragraphs: [
+          "AI 论文简报只作为选题雷达：https://ai-brief.liziran.com/zh/ 。主要核验来源为 arXiv 论文《Long-Horizon Plan Execution in Large Tool Spaces through Entropy-Guided Branching》：https://arxiv.org/abs/2604.12126 。该论文 2026-04-13 提交，作者包括 Rongzhe Wei、Ge Shi、Min Cheng、Na Zhang、Pan Li、Sarthak Ghosh、Vaibhav Gorde、Leman Akoglu，并注明工作完成于 Amazon internship。",
+          "本文没有复述论文摘要，而是从 Agent 架构角度提炼一个判断：大规模工具系统的核心不只是工具发现，还包括计划级评估、失败轨迹、搜索预算和不确定性路由。",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "canaryrag-rag-runtime-boundaries",
+    title: "RAG 不是把知识塞给模型，而是要知道知识什么时候泄漏",
+    titleEn: "RAG is not just feeding knowledge to a model; it must know when knowledge leaks",
+    subtitle: "CanaryRAG 把软件安全里的 canary 思路搬进检索增强生成，提醒企业知识库需要运行时完整性，而不只是更长的系统提示词",
+    subtitleEn:
+      "CanaryRAG brings software-security canaries into retrieval-augmented generation, showing enterprise knowledge bases need runtime integrity, not longer system prompts.",
+    date: "2026-04-20",
+    readTime: "13 分钟",
+    tags: ["AI论文", "RAG", "智能体架构", "Agent评测", "AI工作流"],
+    excerpt:
+      "CanaryRAG 的启发不在于多一个防御技巧，而在于它把 RAG 安全从静态规则推进到运行时检测：知识被取出来以后，系统还要知道它有没有被异常带出去。",
+    excerptEn:
+      "CanaryRAG matters less as one more defense trick and more as a shift from static RAG rules to runtime detection: once knowledge is retrieved, the system must know whether it leaks.",
+    summary: [
+      "论文指出 RAG 会带来知识库泄漏风险，攻击者可通过自适应提示诱导模型吐出检索到的专有内容。",
+      "CanaryRAG 在检索块中嵌入 canary tokens，并用目标路径与 oracle 路径构成运行时完整性检测。",
+      "企业做 RAG 时不能只靠 system prompt 禁止泄漏，而要设计检索边界、输出监控、告警和可回滚的运行时防线。",
+    ],
+    summaryEn: [
+      "The paper frames RAG knowledge-base leakage as an adaptive extraction problem.",
+      "CanaryRAG embeds canary tokens in retrieved chunks and checks target/oracle paths for runtime integrity violations.",
+      "Enterprise RAG needs retrieval boundaries, output monitoring, alerts, and rollback, not just stronger system prompts.",
+    ],
+    coverImage: "/media/editorial/lu-cheng-workshop.png",
+    coverAlt: "卢成在白板前讲解方案",
+    sections: [
+      {
+        heading: "RAG 的风险不是幻觉，还是泄漏",
+        paragraphs: [
+          "很多团队谈 RAG，只谈两个指标：能不能答对，能不能少幻觉。这当然重要，但不够。企业知识库一旦接进模型，另一个问题同样关键：模型为了答一个问题检索到了内部内容，这些内容会不会被用户通过提示诱导原样吐出来。",
+          "《Detecting RAG Extraction Attack via Dual-Path Runtime Integrity Game》这篇论文把这个问题叫作 RAG Knowledge Base Leakage。它提醒我们，RAG 不是简单地把私有知识塞进上下文，而是在每次检索时都临时扩大了模型可见的秘密边界。",
+        ],
+      },
+      {
+        heading: "系统提示词不是边界",
+        paragraphs: [
+          "很多企业的第一反应，是在 system prompt 里写“不要泄漏内部资料”。这句话不是没有用，但它不是边界。攻击者可以迭代，可以绕过，可以让模型复述上下文，可以用多轮对话逼近原文。只靠一句禁止泄漏，本质上是在让模型自己保护它刚刚被喂进去的秘密。",
+          "CanaryRAG 的思路更工程化：在检索到的 chunk 里嵌入非语义 canary token，然后监控模型输出。如果目标路径里出现这些 token，说明模型正在异常暴露检索内容；如果 oracle 路径在应当暴露时反而不暴露，也可能说明存在对抗性抑制。它不是只相信模型会守规矩，而是给系统加了运行时探针。",
+        ],
+      },
+      {
+        heading: "真正重要的是运行时完整性",
+        paragraphs: [
+          "这篇论文最值得借鉴的地方，不是 canary token 这个点子本身，而是它把 RAG 防御从静态规则推进到运行时完整性。软件安全里，很多防线不是为了让漏洞永远不存在，而是为了在异常发生时尽早发现、阻断、告警和留证。",
+          "RAG 也应该这样设计。检索器把知识拿出来，生成器开始写答案，输出流每一步都可能泄漏。系统不能等回答完成后才人工抽查，而应该在 token 流里监测异常信号，在攻击还没完成时切断输出。",
+        ],
+      },
+      {
+        heading: "企业知识库需要的是分层防线",
+        paragraphs: [
+          "CanaryRAG 自称 plug-and-play，这对落地很有吸引力。但企业不该因此误以为一个 canary 层就能解决全部 RAG 安全问题。真正的架构应该是分层的：检索前有权限过滤，检索时有最小必要原则，生成时有输出监控，异常时有告警和审计，事后还能回放是哪条 chunk 被取出、哪次请求触发了泄漏风险。",
+          "这也是智能体架构和普通应用接模型的差别。普通应用关心“能不能回答”；智能体架构必须关心“回答用到了什么、越过了什么边界、能不能被追踪、出事后能不能定位”。没有这些，RAG 只是把企业内部资料换了一种方式暴露给外部输入。",
+        ],
+      },
+      {
+        heading: "来源与延伸阅读",
+        paragraphs: [
+          "AI 论文简报只作为选题雷达：https://ai-brief.liziran.com/zh/ 。主要核验来源为 arXiv 论文《Detecting RAG Extraction Attack via Dual-Path Runtime Integrity Game》：https://arxiv.org/abs/2604.10717 。该论文 2026-04-12 提交，备注为 ACL 2026 Main accepted。",
+          "本文没有照搬论文结构，而是把 CanaryRAG 放回企业 RAG 架构中解读：它的真正价值是让知识库安全从“提示词声明”转向“运行时可观测、可阻断、可追踪”。",
+        ],
+      },
+    ],
+  },
   {
     slug: "coding-agents-left-chatbox",
     title: "代码代理已经从聊天框走出来：真正的战场在仓库里",
