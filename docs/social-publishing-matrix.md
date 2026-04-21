@@ -13,7 +13,7 @@
 1. 内容生成层：每天抓 `AI 资讯速览`、`AI 论文简报` 做选题雷达，再独立查官方/论文/项目源。
 2. 主站发布层：写入网站 `src/lib/content.ts`，保留完整文章、来源和标签。
 3. 分发适配层：把同一篇文章转成不同平台需要的标题、正文、标签、封面和格式。
-4. 平台发布层：每个平台一个 adapter，用 Playwright / Cookie / 持久浏览器会话发布。
+4. 平台发布层：第一版优先走 Wechatsync 草稿同步，Playwright 只作为后续补位 adapter。
 5. 审计层：记录发布状态、失败原因、URL、是否需要人工补发。
 
 ## 平台分级
@@ -119,7 +119,7 @@
 
 ## 第一阶段可落地范围
 
-建议先做 5 个平台：
+当前第一版采用 Wechatsync 优先，不做全平台最终发布。建议先做 6 个外部草稿平台：
 
 1. 网站。
 2. 头条号。
@@ -127,8 +127,9 @@
 4. 知乎。
 5. 搜狐号。
 6. CSDN。
+7. 稀土掘金。
 
-这 6 个足够形成搜索/生态/私域基础覆盖。
+网站仍然全自动 build + commit + push；外部平台默认只同步草稿并写入 `distribution-report.json`。
 
 第二阶段再接：
 
@@ -156,8 +157,9 @@
 
 ## 推荐下一步
 
-1. 修复 `toutiao-publisher` 依赖，让头条号先跑通。
-2. 为百家号、知乎、搜狐号、CSDN 做统一发布 adapter。
-3. 新建 `docs/social-publishing/accounts.json`，把 Excel 平台矩阵转成机器可读配置。
-4. 修改每日文章自动化：主站发布成功后生成 `900-1500` 字平台分发稿。
-5. 先以草稿模式同步 5-6 个平台，确认登录和选择器稳定后再打开自动发布。
+1. 运行 `python scripts/generate_accounts_from_matrix.py`，把 Excel 平台矩阵转成不含 cookie/token/password 的机器配置。
+2. 运行 `python scripts/export_article_for_distribution.py --slug <slug> --date <YYYY-MM-DD>`，生成 `article.md`、`article.json` 和平台分发 JSON。
+3. 安装并配置 Wechatsync CLI/扩展，设置本机 `WECHATSYNC_TOKEN`。
+4. 运行 `python scripts/check_distribution_auth.py` 做登录态预检。
+5. 运行 `python scripts/run_distribution.py --date <YYYY-MM-DD> --mode draft`，只同步草稿并生成分发报告。
+6. 连续试运行 3-7 天，观察失败率，再决定是否给低风险平台打开最终发布开关。

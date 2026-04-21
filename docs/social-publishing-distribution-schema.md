@@ -67,6 +67,26 @@
   - `manual`
 - 第一阶段默认使用 `draft`。
 
+`publishTargets[].status` 常用值：
+
+- `pending`
+- `success`
+- `failed`
+- `skipped`
+- `setup_required`
+- `needs_login`
+
+`distribution-report.json` 额外记录：
+
+- `platform`
+- `targetAccount`
+- `mode`
+- `status`
+- `draftUrl`
+- `error`
+- `timestamp`
+- `sourceArticleSlug`
+
 ## 平台标题限制
 
 - 头条号标题建议 `2-30` 字。

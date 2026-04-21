@@ -69,17 +69,19 @@ def build_variant_body(body: str, summary: str, source_urls: list[str], flavor: 
 
     if source_urls:
         source_line = "延伸阅读：" + " ".join(source_urls[:3])
-        body = compact_whitespace(f"{body}\n\n{source_line}")
+        with_sources = compact_whitespace(f"{body}\n\n{source_line}")
+        if chinese_length(with_sources) <= MAX_CHARS:
+            body = with_sources
 
     if flavor == "technical":
         prefix = "这篇更适合从智能体架构和工程落地角度读。\n\n"
-        return compact_whitespace(prefix + body)
+        return truncate_at_paragraph(compact_whitespace(prefix + body))
 
     if flavor == "general":
         prefix = "这不是普通 AI 热点，而是一个关于系统边界和工作流变化的信号。\n\n"
-        return compact_whitespace(prefix + body)
+        return truncate_at_paragraph(compact_whitespace(prefix + body))
 
-    return body
+    return truncate_at_paragraph(body)
 
 
 def normalize_article(raw: dict[str, Any]) -> dict[str, Any]:

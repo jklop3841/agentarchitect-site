@@ -1,0 +1,222 @@
+{
+  "date": "2026-04-21",
+  "mode": "draft",
+  "dryRun": false,
+  "tool": "wechatsync",
+  "cliPath": null,
+  "tokenPresent": false,
+  "startedAt": "2026-04-21T11:52:45+08:00",
+  "results": [
+    {
+      "platform": "csdn",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "microsoft-copilot-entry-point-retreat"
+    },
+    {
+      "platform": "juejin",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "microsoft-copilot-entry-point-retreat"
+    },
+    {
+      "platform": "toutiao",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "microsoft-copilot-entry-point-retreat"
+    },
+    {
+      "platform": "baijiahao",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "microsoft-copilot-entry-point-retreat"
+    },
+    {
+      "platform": "zhihu",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "microsoft-copilot-entry-point-retreat"
+    },
+    {
+      "platform": "sohu",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "microsoft-copilot-entry-point-retreat"
+    },
+    {
+      "platform": "csdn",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "clawsbench-productivity-agent-scaffolding"
+    },
+    {
+      "platform": "juejin",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "clawsbench-productivity-agent-scaffolding"
+    },
+    {
+      "platform": "toutiao",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "clawsbench-productivity-agent-scaffolding"
+    },
+    {
+      "platform": "baijiahao",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "clawsbench-productivity-agent-scaffolding"
+    },
+    {
+      "platform": "zhihu",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "clawsbench-productivity-agent-scaffolding"
+    },
+    {
+      "platform": "sohu",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "setup_required",
+      "draftUrl": null,
+      "error": "wechatsync CLI is not installed or not on PATH",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "clawsbench-productivity-agent-scaffolding"
+    },
+    {
+      "platform": "wechat",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "manual",
+      "status": "skipped",
+      "draftUrl": null,
+      "error": "manual-only platform",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "*"
+    },
+    {
+      "platform": "qqmedia",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "skipped",
+      "draftUrl": null,
+      "error": "future adapter not enabled in v1",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "*"
+    },
+    {
+      "platform": "weibo",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "skipped",
+      "draftUrl": null,
+      "error": "future adapter not enabled in v1",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "*"
+    },
+    {
+      "platform": "tencentcloud",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "skipped",
+      "draftUrl": null,
+      "error": "future adapter not enabled in v1",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "*"
+    },
+    {
+      "platform": "aliyun",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "skipped",
+      "draftUrl": null,
+      "error": "future adapter not enabled in v1",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "*"
+    },
+    {
+      "platform": "segmentfault",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "skipped",
+      "draftUrl": null,
+      "error": "future adapter not enabled in v1",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "*"
+    },
+    {
+      "platform": "cnblogs",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "skipped",
+      "draftUrl": null,
+      "error": "future adapter not enabled in v1",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "*"
+    },
+    {
+      "platform": "docin",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "skipped",
+      "draftUrl": null,
+      "error": "future adapter not enabled in v1",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "*"
+    },
+    {
+      "platform": "elecfans",
+      "targetAccount": "智能体架构师卢成",
+      "mode": "draft",
+      "status": "skipped",
+      "draftUrl": null,
+      "error": "future adapter not enabled in v1",
+      "timestamp": "2026-04-21T11:52:45+08:00",
+      "sourceArticleSlug": "*"
+    }
+  ],
+  "finishedAt": "2026-04-21T11:52:45+08:00"
+}

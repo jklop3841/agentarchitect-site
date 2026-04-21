@@ -11,4 +11,6 @@ coverage
 tmp/
 __pycache__/
 *.pyc
+docs/social-publishing/reports/
+docs/social-publishing/outbox/*/wechatsync-input/
 *.tsbuildinfo
