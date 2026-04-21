@@ -1,4 +1,5 @@
 import { dailyArticles20260421 } from "./daily-articles-2026-04-21";
+import { uploadTestArticles20260421 } from "./upload-test-articles-2026-04-21";
 
 export type ArticleEntry = {
   slug: string;
@@ -59,6 +60,7 @@ export const authorProfile = {
 };
 
 export const articles: ArticleEntry[] = [
+  ...uploadTestArticles20260421,
   ...dailyArticles20260421,
   {
     slug: "linux-ai-code-policy-human-signoff",
