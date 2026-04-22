@@ -131,7 +131,7 @@ def main() -> None:
                     report["results"].append(status_entry(platform, accounts.get(platform), slug, "setup_required", missing_setup))
                 continue
 
-            command = ["wechatsync", "sync", str(md_path), "-p", ",".join(batch_platforms)]
+            command = [cli_path, "sync", str(md_path), "--platforms", ",".join(batch_platforms)]
             if args.dry_run:
                 for platform in batch_platforms:
                     entry = status_entry(platform, accounts.get(platform), slug, "skipped", "dry-run")

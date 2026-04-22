@@ -15,6 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ACCOUNTS = ROOT / "docs" / "social-publishing" / "accounts.generated.json"
 DEFAULT_REPORT_DIR = ROOT / "docs" / "social-publishing" / "reports"
+FAILURE_MARKERS = ("Invalid or missing token", "获取失败", "连接超时", "×")
 
 
 def load_accounts(path: Path) -> dict:
@@ -66,7 +67,7 @@ def main() -> None:
             target["error"] = reason
     else:
         completed = subprocess.run(
-            report["command"],
+            [cli_path, "platforms", "--auth"],
             cwd=ROOT,
             text=True,
             capture_output=True,
@@ -76,10 +77,12 @@ def main() -> None:
         report["stdout"] = completed.stdout
         report["stderr"] = completed.stderr
         report["returncode"] = completed.returncode
-        report["status"] = "success" if completed.returncode == 0 else "failed"
+        combined_output = f"{completed.stdout}\n{completed.stderr}"
+        output_has_failure = any(marker in combined_output for marker in FAILURE_MARKERS)
+        report["status"] = "success" if completed.returncode == 0 and not output_has_failure else "failed"
         for target in report["targets"]:
-            target["status"] = "unknown" if completed.returncode == 0 else "failed"
-            target["error"] = None if completed.returncode == 0 else (completed.stderr or completed.stdout)
+            target["status"] = "unknown" if report["status"] == "success" else "failed"
+            target["error"] = None if report["status"] == "success" else (completed.stderr or completed.stdout)
 
     output = args.output
     if not output:
