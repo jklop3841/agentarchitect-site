@@ -10,6 +10,7 @@ import shutil
 import subprocess
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +19,19 @@ DEFAULT_REPORT_DIR = ROOT / "docs" / "social-publishing" / "reports"
 FAILURE_MARKERS = ("Invalid or missing token", "获取失败", "连接超时", "×")
 
 
-def load_accounts(path: Path) -> dict:
+def platform_status(stdout: str, platform: str) -> tuple[str, str | None]:
+    for line in stdout.splitlines():
+        stripped = line.strip()
+        if not stripped.startswith(platform):
+            continue
+        if "✓ 已登录" in stripped:
+            return "success", None
+        if "✗ 未登录" in stripped:
+            return "needs_login", "Platform is not logged in according to Wechatsync"
+    return "unknown", "Platform was not present in Wechatsync auth output"
+
+
+def load_accounts(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {"accounts": []}
     return json.loads(path.read_text(encoding="utf-8"))
@@ -81,8 +94,11 @@ def main() -> None:
         output_has_failure = any(marker in combined_output for marker in FAILURE_MARKERS)
         report["status"] = "success" if completed.returncode == 0 and not output_has_failure else "failed"
         for target in report["targets"]:
-            target["status"] = "unknown" if report["status"] == "success" else "failed"
-            target["error"] = None if report["status"] == "success" else (completed.stderr or completed.stdout)
+            if report["status"] == "success":
+                target["status"], target["error"] = platform_status(completed.stdout, target["platform"])
+            else:
+                target["status"] = "failed"
+                target["error"] = completed.stderr or completed.stdout
 
     output = args.output
     if not output:
