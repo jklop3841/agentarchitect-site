@@ -14,6 +14,12 @@ This library maps recurring article themes to existing lightweight site images. 
 - Intent: public argument, operational cost thesis, high-level architecture signal.
 - Alt pattern: `卢成在演讲现场展示系统观点`.
 
+## Multimodal generation, image models, and API-as-UI
+
+- Use `/media/editorial/lu-cheng-keynote.png` for articles about image generation models, multimodal production workflows, visual asset governance, API-as-UI, and model capabilities becoming callable workflow nodes.
+- Intent: public argument, model-operations framing, visual workflow governance.
+- Alt pattern: `卢成在演讲现场展示系统观点`.
+
 ## MCP, tool protocols, and planning boundaries
 
 - Use `/media/editorial/hero-stage.png` for articles about MCP, tool protocol design, large tool spaces, capability negotiation, agent discovery, and abstract workflow boundaries.
