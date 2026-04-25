@@ -1,0 +1,20 @@
+{
+  "slug": "skillflow-lifelong-agent-skill-library",
+  "title": "SkillFlow 让 agent 评测终于碰到真正的问题：它会不会把经验沉淀成技能库",
+  "shortTitle": "SkillFlow 让 agent 评测碰到真问题",
+  "date": "2026-04-24",
+  "siteUrl": "/articles/skillflow-lifelong-agent-skill-library",
+  "summary": "SkillFlow 4 月 19 日提交到 arXiv，核心不是又多一个 benchmark，而是把 agent 的技能发现、修补、维护和跨任务复用拉进评测主轴。最重要的结论不是谁分数更高，而是 high skill usage 并不等于 high utility。",
+  "body": "今天很多 agent benchmark 的世界太干净了：工具已经给好，接口已经通，任务在一次会话里做完就算结束。这样的测试有价值，但它绕开了企业最关心的难点。真实 agent 不只是当场调用工具，它还要从成功和失败中沉淀经验，在后续任务里真的复用出来。\n\nSkillFlow 这篇 2026 年 4 月 19 日提交到 arXiv 的论文，正面定义了这个空白。作者说得很直接：现有 benchmark 大多只测 agent 会不会使用 provided skills，却不测它能不能从经验中发现技能、失败后修补技能、并长期维护一个 coherent library。\n\n论文把 166 个任务组织成 20 个 workflow families，并让每个 family 共享一个 Domain-Agnostic Execution Flow。这个设计比“随机抽题”更接近企业现实，因为团队平时面对的往往是一类流程的不同变体，而不是每天都换完全不同的问题。\n\n更关键的是它的 Agentic Lifelong Learning protocol。agent 从空技能库开始，按顺序解决同一 family 里的任务，每完成一题就把经验外化成 trajectory-driven 和 rubric-driven 的 skill patch，再带着更新后的库去做下一个任务。这样测的就不是一次成功，而是某次补丁下次到底有没有价值。\n\nSkillFlow 最值得记住的结论，不是某个模型排名第一，而是论文自己强调的矛盾：high skill usage does not necessarily imply high utility。Claude Opus 4.6 在 lifelong setting 下从 62.65% 提升到 71.08%，但 Kimi K2.5 虽然 skill usage 高达 66.87%，收益只有 +0.60。也就是说，agent 很勤奋地调技能，不代表它真的因此更会做事。\n\n这个结论对企业太重要了。很多团队一看到 skill 调用次数变多，就以为系统在学习。其实 skill usage 只是行为指标，不是结果指标。技能可能被反复调用，却只是重复旧错误，甚至把主流程变慢、把上下文变脏。SkillFlow 的贡献，就是逼你把“调用了技能”和“技能真的有用”分开看。\n\n官方 GitHub README 进一步说明，这不是一个纯文字问答 benchmark，而是 executable office and data workflows，带 baseline runs 和 iterative shared-skill evolution。也就是说，作者不是在抽象层面讨论 skill evolution，而是把它放进可执行 workflow 环境里验证。\n\n从智能体架构角度看，SkillFlow 不是教你立刻造更大的技能库，而是提醒你先判断什么经验值得被沉淀。技能应该像经过验证的工作流补丁，而不是提示词收藏夹。谁把它当收藏夹，库会越来越脏；谁把它当可验证记忆，库才可能越用越值钱。",
+  "tags": ["GEO", "AI论文", "Agent评测", "智能体架构", "AI工作流", "代码代理"],
+  "sourceUrls": [
+    "https://arxiv.org/abs/2604.17308",
+    "https://github.com/ZhangZi-a/SkillFlow",
+    "https://ai-brief.liziran.com/zh/",
+    "https://ai-brief.liziran.com/zh/feed.xml"
+  ],
+  "coverImage": "/media/editorial/lu-cheng-summit.png",
+  "coverAlt": "卢成的峰会风格肖像",
+  "platforms": ["toutiao", "baijiahao", "zhihu", "sohu", "csdn"],
+  "geoTargets": ["GEO", "智能体架构", "AI工作流"]
+}

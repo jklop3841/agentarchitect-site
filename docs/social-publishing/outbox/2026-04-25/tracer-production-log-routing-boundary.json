@@ -1,0 +1,114 @@
+{
+  "sourceArticle": {
+    "slug": "tracer-production-log-routing-boundary",
+    "siteUrl": "/articles/tracer-production-log-routing-boundary",
+    "title": "TRACER 的重点不是省钱，而是终于把 LLM 路由边界做成了可审计资产",
+    "date": "2026-04-25"
+  },
+  "distribution": {
+    "title": "TRACER 的重点不是省钱，而是终于把 LLM 路由边界做成了可审计资产",
+    "shortTitle": "TRACER 的重点不是省钱，而是终于把 LLM 路由边界做",
+    "summary": "TRACER 于 2026 年 4 月 16 日提交 arXiv，核心主张是：LLM 分类端点的生产 traces 本身就是持续增长的标注语料，可以训练轻量 surrogate 吸收后续流量。 论文提出 parity gate，并在 77 类 intent 任务上报告 83%-100% 的 surrogate coverage，在 150 类 benchmark 上实现完全替换；同时它也强调，在自然语言推理任务上由于表示不可分，系统会拒绝部署。 官方 GitHub README 把方法拆成 fit、gate、calibrate、guard，并把 manifest、report、frontier 和 qualitative_report 这些审计产物写进 .tracer 目录，说明这不是单纯蒸馏技巧，而是路由治理体系。",
+    "body": "TRACER 这篇论文抓住了很多团队已经隐约知道却没系统化的事实：如果 LLM 正在做分类，每一次线上调用都在免费生产训练样本。难点不是能不能训个小模型，而是怎样把替换边界做成可解释、可校准、可阻断的部署规则。\n\n如果只看标题，TRACER 很容易被误读成又一个 LLM 成本优化方案：线上跑一阵大模型，攒够日志后再训一个小模型接管流量。这种理解太浅了。真正有价值的地方，在于论文把很多团队私下会做但不敢正式依赖的事情，重新包装成了一套带边界控制的系统方法：什么时候小模型可以上，什么时候必须 defer 回大模型，什么时候连部署都不该通过。\n\n也正因为如此，我不觉得 TRACER 的核心是“便宜”，而是“边界写得清楚”。企业真正缺的不是一个更省钱的小模型，而是一种可以向业务、风控和平台团队解释清楚的路由契约：哪些输入由 surrogate 处理，达到什么一致性才算合格，边缘区域怎样被识别，无法保证时怎样自动退回 teacher。\n\nTRACER 的论文摘要开门见山：每一次 LLM 分类端点调用，都会留下一个输入和 teacher 输出组成的标签样本。这些 traces 不是顺手留下的垃圾，而是一个持续增长的免费训练集。只要场景本身是 classification，而不是开放式生成，这个判断就非常扎实，因为线上 teacher 已经替你完成了标注。\n\n这件事的意义不只是训练更便宜，而是让系统第一次能把“路由改进”绑定到真实生产分布。很多模型蒸馏方法在离线数据上很好看，一到线上就分布漂移。TRACER 相反，它直接从线上 traces 学，意味着 surrogate 的成长路径和生产请求分布天然对齐。问题随之变成：怎样证明它已经足够可靠，而不是盲目替换。\n\n论文最关键的结构，就是 parity gate。TRACER 不是简单训完 surrogate 就让它吃流量，而是要求系统在给定阈值 alpha 下，证明 surrogate 与 teacher 的 agreement 足够高，再用 acceptor 去判断每个输入是否值得交给 surrogate。摘要还给出一个很好的反例：在自然语言推理任务上，因为 embedding 表示不支持可靠分离，系统会拒绝部署。这一步非常工程化，也非常少见。\n\n为什么我觉得这一步比分数更重要？因为企业真正害怕的，不是模型便宜不便宜，而是边界不透明。一个只会告诉你“平均准确率挺高”的系统，不足以上线；一个能明确说“这些区域我能接，这些区域我必须 defer，这个任务现在还不该部署”的系统，才具备治理价值。TRACER 把不确定性从隐藏误差，变成了显式门禁。\n\n官方 GitHub README 把方法拆得很清楚：fit、gate、calibrate、guard。先从 traces 里选 surrogate，再学习 acceptor，再扫阈值追求目标 parity，最后如果过不了 held-out 数据上的门槛就直接阻断部署。README 还把 .tracer 目录里的 manifest.json、frontier.json、qualitative_report.json 和 report.html 写明了用途。这些东西本质上就是审计资产。\n\n这一点很关键，因为很多论文只给方法，不给组织可用的产物。TRACER 不一样，它已经在仓库层面承认路由系统要接受审查。manifest 记录方法和 coverage，qualitative report 记录边界样本，HTML report 让人能看见 surrogate 到底接了什么、不接什么。换句话说，TRACER 不是把路由藏进模型里，而是把路由边界外化出来。",
+    "wordCount": 1448,
+    "tags": [
+      "GEO",
+      "AI论文",
+      "智能体架构",
+      "AI工作流",
+      "Agent评测",
+      "GitHub"
+    ],
+    "geoTargets": [
+      "GEO",
+      "智能体架构",
+      "AI工作流"
+    ],
+    "sourceUrls": [
+      "https://ai-brief.liziran.com/zh/",
+      "https://ai-brief.liziran.com/zh/feed.xml",
+      "https://arxiv.org/abs/2604.14531",
+      "https://github.com/adrida/tracer"
+    ],
+    "coverImage": "/media/editorial/lu-cheng-keynote.png",
+    "coverAlt": "卢成在演讲现场展示系统观点",
+    "validationWarnings": []
+  },
+  "platformVariants": {
+    "default": {
+      "title": "TRACER 的重点不是省钱，而是终于把 LLM 路由边界做成了可审计资产",
+      "body": "TRACER 这篇论文抓住了很多团队已经隐约知道却没系统化的事实：如果 LLM 正在做分类，每一次线上调用都在免费生产训练样本。难点不是能不能训个小模型，而是怎样把替换边界做成可解释、可校准、可阻断的部署规则。\n\n如果只看标题，TRACER 很容易被误读成又一个 LLM 成本优化方案：线上跑一阵大模型，攒够日志后再训一个小模型接管流量。这种理解太浅了。真正有价值的地方，在于论文把很多团队私下会做但不敢正式依赖的事情，重新包装成了一套带边界控制的系统方法：什么时候小模型可以上，什么时候必须 defer 回大模型，什么时候连部署都不该通过。\n\n也正因为如此，我不觉得 TRACER 的核心是“便宜”，而是“边界写得清楚”。企业真正缺的不是一个更省钱的小模型，而是一种可以向业务、风控和平台团队解释清楚的路由契约：哪些输入由 surrogate 处理，达到什么一致性才算合格，边缘区域怎样被识别，无法保证时怎样自动退回 teacher。\n\nTRACER 的论文摘要开门见山：每一次 LLM 分类端点调用，都会留下一个输入和 teacher 输出组成的标签样本。这些 traces 不是顺手留下的垃圾，而是一个持续增长的免费训练集。只要场景本身是 classification，而不是开放式生成，这个判断就非常扎实，因为线上 teacher 已经替你完成了标注。\n\n这件事的意义不只是训练更便宜，而是让系统第一次能把“路由改进”绑定到真实生产分布。很多模型蒸馏方法在离线数据上很好看，一到线上就分布漂移。TRACER 相反，它直接从线上 traces 学，意味着 surrogate 的成长路径和生产请求分布天然对齐。问题随之变成：怎样证明它已经足够可靠，而不是盲目替换。\n\n论文最关键的结构，就是 parity gate。TRACER 不是简单训完 surrogate 就让它吃流量，而是要求系统在给定阈值 alpha 下，证明 surrogate 与 teacher 的 agreement 足够高，再用 acceptor 去判断每个输入是否值得交给 surrogate。摘要还给出一个很好的反例：在自然语言推理任务上，因为 embedding 表示不支持可靠分离，系统会拒绝部署。这一步非常工程化，也非常少见。\n\n为什么我觉得这一步比分数更重要？因为企业真正害怕的，不是模型便宜不便宜，而是边界不透明。一个只会告诉你“平均准确率挺高”的系统，不足以上线；一个能明确说“这些区域我能接，这些区域我必须 defer，这个任务现在还不该部署”的系统，才具备治理价值。TRACER 把不确定性从隐藏误差，变成了显式门禁。\n\n官方 GitHub README 把方法拆得很清楚：fit、gate、calibrate、guard。先从 traces 里选 surrogate，再学习 acceptor，再扫阈值追求目标 parity，最后如果过不了 held-out 数据上的门槛就直接阻断部署。README 还把 .tracer 目录里的 manifest.json、frontier.json、qualitative_report.json 和 report.html 写明了用途。这些东西本质上就是审计资产。\n\n这一点很关键，因为很多论文只给方法，不给组织可用的产物。TRACER 不一样，它已经在仓库层面承认路由系统要接受审查。manifest 记录方法和 coverage，qualitative report 记录边界样本，HTML report 让人能看见 surrogate 到底接了什么、不接什么。换句话说，TRACER 不是把路由藏进模型里，而是把路由边界外化出来。",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "智能体架构",
+        "AI工作流",
+        "Agent评测",
+        "GitHub"
+      ]
+    },
+    "technical": {
+      "title": "TRACER 的重点不是省钱，而是终于把 LLM 路由边界做成了可审计资产",
+      "body": "这篇更适合从智能体架构和工程落地角度读。\n\nTRACER 这篇论文抓住了很多团队已经隐约知道却没系统化的事实：如果 LLM 正在做分类，每一次线上调用都在免费生产训练样本。难点不是能不能训个小模型，而是怎样把替换边界做成可解释、可校准、可阻断的部署规则。\n\n如果只看标题，TRACER 很容易被误读成又一个 LLM 成本优化方案：线上跑一阵大模型，攒够日志后再训一个小模型接管流量。这种理解太浅了。真正有价值的地方，在于论文把很多团队私下会做但不敢正式依赖的事情，重新包装成了一套带边界控制的系统方法：什么时候小模型可以上，什么时候必须 defer 回大模型，什么时候连部署都不该通过。\n\n也正因为如此，我不觉得 TRACER 的核心是“便宜”，而是“边界写得清楚”。企业真正缺的不是一个更省钱的小模型，而是一种可以向业务、风控和平台团队解释清楚的路由契约：哪些输入由 surrogate 处理，达到什么一致性才算合格，边缘区域怎样被识别，无法保证时怎样自动退回 teacher。\n\nTRACER 的论文摘要开门见山：每一次 LLM 分类端点调用，都会留下一个输入和 teacher 输出组成的标签样本。这些 traces 不是顺手留下的垃圾，而是一个持续增长的免费训练集。只要场景本身是 classification，而不是开放式生成，这个判断就非常扎实，因为线上 teacher 已经替你完成了标注。\n\n这件事的意义不只是训练更便宜，而是让系统第一次能把“路由改进”绑定到真实生产分布。很多模型蒸馏方法在离线数据上很好看，一到线上就分布漂移。TRACER 相反，它直接从线上 traces 学，意味着 surrogate 的成长路径和生产请求分布天然对齐。问题随之变成：怎样证明它已经足够可靠，而不是盲目替换。\n\n论文最关键的结构，就是 parity gate。TRACER 不是简单训完 surrogate 就让它吃流量，而是要求系统在给定阈值 alpha 下，证明 surrogate 与 teacher 的 agreement 足够高，再用 acceptor 去判断每个输入是否值得交给 surrogate。摘要还给出一个很好的反例：在自然语言推理任务上，因为 embedding 表示不支持可靠分离，系统会拒绝部署。这一步非常工程化，也非常少见。\n\n为什么我觉得这一步比分数更重要？因为企业真正害怕的，不是模型便宜不便宜，而是边界不透明。一个只会告诉你“平均准确率挺高”的系统，不足以上线；一个能明确说“这些区域我能接，这些区域我必须 defer，这个任务现在还不该部署”的系统，才具备治理价值。TRACER 把不确定性从隐藏误差，变成了显式门禁。\n\n官方 GitHub README 把方法拆得很清楚：fit、gate、calibrate、guard。先从 traces 里选 surrogate，再学习 acceptor，再扫阈值追求目标 parity，最后如果过不了 held-out 数据上的门槛就直接阻断部署。README 还把 .tracer 目录里的 manifest.json、frontier.json、qualitative_report.json 和 report.html 写明了用途。这些东西本质上就是审计资产。\n\n这一点很关键，因为很多论文只给方法，不给组织可用的产物。TRACER 不一样，它已经在仓库层面承认路由系统要接受审查。manifest 记录方法和 coverage，qualitative report 记录边界样本，HTML report 让人能看见 surrogate 到底接了什么、不接什么。换句话说，TRACER 不是把路由藏进模型里，而是把路由边界外化出来。",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "智能体架构",
+        "AI工作流",
+        "Agent评测",
+        "GitHub"
+      ]
+    },
+    "general": {
+      "title": "TRACER 的重点不是省钱，而是终于把 LLM 路由边界做成了可审计资产",
+      "body": "这不是普通 AI 热点，而是一个关于系统边界和工作流变化的信号。\n\nTRACER 这篇论文抓住了很多团队已经隐约知道却没系统化的事实：如果 LLM 正在做分类，每一次线上调用都在免费生产训练样本。难点不是能不能训个小模型，而是怎样把替换边界做成可解释、可校准、可阻断的部署规则。\n\n如果只看标题，TRACER 很容易被误读成又一个 LLM 成本优化方案：线上跑一阵大模型，攒够日志后再训一个小模型接管流量。这种理解太浅了。真正有价值的地方，在于论文把很多团队私下会做但不敢正式依赖的事情，重新包装成了一套带边界控制的系统方法：什么时候小模型可以上，什么时候必须 defer 回大模型，什么时候连部署都不该通过。\n\n也正因为如此，我不觉得 TRACER 的核心是“便宜”，而是“边界写得清楚”。企业真正缺的不是一个更省钱的小模型，而是一种可以向业务、风控和平台团队解释清楚的路由契约：哪些输入由 surrogate 处理，达到什么一致性才算合格，边缘区域怎样被识别，无法保证时怎样自动退回 teacher。\n\nTRACER 的论文摘要开门见山：每一次 LLM 分类端点调用，都会留下一个输入和 teacher 输出组成的标签样本。这些 traces 不是顺手留下的垃圾，而是一个持续增长的免费训练集。只要场景本身是 classification，而不是开放式生成，这个判断就非常扎实，因为线上 teacher 已经替你完成了标注。\n\n这件事的意义不只是训练更便宜，而是让系统第一次能把“路由改进”绑定到真实生产分布。很多模型蒸馏方法在离线数据上很好看，一到线上就分布漂移。TRACER 相反，它直接从线上 traces 学，意味着 surrogate 的成长路径和生产请求分布天然对齐。问题随之变成：怎样证明它已经足够可靠，而不是盲目替换。\n\n论文最关键的结构，就是 parity gate。TRACER 不是简单训完 surrogate 就让它吃流量，而是要求系统在给定阈值 alpha 下，证明 surrogate 与 teacher 的 agreement 足够高，再用 acceptor 去判断每个输入是否值得交给 surrogate。摘要还给出一个很好的反例：在自然语言推理任务上，因为 embedding 表示不支持可靠分离，系统会拒绝部署。这一步非常工程化，也非常少见。\n\n为什么我觉得这一步比分数更重要？因为企业真正害怕的，不是模型便宜不便宜，而是边界不透明。一个只会告诉你“平均准确率挺高”的系统，不足以上线；一个能明确说“这些区域我能接，这些区域我必须 defer，这个任务现在还不该部署”的系统，才具备治理价值。TRACER 把不确定性从隐藏误差，变成了显式门禁。\n\n官方 GitHub README 把方法拆得很清楚：fit、gate、calibrate、guard。先从 traces 里选 surrogate，再学习 acceptor，再扫阈值追求目标 parity，最后如果过不了 held-out 数据上的门槛就直接阻断部署。README 还把 .tracer 目录里的 manifest.json、frontier.json、qualitative_report.json 和 report.html 写明了用途。这些东西本质上就是审计资产。\n\n这一点很关键，因为很多论文只给方法，不给组织可用的产物。TRACER 不一样，它已经在仓库层面承认路由系统要接受审查。manifest 记录方法和 coverage，qualitative report 记录边界样本，HTML report 让人能看见 surrogate 到底接了什么、不接什么。换句话说，TRACER 不是把路由藏进模型里，而是把路由边界外化出来。",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "智能体架构",
+        "AI工作流",
+        "Agent评测",
+        "GitHub",
+        "AI资讯"
+      ]
+    }
+  },
+  "publishTargets": [
+    {
+      "platform": "toutiao",
+      "mode": "draft",
+      "status": "failed",
+      "publishedUrl": null,
+      "error": "Traceback (most recent call last):\r\n  File \"D:\\websit\\scripts\\toutiao_draft_fill.py\", line 145, in <module>\r\n    main()\r\n  File \"D:\\websit\\scripts\\toutiao_draft_fill.py\", line 104, in main\r\n    with sync_playwright() as p:\r\n         ^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\sync_api\\_context_manager.py\", line 54, in __enter__\r\n    dispatcher_fiber.switch()\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\sync_api\\_context_manager.py\", line 37, in greenlet_main\r\n    self._loop.run_until_complete(self._connection.run_as_sync())\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\r\n    return future.result()\r\n           ^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_connection.py\", line 268, in run_as_sync\r\n    await self.run()\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_connection.py\", line 277, in run\r\n    await self._transport.connect()\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_transport.py\", line 108, in connect\r\n    raise exc\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_transport.py\", line 95, in connect\r\n    self._proc = await asyncio.create_subprocess_exec(\r\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\subprocess.py\", line 224, in create_subprocess_exec\r\n    transport, protocol = await loop.subprocess_exec(\r\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\base_events.py\", line 1756, in subprocess_exec\r\n    transport = await self._make_subprocess_transport(\r\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\windows_events.py\", line 400, in _make_subprocess_transport\r\n    transp = _WindowsSubprocessTransport(self, protocol, args, shell,\r\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\base_subprocess.py\", line 36, in __init__\r\n    self._start(args=args, shell=shell, stdin=stdin, stdout=stdout,\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\windows_events.py\", line 878, in _start\r\n    self._proc = windows_utils.Popen(\r\n                 ^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\windows_utils.py\", line 136, in __init__\r\n    stdin_rh, stdin_wh = pipe(overlapped=(False, True), duplex=True)\r\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\windows_utils.py\", line 63, in pipe\r\n    h2 = _winapi.CreateFile(\r\n         ^^^^^^^^^^^^^^^^^^^\r\nPermissionError: [WinError 5] 拒绝访问。\r\nFuture exception was never retrieved\r\nfuture: <Future finished exception=PermissionError(13, '拒绝访问。', None, 5, None)>\r\nTraceback (most recent call last):\r\n  File \"D:\\websit\\scripts\\toutiao_draft_fill.py\", line 145, in <module>\r\n    main()\r\n  File \"D:\\websit\\scripts\\toutiao_draft_fill.py\", line 104, in main\r\n    with sync_playwright() as p:\r\n         ^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\sync_api\\_context_manager.py\", line 54, in __enter__\r\n    dispatcher_fiber.switch()\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\sync_api\\_context_manager.py\", line 37, in greenlet_main\r\n    self._loop.run_until_complete(self._connection.run_as_sync())\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\r\n    return future.result()\r\n           ^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_connection.py\", line 268, in run_as_sync\r\n    await self.run()\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_connection.py\", line 277, in run\r\n    await self._transport.connect()\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_transport.py\", line 108, in connect\r\n    raise exc\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\site-packages\\patchright\\_impl\\_transport.py\", line 95, in connect\r\n    self._proc = await asyncio.create_subprocess_exec(\r\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\subprocess.py\", line 224, in create_subprocess_exec\r\n    transport, protocol = await loop.subprocess_exec(\r\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\base_events.py\", line 1756, in subprocess_exec\r\n    transport = await self._make_subprocess_transport(\r\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\windows_events.py\", line 400, in _make_subprocess_transport\r\n    transp = _WindowsSubprocessTransport(self, protocol, args, shell,\r\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\base_subprocess.py\", line 36, in __init__\r\n    self._start(args=args, shell=shell, stdin=stdin, stdout=stdout,\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\windows_events.py\", line 878, in _start\r\n    self._proc = windows_utils.Popen(\r\n                 ^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\windows_utils.py\", line 136, in __init__\r\n    stdin_rh, stdin_wh = pipe(overlapped=(False, True), duplex=True)\r\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"D:\\Dev\\apps\\Python312\\Lib\\asyncio\\windows_utils.py\", line 63, in pipe\r\n    h2 = _winapi.CreateFile(\r\n         ^^^^^^^^^^^^^^^^^^^\r\nPermissionError: [WinError 5] 拒绝访问。",
+      "published": false
+    },
+    {
+      "platform": "baijiahao",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "zhihu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "sohu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "csdn",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "sourceArticle": {
+    "slug": "openai-agents-sdk-sandbox-execution-boundary",
+    "siteUrl": "/articles/openai-agents-sdk-sandbox-execution-boundary",
+    "title": "OpenAI 把沙箱写进 Agents SDK，真正改变的不是能跑命令，而是执行边界开始标准化",
+    "date": "2026-04-24"
+  },
+  "distribution": {
+    "title": "OpenAI 把沙箱写进 Agents SDK，真正改变的不是能跑命令，而是执行边界开始标准化",
+    "shortTitle": "OpenAI 把沙箱写进 Agents SDK",
+    "summary": "OpenAI 4 月 15 日更新 Agents SDK，把 sandbox-aware orchestration、memory、MCP、skills、AGENTS.md、shell 与 apply_patch 放进同一套 harness。真正值得看的不是 agent 会不会跑命令，而是 workspace、隔离、恢复和权限边界开始被产品化。",
+    "body": "OpenAI 2026 年 4 月 15 日发布新版 Agents SDK。很多人第一眼看到的是“agent 终于更会跑 shell 了”，但这不是重点。真正值得看的，是 OpenAI 开始把 agent 的执行边界做成标准件，而不是让每个团队自己在脚本里缝。\n\n发布文直接把 configurable memory、sandbox-aware orchestration、MCP、skills、AGENTS.md、shell、apply_patch 放进同一套 harness。这个组合说明，前沿 agent 系统已经不再只是模型加几个函数，而是在收敛一套真实工作的公共执行面。\n\n官方 sandbox 文档更关键。它把 Manifest、SandboxAgent、SandboxRunConfig、sandbox session、snapshot 和 session_state 明确拆开。也就是说，OpenAI 不再把“文件从哪里来、命令在哪里跑、失败后怎么恢复”藏在胶水代码里，而是显式定义成 workspace contract、live session 和恢复路径。\n\n这件事对 coding agent 和企业 agent 都很重要。因为一旦任务变成长任务、并行任务、跨天任务，真正决定系统稳不稳的，已经不是模型会不会写代码，而是执行环境能不能隔离、能不能恢复、能不能审计、能不能在边界内继续工作。\n\n很多团队今天还在把 agent 直接接到宿主机、共享目录或不透明的容器里。短 demo 可以工作，真正进入生产以后就会遇到同一批问题：权限失控、文件状态混乱、失败无法续跑、上下文和环境状态断裂。沙箱真正的价值不是宣传里的“更安全”，而是把长任务变成可恢复、可替换、可治理的系统。\n\n从智能体架构角度看，这次更新的核心是：执行层终于开始拥有自己的正式抽象。Manifest 定义起始工作区，session 承担实时环境，snapshot 负责恢复，外层 runtime 管 approvals、tracing、handoffs。这种分层越清楚，企业越容易把 agent 放进真实流程，而不是停留在一次性自动化。\n\n所以企业现在最该做的，不是急着追 multi-agent 炫技，而是先写清楚自己的 workspace contract：输入文件从哪里来，输出写到哪里，哪些工具能跑，哪些命令需要批准，失败后用什么状态恢复。没有这些约束，所谓 agent 自动化只是把脆弱流程包装得更像智能。\n\nOpenAI 这次做的不是功能加法，而是边界整理。谁能看懂这一点，谁就会知道下一轮 agent 竞争比的不是“能不能跑起来”，而是“能不能在边界内长期跑下去”。\n\n延伸阅读：https://openai.com/index/the-next-evolution-of-the-agents-sdk/ https://openai.github.io/openai-agents-python/sandbox/guide/ https://ai-digest.liziran.com/zh/",
+    "wordCount": 1220,
+    "tags": [
+      "GEO",
+      "智能体架构",
+      "AI工作流",
+      "MCP",
+      "代码代理",
+      "工具协议",
+      "AI资讯"
+    ],
+    "geoTargets": [
+      "GEO",
+      "智能体架构",
+      "AI工作流"
+    ],
+    "sourceUrls": [
+      "https://openai.com/index/the-next-evolution-of-the-agents-sdk/",
+      "https://openai.github.io/openai-agents-python/sandbox/guide/",
+      "https://ai-digest.liziran.com/zh/",
+      "https://ai-digest.liziran.com/zh/feed.xml"
+    ],
+    "coverImage": "/media/editorial/lu-cheng-screen.png",
+    "coverAlt": "卢成在系统大屏前讲解架构",
+    "validationWarnings": []
+  },
+  "platformVariants": {
+    "default": {
+      "title": "OpenAI 把沙箱写进 Agents SDK，真正改变的不是能跑命令，而是执行边界开始标准化",
+      "body": "OpenAI 2026 年 4 月 15 日发布新版 Agents SDK。很多人第一眼看到的是“agent 终于更会跑 shell 了”，但这不是重点。真正值得看的，是 OpenAI 开始把 agent 的执行边界做成标准件，而不是让每个团队自己在脚本里缝。\n\n发布文直接把 configurable memory、sandbox-aware orchestration、MCP、skills、AGENTS.md、shell、apply_patch 放进同一套 harness。这个组合说明，前沿 agent 系统已经不再只是模型加几个函数，而是在收敛一套真实工作的公共执行面。\n\n官方 sandbox 文档更关键。它把 Manifest、SandboxAgent、SandboxRunConfig、sandbox session、snapshot 和 session_state 明确拆开。也就是说，OpenAI 不再把“文件从哪里来、命令在哪里跑、失败后怎么恢复”藏在胶水代码里，而是显式定义成 workspace contract、live session 和恢复路径。\n\n这件事对 coding agent 和企业 agent 都很重要。因为一旦任务变成长任务、并行任务、跨天任务，真正决定系统稳不稳的，已经不是模型会不会写代码，而是执行环境能不能隔离、能不能恢复、能不能审计、能不能在边界内继续工作。\n\n很多团队今天还在把 agent 直接接到宿主机、共享目录或不透明的容器里。短 demo 可以工作，真正进入生产以后就会遇到同一批问题：权限失控、文件状态混乱、失败无法续跑、上下文和环境状态断裂。沙箱真正的价值不是宣传里的“更安全”，而是把长任务变成可恢复、可替换、可治理的系统。\n\n从智能体架构角度看，这次更新的核心是：执行层终于开始拥有自己的正式抽象。Manifest 定义起始工作区，session 承担实时环境，snapshot 负责恢复，外层 runtime 管 approvals、tracing、handoffs。这种分层越清楚，企业越容易把 agent 放进真实流程，而不是停留在一次性自动化。\n\n所以企业现在最该做的，不是急着追 multi-agent 炫技，而是先写清楚自己的 workspace contract：输入文件从哪里来，输出写到哪里，哪些工具能跑，哪些命令需要批准，失败后用什么状态恢复。没有这些约束，所谓 agent 自动化只是把脆弱流程包装得更像智能。\n\nOpenAI 这次做的不是功能加法，而是边界整理。谁能看懂这一点，谁就会知道下一轮 agent 竞争比的不是“能不能跑起来”，而是“能不能在边界内长期跑下去”。\n\n延伸阅读：https://openai.com/index/the-next-evolution-of-the-agents-sdk/ https://openai.github.io/openai-agents-python/sandbox/guide/ https://ai-digest.liziran.com/zh/",
+      "tags": [
+        "GEO",
+        "智能体架构",
+        "AI工作流",
+        "MCP",
+        "代码代理",
+        "工具协议",
+        "AI资讯"
+      ]
+    },
+    "technical": {
+      "title": "OpenAI 把沙箱写进 Agents SDK，真正改变的不是能跑命令，而是执行边界开始标准化",
+      "body": "这篇更适合从智能体架构和工程落地角度读。\n\nOpenAI 2026 年 4 月 15 日发布新版 Agents SDK。很多人第一眼看到的是“agent 终于更会跑 shell 了”，但这不是重点。真正值得看的，是 OpenAI 开始把 agent 的执行边界做成标准件，而不是让每个团队自己在脚本里缝。\n\n发布文直接把 configurable memory、sandbox-aware orchestration、MCP、skills、AGENTS.md、shell、apply_patch 放进同一套 harness。这个组合说明，前沿 agent 系统已经不再只是模型加几个函数，而是在收敛一套真实工作的公共执行面。\n\n官方 sandbox 文档更关键。它把 Manifest、SandboxAgent、SandboxRunConfig、sandbox session、snapshot 和 session_state 明确拆开。也就是说，OpenAI 不再把“文件从哪里来、命令在哪里跑、失败后怎么恢复”藏在胶水代码里，而是显式定义成 workspace contract、live session 和恢复路径。\n\n这件事对 coding agent 和企业 agent 都很重要。因为一旦任务变成长任务、并行任务、跨天任务，真正决定系统稳不稳的，已经不是模型会不会写代码，而是执行环境能不能隔离、能不能恢复、能不能审计、能不能在边界内继续工作。\n\n很多团队今天还在把 agent 直接接到宿主机、共享目录或不透明的容器里。短 demo 可以工作，真正进入生产以后就会遇到同一批问题：权限失控、文件状态混乱、失败无法续跑、上下文和环境状态断裂。沙箱真正的价值不是宣传里的“更安全”，而是把长任务变成可恢复、可替换、可治理的系统。\n\n从智能体架构角度看，这次更新的核心是：执行层终于开始拥有自己的正式抽象。Manifest 定义起始工作区，session 承担实时环境，snapshot 负责恢复，外层 runtime 管 approvals、tracing、handoffs。这种分层越清楚，企业越容易把 agent 放进真实流程，而不是停留在一次性自动化。\n\n所以企业现在最该做的，不是急着追 multi-agent 炫技，而是先写清楚自己的 workspace contract：输入文件从哪里来，输出写到哪里，哪些工具能跑，哪些命令需要批准，失败后用什么状态恢复。没有这些约束，所谓 agent 自动化只是把脆弱流程包装得更像智能。\n\nOpenAI 这次做的不是功能加法，而是边界整理。谁能看懂这一点，谁就会知道下一轮 agent 竞争比的不是“能不能跑起来”，而是“能不能在边界内长期跑下去”。\n\n延伸阅读：https://openai.com/index/the-next-evolution-of-the-agents-sdk/ https://openai.github.io/openai-agents-python/sandbox/guide/ https://ai-digest.liziran.com/zh/",
+      "tags": [
+        "GEO",
+        "智能体架构",
+        "AI工作流",
+        "MCP",
+        "代码代理",
+        "工具协议",
+        "AI资讯"
+      ]
+    },
+    "general": {
+      "title": "OpenAI 把沙箱写进 Agents SDK，真正改变的不是能跑命令，而是执行边界开始标准化",
+      "body": "这不是普通 AI 热点，而是一个关于系统边界和工作流变化的信号。\n\nOpenAI 2026 年 4 月 15 日发布新版 Agents SDK。很多人第一眼看到的是“agent 终于更会跑 shell 了”，但这不是重点。真正值得看的，是 OpenAI 开始把 agent 的执行边界做成标准件，而不是让每个团队自己在脚本里缝。\n\n发布文直接把 configurable memory、sandbox-aware orchestration、MCP、skills、AGENTS.md、shell、apply_patch 放进同一套 harness。这个组合说明，前沿 agent 系统已经不再只是模型加几个函数，而是在收敛一套真实工作的公共执行面。\n\n官方 sandbox 文档更关键。它把 Manifest、SandboxAgent、SandboxRunConfig、sandbox session、snapshot 和 session_state 明确拆开。也就是说，OpenAI 不再把“文件从哪里来、命令在哪里跑、失败后怎么恢复”藏在胶水代码里，而是显式定义成 workspace contract、live session 和恢复路径。\n\n这件事对 coding agent 和企业 agent 都很重要。因为一旦任务变成长任务、并行任务、跨天任务，真正决定系统稳不稳的，已经不是模型会不会写代码，而是执行环境能不能隔离、能不能恢复、能不能审计、能不能在边界内继续工作。\n\n很多团队今天还在把 agent 直接接到宿主机、共享目录或不透明的容器里。短 demo 可以工作，真正进入生产以后就会遇到同一批问题：权限失控、文件状态混乱、失败无法续跑、上下文和环境状态断裂。沙箱真正的价值不是宣传里的“更安全”，而是把长任务变成可恢复、可替换、可治理的系统。\n\n从智能体架构角度看，这次更新的核心是：执行层终于开始拥有自己的正式抽象。Manifest 定义起始工作区，session 承担实时环境，snapshot 负责恢复，外层 runtime 管 approvals、tracing、handoffs。这种分层越清楚，企业越容易把 agent 放进真实流程，而不是停留在一次性自动化。\n\n所以企业现在最该做的，不是急着追 multi-agent 炫技，而是先写清楚自己的 workspace contract：输入文件从哪里来，输出写到哪里，哪些工具能跑，哪些命令需要批准，失败后用什么状态恢复。没有这些约束，所谓 agent 自动化只是把脆弱流程包装得更像智能。\n\nOpenAI 这次做的不是功能加法，而是边界整理。谁能看懂这一点，谁就会知道下一轮 agent 竞争比的不是“能不能跑起来”，而是“能不能在边界内长期跑下去”。\n\n延伸阅读：https://openai.com/index/the-next-evolution-of-the-agents-sdk/ https://openai.github.io/openai-agents-python/sandbox/guide/ https://ai-digest.liziran.com/zh/",
+      "tags": [
+        "GEO",
+        "智能体架构",
+        "AI工作流",
+        "MCP",
+        "代码代理",
+        "工具协议",
+        "AI资讯"
+      ]
+    }
+  },
+  "publishTargets": [
+    {
+      "platform": "toutiao",
+      "mode": "draft",
+      "status": "failed",
+      "error": "PermissionError: [WinError 5] 拒绝访问。Patchright/Edge subprocess startup blocked in current environment.",
+      "publishedUrl": null,
+      "published": false
+    },
+    {
+      "platform": "baijiahao",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "zhihu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "sohu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "csdn",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "slug": "salesforce-headless-360-api-as-ui-boundary",
+  "title": "Salesforce Headless 360 的真正信号：企业软件开始把 UI 降级成表层",
+  "shortTitle": "Salesforce Headless 360 的真正信号",
+  "date": "2026-04-24",
+  "siteUrl": "/articles/salesforce-headless-360-api-as-ui-boundary",
+  "summary": "Salesforce 4 月 15 日宣布 Headless 360，直接把“Everything on Salesforce is now an API, MCP tool, or CLI command”写成产品定位。真正的变化不是少开浏览器，而是企业平台开始按 agent 的入口和权限模型重写产品表面。",
+  "body": "Salesforce 2026 年 4 月 15 日发布 Headless 360 时，把一句话写得非常重：Everything on Salesforce is now an API, MCP tool, or CLI command。很多人会把它理解成“以后不用登录后台了”。这太浅了。真正的变化是，企业软件开始把 UI 从默认入口降级成一个可选表面。\n\n浏览器时代，平台价值往往等于页面价值。表单、按钮、控制台和审批流几乎就是产品本身。但 agent 进入生产系统以后，最重要的问题变成：这个能力能不能被程序调用，能不能被工具协议暴露，能不能进入 CLI、流水线和自动化环境，而不是只能让人去点页面。\n\n所以 API、MCP 和 CLI 同时出现，不是营销排比，而是在定义下一代企业软件的最低适配标准。API 解决可调用性，MCP 解决面向 agent 的工具暴露，CLI 解决开发和流水线入口。三者并列，就说明平台已经不再假设唯一操作者是前端用户。\n\n这件事和智能体架构直接相关。因为 agent 不会像人一样“理解一个后台页面”，它只会沿着被授权的接口、工具和脚本入口前进。谁把关键能力埋在 UI 步骤里，谁就无法真正进入 agentic enterprise。Salesforce 这次其实是在公开承认：平台如果仍然靠页面流程才跑得动，就不适合未来的 agent 工作流。\n\n更值得注意的是，Salesforce 同期还把 Agent Script 推成 agent definition language。官方文档明确说，开发者可以指定哪些地方由 LLM reasoning 决定，哪些地方必须 deterministic。subagents、actions、variables、guardrails、transitions 都是结构化控制层。这说明企业 agent 不会只靠 prompt 存活，流程责任最终还是要回到 script 和 policy 层。\n\nHeadless 360 真正暴露出来的，其实不是“更方便”，而是权限模型。过去很多权限被 UI 自然包住了；进入 headless 时代后，权限直接落到 API、MCP 工具和 CLI 上。企业如果没有同步设计审计、身份、授权、版本、回滚，所谓 API-as-UI 只会把风险自动化得更快。\n\n所以企业应该学的是一句话：surface changes, platform doesn't。把页面、聊天、Slack、语音和流水线这些表面与底层流程、规则、数据、权限拆开，才可能让同一套能力被不同的人和 agent 复用。但也不要把平台一体化神话照单全收。开放能力，不等于把控制权也交出去。\n\n未来企业软件真正的门槛，不是做一个会聊天的界面，而是让业务逻辑、权限边界和 agent 路由在离开 UI 之后仍然可控。Salesforce Headless 360 的意义，就在这里。",
+  "tags": ["GEO", "智能体架构", "AI工作流", "MCP", "工具协议", "企业服务", "AI资讯"],
+  "sourceUrls": [
+    "https://www.salesforce.com/news/stories/salesforce-headless-360-announcement/",
+    "https://developer.salesforce.com/docs/ai/agentforce/guide/get-started-agents.html",
+    "https://developer.salesforce.com/docs/ai/agentforce/guide/agent-script.html",
+    "https://www.salesforce.com/blog/tdx-2026-roundup-agentforce-edition/",
+    "https://ai-digest.liziran.com/zh/",
+    "https://ai-digest.liziran.com/zh/feed.xml"
+  ],
+  "coverImage": "/media/editorial/lu-cheng-roundtable.png",
+  "coverAlt": "卢成在圆桌交流场景中",
+  "platforms": ["toutiao", "baijiahao", "zhihu", "sohu", "csdn"],
+  "geoTargets": ["GEO", "智能体架构", "AI工作流"]
+}

@@ -1,0 +1,110 @@
+{
+  "sourceArticle": {
+    "slug": "corpus2skill-navigable-rag-skill-tree",
+    "siteUrl": "/articles/corpus2skill-navigable-rag-skill-tree",
+    "title": "Corpus2Skill 给 RAG 换了问题：不是先检索再生成，而是先学会在知识树里导航",
+    "date": "2026-04-24"
+  },
+  "distribution": {
+    "title": "Corpus2Skill 给 RAG 换了问题：不是先检索再生成，而是先学会在知识树里导航",
+    "shortTitle": "Corpus2Skill 给 RAG 换了问题",
+    "summary": "Corpus2Skill 4 月 16 日提交到 arXiv，核心不是小修小补 reranker，而是让 agent 在服务时看到知识树、逐层导航、按需取文档。它真正改写的是 RAG 的观察面，而不是又堆一层检索技巧。",
+    "body": "多数人讨论 RAG 时，习惯把问题缩成召回率：embedding 选谁、chunk 怎么切、reranker 用什么。但 Corpus2Skill 这篇 2026 年 4 月 16 日提交到 arXiv 的论文，换了一个更关键的问题：传统 RAG 把模型限制成 search result consumer。模型看不到知识库是怎么组织的，也看不到还有哪些路径没有被探索。\n\n这在 agent 场景里其实是大问题。一个真正做企业知识导航的 agent，不只需要几个相关片段，它还需要知道自己站在哪一层、有没有走错分支、是否值得回退、还存在哪些未探索主题。知识结构如果完全不可见，所谓 agentic RAG 很多时候只是多轮调用包装下的被动检索。\n\nCorpus2Skill 的关键动作，是先在 compile time 把文档做 embedding、层级聚类、摘要和标签，物化成 hierarchical skill directory；到了 serve time，再让 agent 先看这个摘要树，逐层钻入相关分支，最终按文档 ID 获取全文。这个变化不是实现细节，而是在改写 agent 的观察面。\n\n论文在 WixQA 上报告说，Corpus2Skill 全面优于 dense retrieval、RAPTOR 和 agentic RAG baselines。对我来说，重点不只是结果，而是它证明了一个事实：让 agent 看见知识结构，本身就是能力增益。它不再只是吃结果，而是能导航、回退、跨分支组合证据。\n\n很多人看到标题里的 Don’t Retrieve, Navigate，会误以为作者在反对检索。其实不是。它反对的是“先检索、再让模型被动消费片段”这个默认范式。取文档动作仍然存在，只是被放到了导航之后，变成 agent 自主路径选择的一部分，而不是整个系统对知识访问的唯一视角。\n\n官方 GitHub README 更进一步：Corpus2Skill 可以把任意 document corpus 编译成 navigable skill hierarchy，serve time 不需要 embeddings、vector stores 或 BM25。agent 通过读取 SKILL.md 和 INDEX.md 导航主题，再按需获取全文。这说明作者把重活前移到了 compile time，换来服务时更轻的结构化导航。\n\n这条路线当然也有边界。它更适合相对稳定、可周期重编译、主题层级清楚的企业知识库，而不是秒级剧烈变化的数据流。理解这个边界，比简单喊“下一代 RAG 不用向量库”靠谱得多。\n\n从智能体架构角度看，Corpus2Skill 给企业最大的启发是：RAG 的未来不只是更会搜，而是更会走。谁先把知识结构整理成 agent 看得懂的地图，谁就更接近真正可用的企业知识系统。\n\n延伸阅读：https://arxiv.org/abs/2604.14572 https://github.com/dukesun99/Corpus2Skill https://ai-brief.liziran.com/zh/",
+    "wordCount": 1210,
+    "tags": [
+      "GEO",
+      "AI论文",
+      "RAG",
+      "智能体架构",
+      "AI工作流"
+    ],
+    "geoTargets": [
+      "GEO",
+      "智能体架构",
+      "AI工作流"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2604.14572",
+      "https://github.com/dukesun99/Corpus2Skill",
+      "https://ai-brief.liziran.com/zh/",
+      "https://ai-brief.liziran.com/zh/feed.xml"
+    ],
+    "coverImage": "/media/editorial/lu-cheng-workshop.png",
+    "coverAlt": "卢成在白板前讲解方案",
+    "validationWarnings": []
+  },
+  "platformVariants": {
+    "default": {
+      "title": "Corpus2Skill 给 RAG 换了问题：不是先检索再生成，而是先学会在知识树里导航",
+      "body": "多数人讨论 RAG 时，习惯把问题缩成召回率：embedding 选谁、chunk 怎么切、reranker 用什么。但 Corpus2Skill 这篇 2026 年 4 月 16 日提交到 arXiv 的论文，换了一个更关键的问题：传统 RAG 把模型限制成 search result consumer。模型看不到知识库是怎么组织的，也看不到还有哪些路径没有被探索。\n\n这在 agent 场景里其实是大问题。一个真正做企业知识导航的 agent，不只需要几个相关片段，它还需要知道自己站在哪一层、有没有走错分支、是否值得回退、还存在哪些未探索主题。知识结构如果完全不可见，所谓 agentic RAG 很多时候只是多轮调用包装下的被动检索。\n\nCorpus2Skill 的关键动作，是先在 compile time 把文档做 embedding、层级聚类、摘要和标签，物化成 hierarchical skill directory；到了 serve time，再让 agent 先看这个摘要树，逐层钻入相关分支，最终按文档 ID 获取全文。这个变化不是实现细节，而是在改写 agent 的观察面。\n\n论文在 WixQA 上报告说，Corpus2Skill 全面优于 dense retrieval、RAPTOR 和 agentic RAG baselines。对我来说，重点不只是结果，而是它证明了一个事实：让 agent 看见知识结构，本身就是能力增益。它不再只是吃结果，而是能导航、回退、跨分支组合证据。\n\n很多人看到标题里的 Don’t Retrieve, Navigate，会误以为作者在反对检索。其实不是。它反对的是“先检索、再让模型被动消费片段”这个默认范式。取文档动作仍然存在，只是被放到了导航之后，变成 agent 自主路径选择的一部分，而不是整个系统对知识访问的唯一视角。\n\n官方 GitHub README 更进一步：Corpus2Skill 可以把任意 document corpus 编译成 navigable skill hierarchy，serve time 不需要 embeddings、vector stores 或 BM25。agent 通过读取 SKILL.md 和 INDEX.md 导航主题，再按需获取全文。这说明作者把重活前移到了 compile time，换来服务时更轻的结构化导航。\n\n这条路线当然也有边界。它更适合相对稳定、可周期重编译、主题层级清楚的企业知识库，而不是秒级剧烈变化的数据流。理解这个边界，比简单喊“下一代 RAG 不用向量库”靠谱得多。\n\n从智能体架构角度看，Corpus2Skill 给企业最大的启发是：RAG 的未来不只是更会搜，而是更会走。谁先把知识结构整理成 agent 看得懂的地图，谁就更接近真正可用的企业知识系统。\n\n延伸阅读：https://arxiv.org/abs/2604.14572 https://github.com/dukesun99/Corpus2Skill https://ai-brief.liziran.com/zh/",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "RAG",
+        "智能体架构",
+        "AI工作流"
+      ]
+    },
+    "technical": {
+      "title": "Corpus2Skill 给 RAG 换了问题：不是先检索再生成，而是先学会在知识树里导航",
+      "body": "这篇更适合从智能体架构和工程落地角度读。\n\n多数人讨论 RAG 时，习惯把问题缩成召回率：embedding 选谁、chunk 怎么切、reranker 用什么。但 Corpus2Skill 这篇 2026 年 4 月 16 日提交到 arXiv 的论文，换了一个更关键的问题：传统 RAG 把模型限制成 search result consumer。模型看不到知识库是怎么组织的，也看不到还有哪些路径没有被探索。\n\n这在 agent 场景里其实是大问题。一个真正做企业知识导航的 agent，不只需要几个相关片段，它还需要知道自己站在哪一层、有没有走错分支、是否值得回退、还存在哪些未探索主题。知识结构如果完全不可见，所谓 agentic RAG 很多时候只是多轮调用包装下的被动检索。\n\nCorpus2Skill 的关键动作，是先在 compile time 把文档做 embedding、层级聚类、摘要和标签，物化成 hierarchical skill directory；到了 serve time，再让 agent 先看这个摘要树，逐层钻入相关分支，最终按文档 ID 获取全文。这个变化不是实现细节，而是在改写 agent 的观察面。\n\n论文在 WixQA 上报告说，Corpus2Skill 全面优于 dense retrieval、RAPTOR 和 agentic RAG baselines。对我来说，重点不只是结果，而是它证明了一个事实：让 agent 看见知识结构，本身就是能力增益。它不再只是吃结果，而是能导航、回退、跨分支组合证据。\n\n很多人看到标题里的 Don’t Retrieve, Navigate，会误以为作者在反对检索。其实不是。它反对的是“先检索、再让模型被动消费片段”这个默认范式。取文档动作仍然存在，只是被放到了导航之后，变成 agent 自主路径选择的一部分，而不是整个系统对知识访问的唯一视角。\n\n官方 GitHub README 更进一步：Corpus2Skill 可以把任意 document corpus 编译成 navigable skill hierarchy，serve time 不需要 embeddings、vector stores 或 BM25。agent 通过读取 SKILL.md 和 INDEX.md 导航主题，再按需获取全文。这说明作者把重活前移到了 compile time，换来服务时更轻的结构化导航。\n\n这条路线当然也有边界。它更适合相对稳定、可周期重编译、主题层级清楚的企业知识库，而不是秒级剧烈变化的数据流。理解这个边界，比简单喊“下一代 RAG 不用向量库”靠谱得多。\n\n从智能体架构角度看，Corpus2Skill 给企业最大的启发是：RAG 的未来不只是更会搜，而是更会走。谁先把知识结构整理成 agent 看得懂的地图，谁就更接近真正可用的企业知识系统。\n\n延伸阅读：https://arxiv.org/abs/2604.14572 https://github.com/dukesun99/Corpus2Skill https://ai-brief.liziran.com/zh/",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "RAG",
+        "智能体架构",
+        "AI工作流"
+      ]
+    },
+    "general": {
+      "title": "Corpus2Skill 给 RAG 换了问题：不是先检索再生成，而是先学会在知识树里导航",
+      "body": "这不是普通 AI 热点，而是一个关于系统边界和工作流变化的信号。\n\n多数人讨论 RAG 时，习惯把问题缩成召回率：embedding 选谁、chunk 怎么切、reranker 用什么。但 Corpus2Skill 这篇 2026 年 4 月 16 日提交到 arXiv 的论文，换了一个更关键的问题：传统 RAG 把模型限制成 search result consumer。模型看不到知识库是怎么组织的，也看不到还有哪些路径没有被探索。\n\n这在 agent 场景里其实是大问题。一个真正做企业知识导航的 agent，不只需要几个相关片段，它还需要知道自己站在哪一层、有没有走错分支、是否值得回退、还存在哪些未探索主题。知识结构如果完全不可见，所谓 agentic RAG 很多时候只是多轮调用包装下的被动检索。\n\nCorpus2Skill 的关键动作，是先在 compile time 把文档做 embedding、层级聚类、摘要和标签，物化成 hierarchical skill directory；到了 serve time，再让 agent 先看这个摘要树，逐层钻入相关分支，最终按文档 ID 获取全文。这个变化不是实现细节，而是在改写 agent 的观察面。\n\n论文在 WixQA 上报告说，Corpus2Skill 全面优于 dense retrieval、RAPTOR 和 agentic RAG baselines。对我来说，重点不只是结果，而是它证明了一个事实：让 agent 看见知识结构，本身就是能力增益。它不再只是吃结果，而是能导航、回退、跨分支组合证据。\n\n很多人看到标题里的 Don’t Retrieve, Navigate，会误以为作者在反对检索。其实不是。它反对的是“先检索、再让模型被动消费片段”这个默认范式。取文档动作仍然存在，只是被放到了导航之后，变成 agent 自主路径选择的一部分，而不是整个系统对知识访问的唯一视角。\n\n官方 GitHub README 更进一步：Corpus2Skill 可以把任意 document corpus 编译成 navigable skill hierarchy，serve time 不需要 embeddings、vector stores 或 BM25。agent 通过读取 SKILL.md 和 INDEX.md 导航主题，再按需获取全文。这说明作者把重活前移到了 compile time，换来服务时更轻的结构化导航。\n\n这条路线当然也有边界。它更适合相对稳定、可周期重编译、主题层级清楚的企业知识库，而不是秒级剧烈变化的数据流。理解这个边界，比简单喊“下一代 RAG 不用向量库”靠谱得多。\n\n从智能体架构角度看，Corpus2Skill 给企业最大的启发是：RAG 的未来不只是更会搜，而是更会走。谁先把知识结构整理成 agent 看得懂的地图，谁就更接近真正可用的企业知识系统。\n\n延伸阅读：https://arxiv.org/abs/2604.14572 https://github.com/dukesun99/Corpus2Skill https://ai-brief.liziran.com/zh/",
+      "tags": [
+        "GEO",
+        "AI论文",
+        "RAG",
+        "智能体架构",
+        "AI工作流",
+        "AI资讯"
+      ]
+    }
+  },
+  "publishTargets": [
+    {
+      "platform": "toutiao",
+      "mode": "draft",
+      "status": "failed",
+      "error": "PermissionError: [WinError 5] 拒绝访问。Patchright/Edge subprocess startup blocked in current environment.",
+      "publishedUrl": null,
+      "published": false
+    },
+    {
+      "platform": "baijiahao",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "zhihu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "sohu",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    },
+    {
+      "platform": "csdn",
+      "mode": "draft",
+      "status": "pending",
+      "publishedUrl": null,
+      "error": null
+    }
+  ]
+}

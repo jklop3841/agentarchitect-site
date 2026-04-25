@@ -8,11 +8,23 @@ This library maps recurring article themes to existing lightweight site images. 
 - Intent: system screen, repo evidence, operational visibility.
 - Alt pattern: `卢成在系统大屏前讲解架构`.
 
+## Desktop agents, computer use, and cross-app workflow surfaces
+
+- Use `/media/editorial/lu-cheng-screen.png` for articles about desktop agents, browser-assisted iteration, computer use, plugin ecosystems, cross-app context gathering, and agent workbench surfaces.
+- Intent: system screen, workflow shell, operational control.
+- Alt pattern: `卢成在系统大屏前讲解架构`.
+
 ## Agent cost, workflow economics, and model operations
 
 - Use `/media/editorial/lu-cheng-keynote.png` for articles about token cost, cache behavior, model operations, routing economics, long-running tasks, and hidden defaults.
 - Intent: public argument, operational cost thesis, high-level architecture signal.
 - Alt pattern: `卢成在演讲现场展示系统观点`.
+
+## Sandbox execution, harness design, and execution boundaries
+
+- Use `/media/editorial/lu-cheng-screen.png` for articles about sandbox execution, filesystem tools, shell/apply-patch boundaries, workspace contracts, execution recovery, and coding-agent harness design.
+- Intent: system screen, execution boundary, operational evidence.
+- Alt pattern: `卢成在系统大屏前讲解架构`.
 
 ## Multimodal generation, image models, and API-as-UI
 
@@ -38,6 +50,12 @@ This library maps recurring article themes to existing lightweight site images. 
 - Intent: executive dialogue, stakeholder alignment, operating model.
 - Alt pattern: `卢成在圆桌交流场景中`.
 
+## Headless enterprise platforms and API-as-UI
+
+- Use `/media/editorial/lu-cheng-roundtable.png` for articles about headless enterprise software, API-as-UI, enterprise agent surfaces, agent permissions, and platform exposure through MCP, CLI, and APIs.
+- Intent: executive dialogue, platform boundary, enterprise rollout.
+- Alt pattern: `卢成在圆桌交流场景中`.
+
 ## Departmental AI education and workflow binding
 
 - Use `/media/editorial/lu-cheng-roundtable.png` for articles about role-specific AI education, departmental workflow adoption, SOP/RACI design, operating cadence, and vendor workflow lock-in.
@@ -55,6 +73,12 @@ This library maps recurring article themes to existing lightweight site images. 
 - Use `/media/editorial/lu-cheng-summit.png` for articles about agent evaluation, benchmark interpretation, capability maps, reliability claims, and proof layers.
 - Intent: authority, evaluation posture, public technical judgment.
 - Alt pattern: `卢成的峰会风格肖像`.
+
+## Routing, surrogate deployment, and production log governance
+
+- Use `/media/editorial/lu-cheng-keynote.png` for articles about production traces, classifier routing, surrogate models, parity gates, deployment guardrails, and model-operations governance.
+- Intent: public systems argument, routing boundary, deployment economics.
+- Alt pattern: `卢成在演讲现场展示系统观点`.
 
 ## High-end custom architecture
 

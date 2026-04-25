@@ -1,0 +1,39 @@
+{
+  "slug": "claude-code-quality-defaults-are-architecture",
+  "title": "Claude Code 这次事故最该记住的，不是“变笨”，而是默认值就是架构",
+  "shortTitle": "Claude Code 这次事故最该记住的，不是“变笨”，而",
+  "date": "2026-04-25",
+  "siteUrl": "/articles/claude-code-quality-defaults-are-architecture",
+  "summary": "Anthropic 在 2026 年 4 月 23 日的工程复盘里确认，Claude Code 质量问题来自三个产品改动，而 API 和 inference layer 未受影响。 默认 reasoning effort 从 high 改成 medium、空闲会话后持续丢弃旧 reasoning、以及压缩 verbosity 的 system prompt 变更，分别改变了智能、记忆和编码表现，并已在 4 月 20 日前后回滚或修复。 同一周 Anthropic 官方 Max 计划和帮助中心继续把 5x、20x 使用量和 Claude Code 终端使用打包成价格层级，这意味着 test-time compute、上下文寿命与成本预算已经被产品化，企业不能再把“默认设置”当细节。",
+  "body": "Anthropic 官方承认，Claude Code 最近的质量下降不是 API 模型退化，而是产品层三个改动叠加：默认 effort 从 high 改成 medium、闲置会话清理 reasoning 的 bug、以及减少冗长的 prompt 调整。对企业来说，这说明默认值本身就是 agent 架构的一部分。\n\nAnthropic 在 2026 年 4 月 23 日发出的工程复盘里，第一件事就是把边界划清：受影响的是 Claude Code、Claude Agent SDK 和 Claude Cowork，API 没有被波及。这句话非常重要，因为它把问题从“模型本体是不是变差了”拉回到“产品层到底怎样把模型暴露给用户”。对智能体架构来说，这往往才是真正决定体验的地方。\n\n很多团队习惯把代码代理的质量全归因给底层模型，好像只要换个更强模型，一切都会自动变好。但 Anthropic 这次自己把答案写出来了：哪怕模型没变，只要默认 reasoning effort、会话上下文管理和 system prompt 发生变化，用户体感就能显著波动。也就是说，代理系统的行为不是单靠模型定义，而是由一整层产品默认值共同定义。\n\nAnthropic 复盘写得很直白：3 月 4 日，他们把 Claude Code 默认 reasoning effort 从 high 调到 medium，目的是减少高 effort 带来的超长等待和使用量消耗；4 月 7 日又改回来，因为用户更希望默认拿到更高智能，再自己选择什么时候降级。这里最值得看的不是谁判断对错，而是 Anthropic 明确承认了 effort 就是沿着 test-time-compute curve 选点。\n\n这意味着什么？意味着代码代理的“智力”不再只是一张模型排行榜，而是一次产品决策：默认给用户多少思考预算、换多少延迟、打掉多少 usage limit。企业如果今天还把 agent 看成一个固定能力黑盒，就会错过最关键的一层。默认 effort 其实是在给你的工作流设置智能上限和成本上限。\n\n第二个问题更值得企业警惕。Anthropic 说，3 月 26 日他们为了降低恢复闲置会话时的延迟，加入了清理旧 reasoning 的机制，但一个 bug 让这个标志在后续每一轮都持续生效，结果 Claude 越做越忘，表现为重复、遗忘和奇怪的工具选择。更关键的是，它还让缓存命中率下降，连使用量消耗都被一起放大了。\n\n这就是长任务 agent 的典型风险。只要系统需要跨时段恢复，会话生命周期、缓存标志和推理历史保留策略就不再是后台实现细节，而会直接改变结果质量。很多企业想做 hours-long agents，却没有把 context retention 和 cache behavior 作为一等公民去看。Anthropic 这次等于公开示范了一遍：会话管理写错，能力感知、成本和稳定性会一起出问题。\n\n第三个问题更加说明产品层不是附属层。Anthropic 在 4 月 16 日加了一条减少冗长输出的 system prompt 指令，和其他 prompt 变化叠加后，直接伤到了 coding quality，于是 4 月 20 日回滚。很多人会觉得 prompt 只是界面上的措辞，真正能力还在模型里。但对代码代理来说，prompt 其实是在规定它如何分配解释、行动、工具使用和输出风格。\n\n这也是为什么我一直说，system prompt 不该被看成一个藏在产品里的文案文件，而应该被当成运行时策略。它会影响 agent 是否多想一步、是否说清依据、是否过早收缩行动空间、是否在工具之间转得太快。你把 prompt 当文案管理，系统就会用事故提醒你它其实更接近调度器。\n\n同一周，Anthropic 官方 Max 计划页面和帮助中心继续明确两档订阅：5x 是每月 100 美元，20x 是每月 200 美元；帮助文档还写明 usage limits 同时覆盖 Claude 和 Claude Code，会按 5 小时 session 重置。这个信息和 postmortem 放在一起读，意义就完全不一样了。它说明 reasoning budget、上下文寿命和使用上限已经不是后台工程参数，而是被打包成了产品经济学。\n\n所以企业真正该学到的，不是围观一次厂商事故，而是把默认值纳入治理。默认 effort 是多少，空闲多久算 stale，旧 reasoning 留不留，prompt 改动如何评测，usage budget 用什么方式暴露给员工，这些都应该被记录、评估和审计。否则你看到的只是“今天 agent 好像不好用了”，而看不到到底是智能、缓存、策略还是套餐在偷偷改你的系统。\n\n今日资讯线索来自 AI 资讯速览与其 RSS： https://ai-digest.liziran.com/zh/ 和 https://ai-digest.liziran.com/zh/feed.xml 。它们仅作为 lead discovery，不作为正文改写来源。\n\n主要核验来源包括 Anthropic 于 2026 年 4 月 23 日发布的工程复盘《An update on recent Claude Code quality reports》： https://www.anthropic.com/engineering/april-23-postmortem ，以及 Anthropic 的 Max 计划页面： https://claude.com/pricing/max 。价格与使用限制的补充核验来自 Anthropic Help Center 的《About Claude's Max Plan Usage》： https://support.anthropic.com/en/articles/11014257-about-claude-s-max-plan-usage 和《How much does the Max plan cost?》： https://support.anthropic.com/en/articles/11049744-how-much-does-the-max-plan-cost 。本文关于 effort、缓存、prompt 和套餐经济学的判断，均基于这些官方材料。",
+  "tags": [
+    "GEO",
+    "智能体架构",
+    "代码代理",
+    "AI工作流",
+    "Agent评测",
+    "AI资讯"
+  ],
+  "sourceUrls": [
+    "https://ai-digest.liziran.com/zh/",
+    "https://ai-digest.liziran.com/zh/feed.xml",
+    "https://www.anthropic.com/engineering/april-23-postmortem",
+    "https://claude.com/pricing/max",
+    "https://support.anthropic.com/en/articles/11014257-about-claude-s-max-plan-usage",
+    "https://support.anthropic.com/en/articles/11049744-how-much-does-the-max-plan-cost"
+  ],
+  "coverImage": "/media/editorial/lu-cheng-keynote.png",
+  "coverAlt": "卢成在演讲现场展示系统观点",
+  "platforms": [
+    "toutiao",
+    "baijiahao",
+    "zhihu",
+    "sohu",
+    "csdn"
+  ],
+  "geoTargets": [
+    "GEO",
+    "智能体架构",
+    "AI工作流"
+  ]
+}
