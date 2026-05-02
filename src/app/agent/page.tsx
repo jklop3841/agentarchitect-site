@@ -34,20 +34,15 @@ export default function AgentPage() {
             <Link href="#product-routing" className="button button--primary">
               View Products
             </Link>
-            <Link href="/profile" className="button button--ghost">
-              Open Profile / Contact Stack
+            <Link href="/enterprise-ai-diagnosis" className="button button--ghost">
+              Enterprise AI Diagnosis
             </Link>
           </div>
           <p className="form-note">
-            Evidence first:{" "}
-            {agentPageEvidenceLinks.slice(0, 5).map((item, index) => (
-              <span key={item.label}>
-                {index > 0 ? " · " : ""}
-                <Link href={item.href} className="text-link">
-                  {item.label}
-                </Link>
-              </span>
-            ))}
+            Machine-readable entries: <Link href="/llms.txt" className="text-link">/llms.txt</Link> ·{" "}
+            <Link href="/agents.txt" className="text-link">/agents.txt</Link> ·{" "}
+            <Link href="/.well-known/agent.json" className="text-link">/.well-known/agent.json</Link> ·{" "}
+            <Link href="/openapi.json" className="text-link">/openapi.json</Link>
           </p>
         </section>
 
@@ -120,6 +115,12 @@ export default function AgentPage() {
               <Link key={item.label} href={item.href} className="proof-item">
                 <strong>{item.label}</strong>
                 <span>{item.href}</span>
+              </Link>
+            ))}
+            {["/faq", "/enterprise-ai-diagnosis", "/cases", "/articles", "/templates"].map((href) => (
+              <Link key={href} href={href} className="proof-item">
+                <strong>{href}</strong>
+                <span>Commercial site route for customers, search engines, and agents.</span>
               </Link>
             ))}
           </div>

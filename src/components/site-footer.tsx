@@ -15,7 +15,7 @@ export function SiteFooter() {
   const pathname = usePathname();
   const locale = resolveLocale(pathname);
   const isEnglish = locale === "en";
-  const contactHref = "/profile";
+  const contactHref = "/contact";
 
   return (
     <footer className="site-footer">
@@ -25,7 +25,7 @@ export function SiteFooter() {
           <p className="footer-copy">
             {isEnglish
               ? "Research, essays, speaking, and advisory on agent architecture, enterprise AI systems, and long-form public writing."
-              : "围绕智能体架构、企业级 AI 系统、研究写作与公开表达展开的个人站点。"}
+              : "智能体架构师卢成的主站：内容首发、企业 AI 诊断、案例沉淀、模板下载与 Agent 可读入口。"}
           </p>
         </div>
         <div>
@@ -35,10 +35,19 @@ export function SiteFooter() {
               <Link href="/articles">{isEnglish ? "Essays (CN)" : "文章"}</Link>
             </li>
             <li>
-              <Link href="/agent">{isEnglish ? "Agent Page" : "Agent 页面"}</Link>
+              <Link href="/enterprise-ai-diagnosis">{isEnglish ? "AI Diagnosis" : "企业 AI 诊断"}</Link>
             </li>
             <li>
-              <Link href="/profile">{isEnglish ? "Profile Page" : "人物页"}</Link>
+              <Link href="/cases">{isEnglish ? "Cases" : "案例库"}</Link>
+            </li>
+            <li>
+              <Link href="/templates">{isEnglish ? "Templates" : "模板库"}</Link>
+            </li>
+            <li>
+              <Link href="/faq">FAQ</Link>
+            </li>
+            <li>
+              <Link href="/agent">{isEnglish ? "Agent Page" : "Agent 页面"}</Link>
             </li>
           </ul>
         </div>
@@ -49,12 +58,10 @@ export function SiteFooter() {
               <Link href={contactHref}>{isEnglish ? "Email & Profiles" : "邮箱与外部资料"}</Link>
             </li>
             <li>
-              <Link href="/profile">
-                {isEnglish ? "High-End Custom Architecture" : "高端定制架构合作"}
-              </Link>
+              <Link href="/enterprise-ai-diagnosis">{isEnglish ? "Book AI Diagnosis" : "预约 AI 落地诊断"}</Link>
             </li>
             <li>
-              <Link href="/apply">{isEnglish ? "Runtime Key Application" : "Runtime Key 申请表单"}</Link>
+              <Link href="/agent-architect">{isEnglish ? "What is Agent Architect" : "什么是智能体架构师"}</Link>
             </li>
           </ul>
         </div>

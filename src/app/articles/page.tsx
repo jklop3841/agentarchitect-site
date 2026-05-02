@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { SiteHeader } from "@/components/site-header";
+import { firstPublishNotice } from "@/lib/commercial-site";
 import { articles } from "@/lib/content";
+import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "文章",
@@ -38,12 +40,22 @@ export default function ArticlesPage() {
                 </div>
                 <div className="article-card__content">
                   <div className="article-card__meta">
-                    <span>{article.date}</span>
+                    <span>发布：{article.date}</span>
+                    <span>更新：{article.updatedAt || article.date}</span>
                     <span>{article.readTime}</span>
+                    <span>主站首发</span>
                   </div>
                   <h2>{article.title}</h2>
                   <p className="article-card__subtitle">{article.subtitle}</p>
                   <p>{article.excerpt}</p>
+                  <p className="form-note">
+                    作者：卢成 · 分类：{article.category || article.tags[0] || "智能体架构"} · Canonical：
+                    {new URL(`/articles/${article.slug}`, siteConfig.domain).toString()}
+                  </p>
+                  <p className="form-note">
+                    分发状态：{(article.distribution || ["抖音", "头条", "掘金", "搜狐", "公众号"]).join(" / ")}
+                  </p>
+                  <p className="form-note">{firstPublishNotice}</p>
                   <div className="article-card__tags">
                     {article.tags.map((tag) => (
                       <span key={tag} className="chip">

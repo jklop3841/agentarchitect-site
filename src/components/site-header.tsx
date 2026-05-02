@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { commercialNavItems } from "@/lib/commercial-site";
+
 type SiteHeaderProps = {
   locale?: "zh" | "en";
 };
@@ -7,8 +9,7 @@ type SiteHeaderProps = {
 export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
   const isEnglish = locale === "en";
   const homeHref = isEnglish ? "/" : "/zh";
-  const authorityHref = `${homeHref}#authority`;
-  const contactHref = "/profile";
+  const contactHref = "/contact";
 
   return (
     <header className="site-header">
@@ -21,11 +22,23 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
           </span>
         </Link>
         <nav className="site-nav">
-          <Link href="/articles">{isEnglish ? "Essays (CN)" : "文章"}</Link>
-          <Link href={`${homeHref}#bio`}>{isEnglish ? "Profile" : "简介"}</Link>
-          <Link href={authorityHref}>{isEnglish ? "Authority" : "权威表达"}</Link>
-          <Link href="/agent">Agent</Link>
-          <Link href="/profile">{isEnglish ? "Profile Page" : "人物页"}</Link>
+          {isEnglish ? (
+            <>
+              <Link href="/agent-architect">Agent Architect</Link>
+              <Link href="/enterprise-ai-diagnosis">AI Diagnosis</Link>
+              <Link href="/cases">Cases</Link>
+              <Link href="/articles">Essays (CN)</Link>
+              <Link href="/templates">Templates</Link>
+              <Link href="/faq">FAQ</Link>
+              <Link href="/agent">Agent</Link>
+            </>
+          ) : (
+            commercialNavItems.slice(1, 8).map((item) => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+              </Link>
+            ))
+          )}
           <div className="language-switch">
             <Link href="/" className={isEnglish ? "is-active" : undefined}>
               EN

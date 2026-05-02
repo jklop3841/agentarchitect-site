@@ -11,6 +11,9 @@ export type ArticleEntry = {
   subtitle: string;
   subtitleEn: string;
   date: string;
+  updatedAt?: string;
+  category?: string;
+  distribution?: string[];
   readTime: string;
   tags: string[];
   excerpt: string;

@@ -5,7 +5,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SiteHeader } from "@/components/site-header";
+import { firstPublishNotice } from "@/lib/commercial-site";
 import { articles, authorProfile } from "@/lib/content";
+import { siteConfig } from "@/lib/site";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -26,6 +28,9 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   return {
     title: article.title,
     description: article.excerpt,
+    alternates: {
+      canonical: `/articles/${article.slug}`,
+    },
     openGraph: {
       title: article.title,
       description: article.excerpt,
@@ -49,6 +54,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     headline: article.title,
     description: article.excerpt,
     datePublished: article.date,
+    dateModified: article.updatedAt || article.date,
+    mainEntityOfPage: new URL(`/articles/${article.slug}`, siteConfig.domain).toString(),
     image: article.coverImage,
     author: {
       "@type": "Person",
@@ -70,8 +77,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <h1>{article.title}</h1>
             <p className="subpage__lead">{article.subtitle}</p>
             <div className="article-card__meta">
-              <span>{article.date}</span>
+              <span>发布：{article.date}</span>
+              <span>更新：{article.updatedAt || article.date}</span>
               <span>{article.readTime}</span>
+              <span>作者：卢成</span>
+              <span>主站首发</span>
             </div>
           </div>
           <div className="article-page__hero-media">
@@ -106,6 +116,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </Link>
           </aside>
           <article className="article-body">
+            <div className="article-body__section article-origin">
+              <p className="article-body__note">Canonical Original</p>
+              <p>{firstPublishNotice}</p>
+              <p>
+                主站原文：
+                <Link href={`/articles/${article.slug}`} className="text-link">
+                  {new URL(`/articles/${article.slug}`, siteConfig.domain).toString()}
+                </Link>
+              </p>
+              <p>分发状态：{(article.distribution || ["抖音", "头条", "掘金", "搜狐", "公众号"]).join(" / ")}</p>
+            </div>
             <p className="article-body__lead">{article.excerpt}</p>
             {article.sections.map((section) => (
               <section key={section.heading} className="article-body__section">
