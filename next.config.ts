@@ -5,6 +5,21 @@ const nextConfig: NextConfig = {
   experimental: {
     workerThreads: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "agentarchitect.me",
+          },
+        ],
+        destination: "https://www.agentarchitect.me/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

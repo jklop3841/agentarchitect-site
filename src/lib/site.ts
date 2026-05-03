@@ -5,10 +5,17 @@ import { listCapabilities } from "@/lib/capabilities";
 import { skillGlueCommands } from "@/lib/skill-glue";
 import { workflowShieldCommands } from "@/lib/workflow-shield";
 
+const canonicalDomain = "https://www.agentarchitect.me";
+const configuredDomain = process.env.NEXT_PUBLIC_SITE_URL;
+const normalizedConfiguredDomain = configuredDomain?.replace(/\/+$/, "");
+
 export const siteConfig = {
   name: "Jack Lu",
   title: "Jack Lu",
-  domain: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  domain:
+    normalizedConfiguredDomain && !normalizedConfiguredDomain.includes("localhost")
+      ? normalizedConfiguredDomain
+      : canonicalDomain,
 };
 
 export const githubRepo = {
