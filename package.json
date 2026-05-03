@@ -32,5 +32,8 @@
   },
   "optionalDependencies": {
     "@next/swc-win32-x64-msvc": "^16.2.2"
+  },
+  "overrides": {
+    "postcss": "8.5.10"
   }
 }

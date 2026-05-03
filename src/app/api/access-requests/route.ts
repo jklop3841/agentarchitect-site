@@ -38,9 +38,10 @@ export async function POST(request: Request) {
   try {
     record = await createAccessRequest(payload);
   } catch (error) {
+    console.error("Failed to persist access request", error);
     return NextResponse.json(
       {
-        message: error instanceof Error ? error.message : "Failed to persist access request.",
+        message: "Failed to persist access request.",
       },
       { status: 503 },
     );

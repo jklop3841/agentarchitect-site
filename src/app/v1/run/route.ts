@@ -4,10 +4,29 @@ import { getCapability, runCapability } from "@/lib/capabilities";
 import { consumeRateLimit, getClientIp } from "@/lib/rate-limit";
 import { createExecutionId, createVerificationToken } from "@/lib/security";
 import { createExecutionLog, findApiKey } from "@/lib/store";
-import { readJson, sanitizeExecutionInput, summarizeStructuredInput } from "@/lib/validation";
+import { normalizeApiKey, readJson, sanitizeExecutionInput, summarizeStructuredInput } from "@/lib/validation";
 
 export async function POST(request: Request) {
-  const apiKey = request.headers.get("x-api-key");
+  const ip = getClientIp(request);
+  const authRateLimit = consumeRateLimit({
+    key: `run-auth:${ip}`,
+    limit: 20,
+    windowMs: 10 * 60 * 1000,
+  });
+
+  if (!authRateLimit.allowed) {
+    return NextResponse.json(
+      { message: "Rate limit exceeded." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((authRateLimit.resetAt - Date.now()) / 1000)),
+        },
+      },
+    );
+  }
+
+  const apiKey = normalizeApiKey(request.headers.get("x-api-key"));
 
   if (!apiKey) {
     return NextResponse.json({ message: "Missing x-api-key header." }, { status: 401 });
@@ -19,7 +38,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Invalid API key." }, { status: 401 });
   }
 
-  const ip = getClientIp(request);
   const rateLimit = consumeRateLimit({
     key: `run:${activeKey.id}:${ip}`,
     limit: 30,
@@ -79,9 +97,10 @@ export async function POST(request: Request) {
       status: "completed",
     });
   } catch (error) {
+    console.error("Failed to persist execution log", error);
     return NextResponse.json(
       {
-        message: error instanceof Error ? error.message : "Failed to persist execution log.",
+        message: "Failed to persist execution log.",
       },
       { status: 503 },
     );

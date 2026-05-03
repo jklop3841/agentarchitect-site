@@ -159,8 +159,16 @@ export async function listApiKeys() {
 export async function findApiKey(rawKey: string) {
   const keyHash = hashValue(rawKey);
   const keys = await listApiKeys();
+  let matchedKey: ApiKeyRecord | null = null;
 
-  return keys.find((entry) => secureEqual(entry.keyHash, keyHash) && entry.status === "active") ?? null;
+  for (const entry of keys) {
+    const isMatch = secureEqual(entry.keyHash, keyHash);
+    if (isMatch && entry.status === "active") {
+      matchedKey = entry;
+    }
+  }
+
+  return matchedKey;
 }
 
 export async function createExecutionLog(input: Omit<ExecutionLogRecord, "id" | "createdAt">) {

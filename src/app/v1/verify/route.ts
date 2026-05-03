@@ -3,10 +3,29 @@ import { NextResponse } from "next/server";
 import { consumeRateLimit, getClientIp } from "@/lib/rate-limit";
 import { createVerificationToken, secureEqual } from "@/lib/security";
 import { findApiKey, findExecutionLog } from "@/lib/store";
-import { readJson, sanitizeVerifyInput } from "@/lib/validation";
+import { normalizeApiKey, readJson, sanitizeVerifyInput } from "@/lib/validation";
 
 export async function POST(request: Request) {
-  const apiKey = request.headers.get("x-api-key");
+  const ip = getClientIp(request);
+  const authRateLimit = consumeRateLimit({
+    key: `verify-auth:${ip}`,
+    limit: 30,
+    windowMs: 10 * 60 * 1000,
+  });
+
+  if (!authRateLimit.allowed) {
+    return NextResponse.json(
+      { message: "Rate limit exceeded." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((authRateLimit.resetAt - Date.now()) / 1000)),
+        },
+      },
+    );
+  }
+
+  const apiKey = normalizeApiKey(request.headers.get("x-api-key"));
 
   if (!apiKey) {
     return NextResponse.json({ message: "Missing x-api-key header." }, { status: 401 });
@@ -17,7 +36,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Invalid API key." }, { status: 401 });
   }
 
-  const ip = getClientIp(request);
   const rateLimit = consumeRateLimit({
     key: `verify:${activeKey.id}:${ip}`,
     limit: 60,
@@ -50,9 +68,10 @@ export async function POST(request: Request) {
   try {
     log = await findExecutionLog(payload.executionId);
   } catch (error) {
+    console.error("Failed to read execution log", error);
     return NextResponse.json(
       {
-        message: error instanceof Error ? error.message : "Failed to read execution log.",
+        message: "Failed to read execution log.",
       },
       { status: 503 },
     );

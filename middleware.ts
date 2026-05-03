@@ -4,6 +4,7 @@ function unauthorized() {
   return new NextResponse("Authentication required", {
     status: 401,
     headers: {
+      "Cache-Control": "no-store",
       "WWW-Authenticate": 'Basic realm="Admin Area"',
     },
   });
@@ -44,7 +45,13 @@ export async function middleware(request: NextRequest) {
   const password = process.env.ADMIN_PASSWORD;
 
   if (!username || !password) {
-    return new NextResponse("Admin access is not configured.", { status: 503 });
+    return new NextResponse("Admin access is not configured.", {
+      status: 503,
+      headers: {
+        "Cache-Control": "no-store",
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    });
   }
 
   const authHeader = request.headers.get("authorization");
@@ -58,7 +65,13 @@ export async function middleware(request: NextRequest) {
   } catch {
     return unauthorized();
   }
-  const [providedUser, providedPass] = decoded.split(":");
+  const separatorIndex = decoded.indexOf(":");
+  if (separatorIndex < 0) {
+    return unauthorized();
+  }
+
+  const providedUser = decoded.slice(0, separatorIndex);
+  const providedPass = decoded.slice(separatorIndex + 1);
 
   const [expectedUserHash, expectedPassHash, providedUserHash, providedPassHash] = await Promise.all([
     sha256Hex(username),

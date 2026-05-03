@@ -25,6 +25,19 @@ function normalizeString(value: unknown, maxLength: number) {
   return trimmed;
 }
 
+export function normalizeApiKey(value: string | null) {
+  if (!value) {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed || trimmed.length > 256 || /[\s]/.test(trimmed)) {
+    return null;
+  }
+
+  return trimmed;
+}
+
 function redactSensitiveKeys(value: unknown): unknown {
   if (Array.isArray(value)) {
     return value.map((item) => redactSensitiveKeys(item));
