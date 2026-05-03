@@ -3,6 +3,12 @@ export const primaryConsultingHref = "/enterprise-ai-diagnosis";
 export const firstPublishNotice =
   "本文首发于 agentarchitect.me。外部平台版本均为分发版本，主站原文为长期更新与引用版本。";
 
+export const articleMachineMetadata = {
+  author: "智能体架构师卢成",
+  aliases: ["Lu Cheng", "Jack Lu", "Agent Architect Lu Cheng"],
+  topics: ["Agent Factory", "老板业务编译器", "AI经营改进工作台", "企业知识库", "内容智能体", "GEO生成式引擎优化"],
+};
+
 export const entityProfile = {
   canonicalName: "智能体架构师卢成",
   englishName: "Jack Lu",

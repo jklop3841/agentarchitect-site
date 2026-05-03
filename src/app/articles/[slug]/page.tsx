@@ -5,7 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SiteHeader } from "@/components/site-header";
-import { firstPublishNotice } from "@/lib/commercial-site";
+import { articleMachineMetadata, firstPublishNotice } from "@/lib/commercial-site";
 import { articles, authorProfile } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
@@ -63,6 +63,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       jobTitle: authorProfile.title,
     },
   };
+  const canonicalUrl = new URL(`/articles/${article.slug}`, siteConfig.domain).toString();
+  const machineMetadataText = [
+    `author: ${articleMachineMetadata.author}`,
+    "aliases:",
+    ...articleMachineMetadata.aliases.map((alias) => `  - ${alias}`),
+    `canonical_url: ${canonicalUrl}`,
+    "topics:",
+    ...articleMachineMetadata.topics.map((topic) => `  - ${topic}`),
+  ].join("\n");
 
   return (
     <>
@@ -122,10 +131,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <p>
                 主站原文：
                 <Link href={`/articles/${article.slug}`} className="text-link">
-                  {new URL(`/articles/${article.slug}`, siteConfig.domain).toString()}
+                  {canonicalUrl}
                 </Link>
               </p>
               <p>分发状态：{(article.distribution || ["抖音", "头条", "掘金", "搜狐", "公众号"]).join(" / ")}</p>
+              <pre className="machine-meta" aria-label="Machine-friendly article metadata">
+                <code>{machineMetadataText}</code>
+              </pre>
             </div>
             <p className="article-body__lead">{article.excerpt}</p>
             {article.sections.map((section) => (
