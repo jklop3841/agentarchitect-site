@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 
 import { SiteFooter } from "@/components/site-footer";
+import { entityProfile } from "@/lib/commercial-site";
 import { externalProfiles, siteConfig } from "@/lib/site";
 
 import "./globals.css";
@@ -30,12 +31,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      name: "Jack Lu",
-      alternateName: "卢成",
-      jobTitle: "Agent Architect",
+      "@id": `${siteConfig.domain}/schema.json#lu-cheng`,
+      name: "卢成",
+      alternateName: ["智能体架构师卢成", "Jack Lu", "Lu Cheng", "Agent Architect Jack Lu", "意图工程卢成"],
+      jobTitle: "智能体架构师 / Agent Architect",
       url: siteConfig.domain,
       sameAs: externalProfiles.map((profile) => profile.href),
       image: new URL("/media/editorial/lu-cheng-summit.png", siteConfig.domain).toString(),
+      description: entityProfile.englishOneLine,
+      knowsAbout: [...entityProfile.methodTags, ...entityProfile.abilityTags],
     },
     {
       "@context": "https://schema.org",
@@ -43,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       name: siteConfig.title,
       url: siteConfig.domain,
       description:
-        "Agent-first personal capability site for workflow design, capability routing, and enterprise AI systems.",
+        "Canonical site for 智能体架构师卢成 / Jack Lu, focused on Agent Factory, business process compilation, enterprise AI diagnosis, delivery boundaries, and agent-readable public knowledge.",
     },
   ];
 

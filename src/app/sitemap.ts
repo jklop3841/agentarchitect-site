@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/zh",
     "/agent-architect",
+    "/about",
     "/enterprise-ai-diagnosis",
     "/cases",
     "/articles",
@@ -19,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/openapi.json",
     "/agents.txt",
     "/llms.txt",
+    "/schema.json",
   ];
 
   return [

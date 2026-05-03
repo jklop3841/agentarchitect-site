@@ -10,6 +10,8 @@ export async function GET() {
     "llms: /llms.txt",
     "agent-manifest: /.well-known/agent.json",
     "openapi: /openapi.json",
+    "schema: /schema.json",
+    "about: /about",
     "faq: /faq",
     "enterprise-ai-diagnosis: /enterprise-ai-diagnosis",
     "cases: /cases",

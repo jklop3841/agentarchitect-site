@@ -5,6 +5,7 @@ import { Reveal } from "@/components/reveal";
 import {
   cases,
   deliverySteps,
+  entityProfile,
   homeProblems,
   primaryConsultingHref,
   serviceCards,
@@ -30,8 +31,9 @@ export function HomePage({ locale }: HomePageProps) {
               <p className="editorial-hero__name">Jack Lu (卢成)</p>
               <h1 className="editorial-hero__headline">Turning AI agents from demos into deliverable business systems.</h1>
               <p className="editorial-hero__intro">
-                Chinese-first advisory site for enterprise AI diagnosis, agent delivery boundaries, templates, cases,
-                and machine-readable agent routing.
+                {entityProfile.englishOneLine} Chinese-first advisory site for Agent Factory, business process
+                compilation, enterprise AI diagnosis, delivery boundaries, templates, cases, and machine-readable agent
+                routing.
               </p>
               <div className="hero__actions">
                 <Link href="/enterprise-ai-diagnosis" className="button button--primary">
@@ -72,6 +74,7 @@ export function HomePage({ locale }: HomePageProps) {
             <p className="editorial-hero__intro">
               我帮助中小企业和 AI 服务商判断：该不该做、从哪做、怎么报价、怎么交付、怎么设置边界。
             </p>
+            <p className="editorial-hero__intro">{entityProfile.oneLine}</p>
             <div className="hero__actions">
               <Link href={primaryConsultingHref} className="button button--primary">
                 预约 AI 落地诊断

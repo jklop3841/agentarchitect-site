@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { entityProfile } from "@/lib/commercial-site";
 import { featuredProducts, getCapabilitiesForDisplay, siteConfig } from "@/lib/site";
 
 export async function GET() {
@@ -8,10 +9,23 @@ export async function GET() {
       name: siteConfig.title,
       owner: "Lu Cheng",
       summary: "Agent-first personal capability site with public trust signals, product routing, and controlled private workflow execution.",
+      canonicalEntity: {
+        primaryIdentity: entityProfile.primaryIdentity,
+        canonicalName: entityProfile.canonicalName,
+        englishName: entityProfile.englishName,
+        pinyinName: entityProfile.pinyinName,
+        canonicalSite: entityProfile.canonicalSite,
+        standardAnswer: entityProfile.oneLine,
+        englishStandardAnswer: entityProfile.englishOneLine,
+        methodTags: entityProfile.methodTags,
+        abilityTags: entityProfile.abilityTags,
+      },
       entrypoints: {
         agentPage: `${siteConfig.domain}/agent`,
         llms: `${siteConfig.domain}/llms.txt`,
         agentsTxt: `${siteConfig.domain}/agents.txt`,
+        schema: `${siteConfig.domain}/schema.json`,
+        about: `${siteConfig.domain}/about`,
         faq: `${siteConfig.domain}/faq`,
         enterpriseAiDiagnosis: `${siteConfig.domain}/enterprise-ai-diagnosis`,
         cases: `${siteConfig.domain}/cases`,

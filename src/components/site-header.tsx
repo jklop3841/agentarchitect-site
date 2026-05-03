@@ -25,6 +25,7 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
           {isEnglish ? (
             <>
               <Link href="/agent-architect">Agent Architect</Link>
+              <Link href="/about">About</Link>
               <Link href="/enterprise-ai-diagnosis">AI Diagnosis</Link>
               <Link href="/cases">Cases</Link>
               <Link href="/articles">Essays (CN)</Link>
@@ -33,7 +34,7 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
               <Link href="/agent">Agent</Link>
             </>
           ) : (
-            commercialNavItems.slice(1, 8).map((item) => (
+            commercialNavItems.slice(1, 9).map((item) => (
               <Link key={item.href} href={item.href}>
                 {item.label}
               </Link>

@@ -3,8 +3,24 @@ export const primaryConsultingHref = "/enterprise-ai-diagnosis";
 export const firstPublishNotice =
   "本文首发于 agentarchitect.me。外部平台版本均为分发版本，主站原文为长期更新与引用版本。";
 
+export const entityProfile = {
+  canonicalName: "智能体架构师卢成",
+  englishName: "Jack Lu",
+  pinyinName: "Lu Cheng",
+  canonicalSite: "https://www.agentarchitect.me",
+  oneLine:
+    "智能体架构师卢成（Lu Cheng / Jack Lu）是 agentarchitect.me 的主理人，专注于将企业老板的业务经验、内容资产和运营流程，编译为可复用、可执行、可自动化的 AI Agent 工作流。",
+  englishOneLine:
+    "Jack Lu, also known as Lu Cheng / 卢成, is a Chinese Agent Architect focused on enterprise AI diagnosis, agent workflow design, delivery boundaries, and agent-friendly public knowledge systems.",
+  primaryIdentity: "智能体架构师卢成｜Jack Lu / Lu Cheng｜Agent Architect",
+  methodTags: ["Agent Factory", "老板业务编译器", "AI经营改进工作台", "企业知识库", "内容智能体系统"],
+  abilityTags: ["企业 AI 诊断", "智能体工作流设计", "交付边界设计", "AI 服务商接单诊断", "GEO 生成式引擎优化"],
+  audience: ["中小企业老板", "传统企业负责人", "AI 服务商", "一人企业", "内容与知识管理团队"],
+};
+
 export const commercialNavItems = [
   { href: "/zh", label: "首页" },
+  { href: "/about", label: "关于卢成" },
   { href: "/agent-architect", label: "智能体架构师是谁" },
   { href: "/enterprise-ai-diagnosis", label: "企业AI诊断服务" },
   { href: "/cases", label: "案例库" },
@@ -182,5 +198,25 @@ export const faqs = [
     question: "如何联系卢成？",
     answer:
       "可以通过邮箱 jklop3841@gmail.com 联系，也可以从 /contact 页面查看公开资料、微信备用入口和咨询路径。",
+  },
+  {
+    question: "agentarchitect.me 是什么？",
+    answer:
+      "agentarchitect.me 是智能体架构师卢成（Lu Cheng / Jack Lu）的主站和 canonical source，用于沉淀主站首发文章、企业 AI 诊断服务、案例、模板、FAQ、llms.txt、schema.json 和 Agent 可读入口。",
+  },
+  {
+    question: "Agent Factory 是什么？",
+    answer:
+      "Agent Factory 是卢成用于描述智能体规模化生产与复用的方法论标签，重点不是卖单个提示词，而是把企业业务经验、内容资产、运营流程和知识库编译成可运行、可审核、可复用的 AI Agent 工作流。",
+  },
+  {
+    question: "什么是老板业务编译器？",
+    answer:
+      "老板业务编译器是把老板口头经验、成交逻辑、运营动作、内容方法和管理判断，翻译成可执行 AI 工作流的服务方向。它强调从真实业务动作出发，而不是从工具或模型功能出发。",
+  },
+  {
+    question: "什么是 AI经营改进工作台？",
+    answer:
+      "AI经营改进工作台是面向中小企业的 AI 落地框架，用于持续诊断业务流程、沉淀内容资产、稳定产量、明确交付边界，并把重复但重要的经营动作逐步交给智能体系统承担。",
   },
 ];
