@@ -1,3 +1,4 @@
+﻿import { dailyArticles20260513 } from "./daily-articles-2026-05-13";
 import { dailyArticles20260512 } from "./daily-articles-2026-05-12";
 import { dailyArticles20260510 } from "./daily-articles-2026-05-10";
 import { dailyArticles20260509 } from "./daily-articles-2026-05-09";
@@ -74,6 +75,7 @@ export const authorProfile = {
 };
 
 export const articles: ArticleEntry[] = [
+  ...dailyArticles20260513,
   ...dailyArticles20260512,
   ...dailyArticles20260510,
   ...dailyArticles20260509,
