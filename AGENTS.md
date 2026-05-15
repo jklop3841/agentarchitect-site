@@ -4,24 +4,18 @@ This file is the shared operating note for any agent working in this repo. It re
 
 ## Current Handoff Snapshot
 
-Date: 2026-05-09
+Date: 2026-05-15
 Workspace: `D:\websit`
 Branch: `main`
 
 Latest user request:
-- Stop the previous article-publish attempt.
-- Create this general handoff file so another agent can continue publishing articles and maintaining the website.
-- The previously requested article replacement is not finished yet.
+- Publish new article: 未来 2-3 年，智能体架构师是中国最赚钱的职业
 
-Current article task to continue:
-- Replace the existing article at slug `douyin-outage-platform-risk-business-compiler`.
-- Keep the same slug and canonical URL:
-  `https://www.agentarchitect.me/articles/douyin-outage-platform-risk-business-compiler`
-- The old committed title currently in `src/lib/daily-articles-2026-05-09.ts` is:
-  `抖音昨晚异常后，我更确定一件事：普通人别轻易自建平台`
-- The user's replacement title is:
-  `抖音凌晨一异常，我更确定：普通人别再乱做平台了`
-- Do not create a second duplicate article for this topic. Replace the object with the same slug.
+Article published:
+- Slug: `agent-architect-most-profitable-career`
+- Canonical URL: `https://www.agentarchitect.me/articles/agent-architect-most-profitable-career`
+- File: `src/lib/daily-articles-2026-05-15.ts`
+- Status: Committed and pushed to `origin/main`
 
 Known local worktree state at handoff:
 - `docs/content-topics/image-library.md` has unrelated local changes.
