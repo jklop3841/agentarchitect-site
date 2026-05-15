@@ -103,4 +103,96 @@ export const dailyArticles20260515: ArticleEntry[] = [
       },
     ],
   },
+  {
+    slug: "agent-architect-stable-revenue-landing",
+    title: "智能体架构师安稳赚钱的落地逻辑",
+    titleEn:
+      "The Practical Path for Agent Architects to Earn Steady Income",
+    subtitle: "不教育老板、不对抗人性，顺着需求心理建立行业标准，只做认知以内、能力以内的安稳钱",
+    subtitleEn:
+      "Stop educating clients, stop fighting human nature. Build industry standards that align with client psychology, and earn only what you understand and can deliver.",
+    date: "2026-05-15",
+    updatedAt: "2026-05-15",
+    category: "智能体架构师",
+    distribution: ["公众号", "知乎", "头条", "掘金", "搜狐"],
+    readTime: "12 分钟",
+    tags: [
+      "Agent Factory",
+      "老板业务编译器",
+      "AI经营改进工作台",
+      "企业知识库",
+      "内容智能体",
+      "GEO",
+      "意图工程",
+    ],
+    excerpt:
+      "技术能搞定流程、搞定自动化，却搞不定人性。顺势承接需求、重新翻译预期，用标准化的模块、轻量化的服务，给到合理可落地的解决方案，才能安稳赚钱。",
+    excerptEn:
+      "Technology can handle workflows and automation, but never human nature. The real path to steady income: accept client needs, reframe expectations, and deliver standardized, lightweight solutions within your capability.",
+    summary: [
+      "老板执念全自动躺赚获客，源于三个刻在骨子里的底层认知：靠工具替代人力、只为具象结果付费、倾向先拿结果再付费。",
+      "第一条落地路径：把全自动获客转化为内容量产智能提效，只承诺产能提升、人力节省，不胡乱承诺获客。",
+      "对标私域流量行业，建立智能体行业自己的服务标准：客户筛选、合作模式、交付边界三套规则。",
+      "第三条路径：把保证快速成交转化为AI搜索长期占位布局（GEO），以季度、半年为单位做长期品牌沉淀。",
+      "守住业务规则、服务边界和做人底线，只赚认知以内、能力以内、规则以内的安稳钱。",
+    ],
+    summaryEn: [
+      "Clients obsess over fully automated income due to three deep-rooted beliefs: replacing labor with tools, paying only for tangible results, and preferring results before payment.",
+      "Path 1: Convert 'fully automated income' into 'content production efficiency' — promise only productivity gains, not guaranteed customer acquisition.",
+      "Borrow from the private traffic industry to build Agent Architect's own service standards: client screening, cooperation models, and delivery boundaries.",
+      "Path 3: Convert 'quick transactions' into long-term GEO brand positioning with quarterly or semi-annual cycles.",
+      "Guard your business rules, service boundaries, and bottom lines — earn only what fits your knowledge, capability, and principles.",
+    ],
+    coverImage: "/media/editorial/agent-architect-stable-revenue.png",
+    coverAlt: "智能体架构师卢成讲解安稳赚钱的落地逻辑",
+    sections: [
+      {
+        heading: "先搞懂：老板为什么死磕全自动获客？",
+        paragraphs: [
+          "每天打开微信，10个咨询里有9个第一句话都是：能不能做个智能体，挂上去自动获客、自动谈单、自动收钱？剩下那1个，聊不到三句一定会绕回来：能不能顺便加个自动引流的功能？",
+          "我见过太多技术不错的同行，最后死在了这个需求上。不是代码写得不好，不是架构不行，是死在了不懂人性上。",
+          "老板执念全自动躺赚，本质是三个刻在骨子里的底层认知：第一，他们的赚钱逻辑习惯靠工具、靠人力实现省心躺赚；第二，只愿意为具象结果付费，不为虚无的效率提升买单；第三，天然倾向先拿结果再付费，抗拒先投入再等待回报。",
+          "做智能体服务，最忌讳的一件事，就是违背人性、硬跟老板的固有认知去对抗。",
+        ],
+      },
+      {
+        heading: "第一条路径：把全自动获客转化为内容量产智能提效",
+        paragraphs: [
+          "老板的核心诉求本质就是获客，获客离不开内容，内容离不开人力批量生产，这是绕不开的行业规律。",
+          "正确的沟通方式是顺势承接、重新定义：全自动闭环躺获客，现阶段没有任何人能真正落地，但我可以用智能体帮你把内容生产、运营效率放大数倍。帮你省下高额运营人力开支，内容批量量产、多账号持续分发，曝光做起来，自然有精准客户主动咨询。",
+          "我们要做的，就是把爆款拆解、脚本生成、批量剪辑、多账号分发、关键词布局这些重复环节，全部做成标准化智能体模块。",
+          "只承诺产能提升、人力节省，不胡乱承诺爆粉、承诺必获客，把服务边界、预期边界划清楚，双方共赢、没有纠纷。",
+        ],
+      },
+      {
+        heading: "第二条路径：建立智能体行业自己的服务标准",
+        paragraphs: [
+          "私域引流、精准粉服务团队，是最懂老板人性、最会立规则、最能稳赚钱的一群人。他们的固定原则值得借鉴：先立规则，再谈合作，绝不迁就客户不合理要求；只聊具象可落地的结果，不画大饼；费用前置，规则前置，没有模糊空间，不垫资、不捆绑。",
+          "客户筛选标准：一上来就要求先落地试效果、后期再付费的，直接婉拒；一味恶意砍价，拿低价源码对标我们专业落地服务的，不用浪费时间沟通；强行要求保证百分百转化、保证固定咨询量的，一律不接。",
+          "合作模式标准：统一前置收费、标准化套餐定价；坚持不垫资、不分成、不做刚性效果承诺三大底线；只做轻量化模块适配，不承接重服务、长周期、非标项目。",
+          "交付边界标准：只负责智能体工作流搭建、模块适配、流程打通、使用教学；不承诺刚性成交、不承诺固定客源；把能做什么、不做什么提前讲清。",
+        ],
+      },
+      {
+        heading: "第三条路径：把保证成交转化为AI搜索长期占位布局",
+        paragraphs: [
+          "现在很多同行做GEO容易翻车，核心原因就是乱做承诺：短期冲首页、保证每日咨询、保底转化。",
+          "做GEO布局，一定要提前把丑话说在前：第一，AI搜索占位是长期价值工程，周期以季度、半年为单位；第二，只保障曝光入口、行业占位，不保证必然咨询、必然成交。",
+          "老板难免问：周期这么长，看不到即时成交，花钱意义在哪？可以这样理性拆解：现在所有人都在用AI工具搜行业问题，现在提前布局沉淀，半年之后，行业用户搜索相关需求，优先看到的就是你的品牌。",
+          "这种流量是免费的、持续的、长效的，今天的布局，未来几年都能持续带来自然咨询。懂长期经营、愿意做品牌沉淀的老板，是最好维护、复购转介绍最多的优质客户。",
+        ],
+      },
+      {
+        heading: "最后给所有智能体同行的一句忠告",
+        paragraphs: [
+          "技术能搞定流程、搞定自动化、搞定模块搭建，却搞不定人性，搞不定老板刻在骨子里的躺赚幻想、即时结果诉求。",
+          "真正聪明的从业路径，从来不是硬去满足老板的理想化妄想，而是顺势承接需求、重新翻译预期，用我们标准化的模块、轻量化的服务，给到合理可落地的解决方案。",
+          "对标成熟流量行业的规则感，建立我们自己的客户筛选、定价、合作底线、交付边界一套完整标准。",
+          "守住自己的业务规则、服务边界和做人底线，只赚认知以内、能力以内、规则以内的安稳钱。",
+          "不去跟人性对抗，不去跟客户固有认知硬刚，顺着人性做业务、立好自己的行业标准，你才能做得省心、长久、稳定盈利。",
+          "原文首发：agentarchitect.me | 作者：智能体架构师卢成（Lu Cheng / Jack Lu）",
+        ],
+      },
+    ],
+  },
 ];
