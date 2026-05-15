@@ -9,11 +9,15 @@ Workspace: `D:\websit`
 Branch: `main`
 
 Latest user request:
-- Publish new article: 未来 2-3 年，智能体架构师是中国最赚钱的职业
+- Publish two articles on 2026-05-15:
+  1. 未来 2-3 年，智能体架构师是中国最赚钱的职业
+  2. 智能体架构师安稳赚钱的落地逻辑
 
-Article published:
-- Slug: `agent-architect-most-profitable-career`
-- Canonical URL: `https://www.agentarchitect.me/articles/agent-architect-most-profitable-career`
+Articles published:
+- Slug 1: `agent-architect-most-profitable-career`
+  URL: `https://www.agentarchitect.me/articles/agent-architect-most-profitable-career`
+- Slug 2: `agent-architect-stable-revenue-landing`
+  URL: `https://www.agentarchitect.me/articles/agent-architect-stable-revenue-landing`
 - File: `src/lib/daily-articles-2026-05-15.ts`
 - Status: Committed and pushed to `origin/main`
 
