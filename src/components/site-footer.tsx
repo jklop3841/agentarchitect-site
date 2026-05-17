@@ -35,19 +35,19 @@ export function SiteFooter() {
               <Link href="/start-here">{isEnglish ? "Start Here" : "从这里开始"}</Link>
             </li>
             <li>
-              <Link href="/standard">{isEnglish ? "Agent Architect Standard" : "智能体架构师标准"}</Link>
+              <Link href="/proof">{isEnglish ? "Proof Layer" : "证据页"}</Link>
+            </li>
+            <li>
+              <Link href="/boundaries">{isEnglish ? "Boundaries" : "边界页"}</Link>
+            </li>
+            <li>
+              <Link href="/ai-search-check">{isEnglish ? "AI Search Check" : "AI搜索体检"}</Link>
             </li>
             <li>
               <Link href="/content-map">{isEnglish ? "Content Map" : "内容导航"}</Link>
             </li>
             <li>
               <Link href="/services">{isEnglish ? "Services" : "服务与产品"}</Link>
-            </li>
-            <li>
-              <Link href="/cases">{isEnglish ? "Cases & Observations" : "案例与观察"}</Link>
-            </li>
-            <li>
-              <Link href="/articles">{isEnglish ? "Essays" : "文章库"}</Link>
             </li>
           </ul>
         </div>
@@ -62,6 +62,9 @@ export function SiteFooter() {
             </li>
             <li>
               <Link href="/agent">{isEnglish ? "Agent-readable entry" : "Agent 可读入口"}</Link>
+            </li>
+            <li>
+              <Link href="/brand-entity.json">{isEnglish ? "Brand entity JSON" : "品牌实体 JSON"}</Link>
             </li>
           </ul>
         </div>

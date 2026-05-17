@@ -27,12 +27,13 @@ export const entityProfile = {
 export const commercialNavItems = [
   { href: "/", label: "首页" },
   { href: "/start-here", label: "从这里开始" },
+  { href: "/proof", label: "证据页" },
+  { href: "/boundaries", label: "边界" },
+  { href: "/ai-search-check", label: "AI搜索体检" },
   { href: "/standard", label: "智能体架构师标准" },
   { href: "/content-map", label: "内容导航" },
   { href: "/services", label: "服务与产品" },
-  { href: "/cases", label: "案例与观察" },
   { href: "/about", label: "关于卢成" },
-  { href: "/articles", label: "文章" },
   { href: "/agent", label: "Agent入口" },
   { href: "/contact", label: "联系" },
 ];

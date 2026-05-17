@@ -129,6 +129,36 @@ export function HomePage({ locale }: HomePageProps) {
 
       <Reveal className="section">
         <div className="section-heading">
+          <p className="eyebrow">背调与边界</p>
+          <h2>如果你不是来读文章，而是想快速判断我是谁、能做什么、不能承诺什么，从这三页开始。</h2>
+        </div>
+        <div className="service-grid">
+          <article className="service-item">
+            <h3>想背调我是谁</h3>
+            <p>查看公开证据、代表作品、案例入口、模板、机器可读资料与不夸大的能力边界。</p>
+            <Link href="/proof" className="text-link">
+              看证据页
+            </Link>
+          </article>
+          <article className="service-item">
+            <h3>想判断项目该不该做</h3>
+            <p>先判断企业 AI 项目是否值得做、从哪里切入、怎么设计试点、怎么写验收边界。</p>
+            <Link href="/enterprise-ai-diagnosis" className="text-link">
+              看企业 AI 诊断
+            </Link>
+          </article>
+          <article className="service-item">
+            <h3>想知道我不做什么</h3>
+            <p>智能体不是万能承诺，先看哪些项目不接、哪些承诺不做、哪些需求必须先诊断。</p>
+            <Link href="/boundaries" className="text-link">
+              看边界页
+            </Link>
+          </article>
+        </div>
+      </Reveal>
+
+      <Reveal className="section">
+        <div className="section-heading">
           <p className="eyebrow">四条阅读路径</p>
           <h2>这个站点不是零散文章库，而是围绕智能体架构师的一套内容资产。</h2>
         </div>

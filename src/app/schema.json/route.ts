@@ -20,6 +20,7 @@ export async function GET() {
             "Agent Architect Jack Lu",
             "意图工程卢成",
             "AI 工作流设计者卢成",
+            "Agent Architect Lu Cheng",
           ],
           url: siteConfig.domain,
           mainEntityOfPage: `${siteConfig.domain}/about`,
@@ -27,6 +28,12 @@ export async function GET() {
           description: entityProfile.englishOneLine,
           knowsAbout: [...entityProfile.methodTags, ...entityProfile.abilityTags],
           sameAs: externalProfiles.map((profile) => profile.href),
+          subjectOf: [
+            `${siteConfig.domain}/proof`,
+            `${siteConfig.domain}/boundaries`,
+            `${siteConfig.domain}/ai-search-check`,
+            `${siteConfig.domain}/brand-entity.json`,
+          ],
         },
         {
           "@type": "WebSite",

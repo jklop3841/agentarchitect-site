@@ -7,8 +7,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
     "/zh",
+    "/start-here",
+    "/standard",
+    "/content-map",
+    "/services",
     "/agent-architect",
     "/about",
+    "/proof",
+    "/boundaries",
+    "/ai-search-check",
     "/enterprise-ai-diagnosis",
     "/cases",
     "/articles",
@@ -21,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/agents.txt",
     "/llms.txt",
     "/schema.json",
+    "/brand-entity.json",
   ];
 
   return [

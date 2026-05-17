@@ -26,11 +26,11 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
             <>
               <Link href="/en">Home</Link>
               <Link href="/start-here">Start here</Link>
+              <Link href="/proof">Proof</Link>
+              <Link href="/boundaries">Boundaries</Link>
+              <Link href="/ai-search-check">AI Search Check</Link>
               <Link href="/standard">Standard</Link>
-              <Link href="/content-map">Content map</Link>
               <Link href="/services">Services</Link>
-              <Link href="/cases">Cases</Link>
-              <Link href="/agent-architect">Agent Architect</Link>
               <Link href="/about">About</Link>
             </>
           ) : (
