@@ -10,18 +10,18 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
   title: {
-    default: `Jack Lu | Agent Architect`,
+    default: "智能体架构师卢成 | Agent Architect | AI工作流设计与中国AI落地服务",
     template: `%s | ${siteConfig.title}`,
   },
   description:
-    "Jack Lu is an Agent Architect writing about enterprise AI systems, workflow design, research, and practical AI structures that can actually ship.",
+    "智能体架构师卢成，专注中国中小企业AI落地服务、AI工作流设计、老板业务编译器、GEO生成式引擎优化、AI项目诊断与交付标准。",
   openGraph: {
-    title: `Jack Lu | Agent Architect`,
+    title: "智能体架构师卢成 | Agent Architect",
     description:
-      "A business-grade site for agent architecture, enterprise AI systems, research writing, and authority-led public positioning.",
+      "智能体架构师卢成的主站：品牌背调、内容导航、标准资产、AI 项目诊断和服务承接入口。",
     url: siteConfig.domain,
     siteName: siteConfig.title,
-    locale: "en_US",
+    locale: "zh_CN",
     type: "website",
   },
 };

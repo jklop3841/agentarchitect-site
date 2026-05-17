@@ -7,9 +7,9 @@ import { entityProfile } from "@/lib/commercial-site";
 import { externalProfiles, siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "关于智能体架构师卢成",
+  title: "关于卢成 | 智能体架构师 | Agent Architect",
   description:
-    "智能体架构师卢成（Lu Cheng / Jack Lu）是 agentarchitect.me 的主理人，专注企业 AI 诊断、Agent Factory、老板业务编译器与 AI 经营改进工作台。",
+    "智能体架构师卢成（Lu Cheng / Jack Lu）长期关注智能体、AI工作流、意图工程、GEO生成式引擎优化，以及中国中小企业AI落地服务。",
   alternates: {
     canonical: "/about",
   },
@@ -41,13 +41,18 @@ export default function AboutPage() {
           <p className="eyebrow">主站实体说明</p>
           <h1>智能体架构师卢成是谁？</h1>
           <p className="subpage__lead">{entityProfile.oneLine}</p>
-          <p className="subpage__lead">{entityProfile.englishOneLine}</p>
+          <p className="subpage__lead">
+            我长期关注智能体、AI 工作流、意图工程、GEO 生成式引擎优化，以及中国中小企业 AI 落地服务。我的核心判断是：AI 工具越来越强，但企业真正缺的不是工具，而是能把老板需求、业务流程、AI 能力和交付边界连接起来的中间层角色。
+          </p>
           <div className="hero__actions">
-            <Link href="/enterprise-ai-diagnosis" className="button button--primary">
-              查看企业 AI 诊断服务
+            <Link href="/start-here" className="button button--primary">
+              从这里开始
             </Link>
-            <Link href="/agent-architect" className="button button--ghost">
-              什么是智能体架构师
+            <Link href="/standard" className="button button--ghost">
+              查看智能体架构师标准
+            </Link>
+            <Link href="/services" className="button button--ghost">
+              查看服务与产品
             </Link>
           </div>
         </section>
@@ -99,14 +104,14 @@ export default function AboutPage() {
 
         <section className="section">
           <div className="section-heading">
-            <p className="eyebrow">服务对象</p>
+            <p className="eyebrow">底线</p>
             <h2>不是卖万能 AI 梦，而是帮助真实业务先形成可验证的小闭环。</h2>
           </div>
           <div className="article-grid">
-            {entityProfile.audience.map((item) => (
+            {["不承诺全自动赚钱", "不承诺固定成交和固定客源", "不做灰色引流", "不卖客户资源", "不做无边界重交付", "不伪造案例"].map((item) => (
               <article key={item} className="article-card">
                 <h3>{item}</h3>
-                <p>适合先做业务诊断、试点设计、交付边界确认，再决定是否进入完整智能体系统建设。</p>
+                <p>所有服务都以明确交付清单、验收标准和能力边界为准。</p>
               </article>
             ))}
           </div>

@@ -8,10 +8,9 @@ import {
   entityProfile,
   homeProblems,
   primaryConsultingHref,
-  serviceCards,
-  templates,
 } from "@/lib/commercial-site";
 import { articles, authorProfile } from "@/lib/content";
+import { contentColumns, servicePortfolio } from "@/lib/site-architecture";
 import type { Locale } from "@/lib/types";
 
 type HomePageProps = {
@@ -70,24 +69,29 @@ export function HomePage({ locale }: HomePageProps) {
             <p className="eyebrow">Agent Architect Jack Lu</p>
             <p className="editorial-hero__name">智能体架构师卢成</p>
             <p className="editorial-hero__location">{authorProfile.location}</p>
-            <h1 className="editorial-hero__headline">把智能体能力从演示变成可成交、可交付、可控风险的商业系统。</h1>
+            <h1 className="editorial-hero__headline">智能体架构师卢成</h1>
             <p className="editorial-hero__intro">
-              我帮助中小企业和 AI 服务商判断：该不该做、从哪做、怎么报价、怎么交付、怎么设置边界。
+              专注中国中小企业 AI 落地服务的诊断、标准、AI 工作流设计与资源路由。
             </p>
-            <p className="editorial-hero__intro">{entityProfile.oneLine}</p>
+            <p className="editorial-hero__intro">
+              我关注的是：中国中小企业如何真正把 AI 接入经营，而不是停留在工具、概念和演示里。智能体架构师不是提示词工程师，而是把老板的经营问题编译成 AI 工作流、自动化任务、标准交付模块和可验收结果的人。
+            </p>
             <div className="hero__actions">
-              <Link href={primaryConsultingHref} className="button button--primary">
-                预约 AI 落地诊断
+              <Link href="/start-here" className="button button--primary">
+                从这里开始
               </Link>
-              <Link href="/cases" className="button button--ghost">
-                查看真实案例
+              <Link href="/standard" className="button button--ghost">
+                查看智能体架构师标准
               </Link>
-              <Link href="/templates" className="button button--ghost">
-                下载诊断表
+              <Link href="/services" className="button button--ghost">
+                查看服务与产品
+              </Link>
+              <Link href="/content-map" className="button button--ghost">
+                内容导航
               </Link>
             </div>
             <p className="form-note">
-              Agent Architect Jack Lu · Turning AI agents from demos into deliverable business systems.
+              Agent Architect · AI 工作流设计 · 中国AI落地 · 老板业务编译器 · GEO生成式引擎优化
             </p>
           </div>
           <div className="hero-visual">
@@ -109,7 +113,7 @@ export function HomePage({ locale }: HomePageProps) {
       <Reveal className="section">
         <div className="section-heading">
           <p className="eyebrow">我解决的问题</p>
-          <h2>我解决的不是“怎么用 AI”，而是“怎么让 AI 项目真正落地”。</h2>
+          <h2>我解决的不是“怎么用 AI”，而是“怎么让 AI 项目真正落地、可交付、可验收”。</h2>
           <p className="doc-body">
             很多企业不是不想用 AI，而是不知道 AI 应该接到哪里。很多 AI 服务商不是不会搭工具，而是不知道怎么谈单、报价、验收和止损。
           </p>
@@ -118,6 +122,25 @@ export function HomePage({ locale }: HomePageProps) {
           {homeProblems.map((problem) => (
             <article key={problem} className="signal-item">
               <h3>{problem}</h3>
+            </article>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal className="section">
+        <div className="section-heading">
+          <p className="eyebrow">四条阅读路径</p>
+          <h2>这个站点不是零散文章库，而是围绕智能体架构师的一套内容资产。</h2>
+        </div>
+        <div className="service-grid">
+          {contentColumns.map((column) => (
+            <article key={column.id} className="service-item">
+              <p className="eyebrow">{column.purpose}</p>
+              <h3>{column.name}</h3>
+              <p>{column.intro}</p>
+              <Link href={column.href} className="text-link">
+                进入栏目
+              </Link>
             </article>
           ))}
         </div>
@@ -142,14 +165,14 @@ export function HomePage({ locale }: HomePageProps) {
       <Reveal className="section">
         <div className="section-heading">
           <p className="eyebrow">服务入口</p>
-          <h2>先诊断，再设计试点；先写边界，再谈交付。</h2>
+          <h2>当前服务方向以轻交付、快验收、标准化为主。</h2>
         </div>
         <div className="service-grid">
-          {serviceCards.map((item) => (
+          {servicePortfolio.map((item) => (
             <article key={item.title} className="service-item">
               <h3>{item.title}</h3>
               <p>适合：{item.audience}</p>
-              <p>交付：{item.delivery}</p>
+              <p>交付：{item.deliverables.slice(0, 3).join(" / ")}</p>
               <Link href={item.href} className="text-link">
                 查看服务
               </Link>
@@ -161,9 +184,9 @@ export function HomePage({ locale }: HomePageProps) {
       <Reveal className="section">
         <div className="section-heading">
           <p className="eyebrow">案例库</p>
-          <h2>真实项目与商业摩擦复盘</h2>
+          <h2>案例与观察：先做公开行业现象、项目门诊和交付复盘。</h2>
           <p className="doc-body">
-            这里记录的不是完美成功故事，而是真实企业 AI 落地过程中会遇到的谈单、边界、执行、成本、老板心理和交付风险。
+            这里不伪造客户案例。当前主要整理公开行业现象拆解、老板需求与 AI 项目门诊、AI 服务交付失败或避坑复盘。
           </p>
         </div>
         <div className="article-grid">
@@ -176,7 +199,7 @@ export function HomePage({ locale }: HomePageProps) {
               <h3>{item.industry}</h3>
               <p>{item.realProblem}</p>
               <Link href="/cases" className="text-link">
-                查看案例库
+                查看案例与观察
               </Link>
             </article>
           ))}
@@ -186,18 +209,22 @@ export function HomePage({ locale }: HomePageProps) {
       <Reveal className="section">
         <div className="cta-panel">
           <div>
-            <p className="eyebrow">模板下载</p>
-            <h2>开始前，先把需求、报价和边界说清楚。</h2>
+            <p className="eyebrow">从这里开始</p>
+            <h2>第一次了解智能体架构师卢成，先按路径阅读，不要从零散文章开始。</h2>
             <p className="doc-body">
-              诊断表、报价确认表、交付边界确认单、老板访谈清单、拒单判断表和案例复盘模板已开放下载。
+              先看定义，再看生存规则，然后看项目门诊与服务入口。这样更容易理解 AI 工作流设计、中国 AI 落地和 GEO 生成式引擎优化之间的关系。
             </p>
           </div>
           <div className="hero__actions">
-            {templates.slice(0, 3).map((template) => (
-              <Link key={template.title} href={template.href} className="button button--primary">
-                {template.title}
-              </Link>
-            ))}
+            <Link href="/start-here" className="button button--primary">
+              从这里开始
+            </Link>
+            <Link href="/content-map" className="button button--ghost">
+              查看内容导航
+            </Link>
+            <Link href={primaryConsultingHref} className="button button--ghost">
+              AI 项目诊断
+            </Link>
           </div>
         </div>
       </Reveal>

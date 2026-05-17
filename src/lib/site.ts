@@ -10,8 +10,8 @@ const configuredDomain = process.env.NEXT_PUBLIC_SITE_URL;
 const normalizedConfiguredDomain = configuredDomain?.replace(/\/+$/, "");
 
 export const siteConfig = {
-  name: "Jack Lu",
-  title: "Jack Lu",
+  name: "智能体架构师卢成",
+  title: "智能体架构师卢成",
   domain:
     normalizedConfiguredDomain && !normalizedConfiguredDomain.includes("localhost")
       ? normalizedConfiguredDomain

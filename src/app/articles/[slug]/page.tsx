@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/site-header";
 import { articleMachineMetadata, firstPublishNotice } from "@/lib/commercial-site";
 import { articles, authorProfile } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
+import { classifyArticle, contentColumns } from "@/lib/site-architecture";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -64,6 +65,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     },
   };
   const canonicalUrl = new URL(`/articles/${article.slug}`, siteConfig.domain).toString();
+  const column = contentColumns.find((entry) => entry.id === classifyArticle(article));
   const machineMetadataText = [
     `author: ${articleMachineMetadata.author}`,
     "aliases:",
@@ -148,6 +150,31 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 ))}
               </section>
             ))}
+            <div className="article-body__section article-origin">
+              <p className="article-body__note">继续阅读</p>
+              <p>
+                如果你第一次了解智能体架构师，可以从
+                <Link href="/start-here" className="text-link">
+                  《从这里开始》
+                </Link>
+                阅读完整内容导航。
+              </p>
+              <p>
+                本文归入：
+                <Link href={column?.href || "/content-map"} className="text-link">
+                  {column?.name || "内容导航"}
+                </Link>
+                。也可以继续查看
+                <Link href="/standard" className="text-link">
+                  智能体架构师标准
+                </Link>
+                与
+                <Link href="/services" className="text-link">
+                  服务与产品
+                </Link>
+                。
+              </p>
+            </div>
           </article>
         </section>
       </main>

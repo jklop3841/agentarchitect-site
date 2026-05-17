@@ -5,8 +5,11 @@ import { SiteHeader } from "@/components/site-header";
 import { cases } from "@/lib/commercial-site";
 
 export const metadata: Metadata = {
-  title: "案例库",
-  description: "卢成关于企业 AI 落地、智能体商业交付、报价边界和项目风险的脱敏案例复盘。",
+  title: "案例与观察",
+  description: "智能体架构师卢成关于公开行业现象、老板需求、AI项目门诊、交付失败和避坑复盘的案例与观察。",
+  alternates: {
+    canonical: "/cases",
+  },
 };
 
 export default function CasesPage() {
@@ -15,10 +18,13 @@ export default function CasesPage() {
       <SiteHeader locale="zh" />
       <main className="subpage">
         <section className="subpage__hero">
-          <p className="eyebrow">证据库</p>
-          <h1>真实项目与商业摩擦复盘</h1>
+          <p className="eyebrow">案例与观察</p>
+          <h1>案例与观察</h1>
           <p className="subpage__lead">
-            这里记录的不是完美成功故事，而是真实企业 AI 落地过程中会遇到的谈单、边界、执行、成本、老板心理和交付风险。
+            这里不伪造客户案例。当前主要整理三类内容：公开行业现象拆解、老板需求与 AI 项目门诊、AI 服务交付失败或避坑复盘。
+          </p>
+          <p className="subpage__lead">
+            未来如有真实客户案例，会在获得授权或脱敏后发布。现阶段更重要的是把项目风险、交付边界、验收标准和智能体商业落地中的真实摩擦讲清楚。
           </p>
         </section>
 
@@ -71,10 +77,10 @@ export default function CasesPage() {
           <div className="cta-panel">
             <div>
               <p className="eyebrow">复盘你的项目</p>
-              <h2>如果你的 AI 项目已经卡在谈单、边界或验收阶段，可以先做一次诊断。</h2>
+              <h2>如果你的 AI 项目已经卡在谈单、边界或验收阶段，可以先做一次项目门诊。</h2>
             </div>
-            <Link href="/enterprise-ai-diagnosis" className="button button--primary">
-              预约 AI 落地诊断
+            <Link href="/services" className="button button--primary">
+              查看服务与产品
             </Link>
           </div>
         </section>

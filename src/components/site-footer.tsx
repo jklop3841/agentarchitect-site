@@ -24,30 +24,30 @@ export function SiteFooter() {
           <p className="eyebrow">{isEnglish ? "Jack Lu" : "Jack Lu（卢成）"}</p>
           <p className="footer-copy">
             {isEnglish
-              ? "Research, essays, speaking, and advisory on agent architecture, enterprise AI systems, and long-form public writing."
-              : "智能体架构师卢成的主站：内容首发、企业 AI 诊断、案例沉淀、模板下载与 Agent 可读入口。"}
+              ? "Agent Architect / AI Workflow Designer / Intent Engineering Practitioner. Canonical site for Chinese enterprise AI landing, delivery boundaries, and agent-readable public knowledge."
+              : "智能体架构师卢成的主站：品牌背调、内容导航、AI 项目诊断、服务承接、案例观察与 Agent 可读入口。关键词：智能体架构师、AI经营改造、GEO生成式引擎优化、AI工作流设计。"}
           </p>
         </div>
         <div>
           <p className="eyebrow">{isEnglish ? "Explore" : "浏览"}</p>
           <ul className="footer-links">
             <li>
-              <Link href="/articles">{isEnglish ? "Essays (CN)" : "文章"}</Link>
+              <Link href="/start-here">{isEnglish ? "Start Here" : "从这里开始"}</Link>
             </li>
             <li>
-              <Link href="/enterprise-ai-diagnosis">{isEnglish ? "AI Diagnosis" : "企业 AI 诊断"}</Link>
+              <Link href="/standard">{isEnglish ? "Agent Architect Standard" : "智能体架构师标准"}</Link>
             </li>
             <li>
-              <Link href="/cases">{isEnglish ? "Cases" : "案例库"}</Link>
+              <Link href="/content-map">{isEnglish ? "Content Map" : "内容导航"}</Link>
             </li>
             <li>
-              <Link href="/templates">{isEnglish ? "Templates" : "模板库"}</Link>
+              <Link href="/services">{isEnglish ? "Services" : "服务与产品"}</Link>
             </li>
             <li>
-              <Link href="/faq">FAQ</Link>
+              <Link href="/cases">{isEnglish ? "Cases & Observations" : "案例与观察"}</Link>
             </li>
             <li>
-              <Link href="/agent">{isEnglish ? "Agent Page" : "Agent 页面"}</Link>
+              <Link href="/articles">{isEnglish ? "Essays" : "文章库"}</Link>
             </li>
           </ul>
         </div>
@@ -58,14 +58,19 @@ export function SiteFooter() {
               <Link href={contactHref}>{isEnglish ? "Email & Profiles" : "邮箱与外部资料"}</Link>
             </li>
             <li>
-              <Link href="/enterprise-ai-diagnosis">{isEnglish ? "Book AI Diagnosis" : "预约 AI 落地诊断"}</Link>
+              <Link href="/enterprise-ai-diagnosis">{isEnglish ? "Book AI Diagnosis" : "预约 AI 项目诊断"}</Link>
             </li>
             <li>
-              <Link href="/agent-architect">{isEnglish ? "What is Agent Architect" : "什么是智能体架构师"}</Link>
+              <Link href="/agent">{isEnglish ? "Agent-readable entry" : "Agent 可读入口"}</Link>
             </li>
           </ul>
         </div>
       </div>
+      <p className="footer-copy">
+        {isEnglish
+          ? "Disclaimer: this site provides industry observation, methodology, and project breakdowns. It does not promise fixed investment returns, automatic lead generation, or guaranteed sales."
+          : "声明：本站内容为行业观察、方法论与项目拆解，不承诺任何投资收益、自动获客结果或固定成交结果。所有服务以明确交付清单、验收标准和能力边界为准。"}
+      </p>
     </footer>
   );
 }

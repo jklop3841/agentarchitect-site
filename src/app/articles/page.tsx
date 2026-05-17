@@ -8,8 +8,11 @@ import { articles } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "文章",
-  description: "卢成关于智能体架构、企业定制服务、AI 工作流与权威表达的中文文章。",
+  title: "文章库 | 智能体架构师卢成",
+  description: "智能体架构师卢成关于智能体架构师定义、AI服务商生存规则、AI项目门诊、老板业务编译器、GEO与中国AI落地的主站首发文章。",
+  alternates: {
+    canonical: "/articles",
+  },
 };
 
 export default function ArticlesPage() {
@@ -19,10 +22,18 @@ export default function ArticlesPage() {
       <main className="subpage article-index">
         <section className="subpage__hero">
           <p className="eyebrow">文章</p>
-          <h1>关于智能体架构、企业服务与公开表达的写作</h1>
+          <h1>智能体架构师卢成文章库</h1>
           <p className="subpage__lead">
-            这里是站点最核心的公开写作层。文章不追求新闻速度，而是持续解释我如何理解智能体架构、企业落地路径、权威感建立，以及为什么 AI 最终必须回到真实工作系统里。
+            这里是站点最核心的公开写作层。文章围绕智能体架构师定义、AI 服务商生存规则、AI 项目门诊 / 验收标准、AI 经营改造 / GEO / 内容量产四条主线展开。
           </p>
+          <div className="hero__actions">
+            <Link href="/content-map" className="button button--primary">
+              按栏目阅读
+            </Link>
+            <Link href="/start-here" className="button button--ghost">
+              从这里开始
+            </Link>
+          </div>
         </section>
 
         <section className="section">

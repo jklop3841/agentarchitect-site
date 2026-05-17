@@ -8,7 +8,7 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
   const isEnglish = locale === "en";
-  const homeHref = isEnglish ? "/" : "/zh";
+  const homeHref = isEnglish ? "/en" : "/";
   const contactHref = "/contact";
 
   return (
@@ -24,14 +24,14 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
         <nav className="site-nav">
           {isEnglish ? (
             <>
+              <Link href="/en">Home</Link>
+              <Link href="/start-here">Start here</Link>
+              <Link href="/standard">Standard</Link>
+              <Link href="/content-map">Content map</Link>
+              <Link href="/services">Services</Link>
+              <Link href="/cases">Cases</Link>
               <Link href="/agent-architect">Agent Architect</Link>
               <Link href="/about">About</Link>
-              <Link href="/enterprise-ai-diagnosis">AI Diagnosis</Link>
-              <Link href="/cases">Cases</Link>
-              <Link href="/articles">Essays (CN)</Link>
-              <Link href="/templates">Templates</Link>
-              <Link href="/faq">FAQ</Link>
-              <Link href="/agent">Agent</Link>
             </>
           ) : (
             commercialNavItems.slice(1, 9).map((item) => (
@@ -41,10 +41,10 @@ export function SiteHeader({ locale = "zh" }: SiteHeaderProps) {
             ))
           )}
           <div className="language-switch">
-            <Link href="/" className={isEnglish ? "is-active" : undefined}>
+            <Link href="/en" className={isEnglish ? "is-active" : undefined}>
               EN
             </Link>
-            <Link href="/zh" className={!isEnglish ? "is-active" : undefined}>
+            <Link href="/" className={!isEnglish ? "is-active" : undefined}>
               中文
             </Link>
           </div>
