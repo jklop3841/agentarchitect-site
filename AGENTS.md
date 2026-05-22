@@ -4,21 +4,18 @@ This file is the shared operating note for any agent working in this repo. It re
 
 ## Current Handoff Snapshot
 
-Date: 2026-05-15
+Date: 2026-05-22
 Workspace: `D:\websit`
 Branch: `main`
 
 Latest user request:
-- Publish two articles on 2026-05-15:
-  1. 未来 2-3 年，智能体架构师是中国最赚钱的职业
-  2. 智能体架构师安稳赚钱的落地逻辑
+- Publish article on 2026-05-22:
+  智能体架构师要考什么证？免费、付费、国内、国外、人社三级五级，我整理一版实用路线
 
 Articles published:
-- Slug 1: `agent-architect-most-profitable-career`
-  URL: `https://www.agentarchitect.me/articles/agent-architect-most-profitable-career`
-- Slug 2: `agent-architect-stable-revenue-landing`
-  URL: `https://www.agentarchitect.me/articles/agent-architect-stable-revenue-landing`
-- File: `src/lib/daily-articles-2026-05-15.ts`
+- Slug: `agent-architect-certification-roadmap`
+  URL: `https://www.agentarchitect.me/articles/agent-architect-certification-roadmap`
+- File: `src/lib/daily-articles-2026-05-22.ts`
 - Status: Committed and pushed to `origin/main`
 
 Known local worktree state at handoff:
