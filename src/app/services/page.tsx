@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "产品与服务 | 智能体架构师卢成",
-    description: "不卖万能 AI 梦，只做边界清楚、能验收、能复用的 AI 工作流交付。",
+    description: "不卖万能 AI 梦，先帮你把问题、边界、交付结果说清楚。",
     url: "/services",
   },
 };
@@ -31,8 +31,8 @@ const services = [
     title: "老板业务编译器",
     audience: "有经验、有方法，但流程和内容都靠自己临时发挥的老板。",
     pain: "销售话术、客户判断、内容经验、成交逻辑都在脑子里，员工和 AI 接不住。",
-    method: "把你的经验整理成话术、流程、标签、内容模板和 AI 可执行工作流。",
-    delivery: "业务动作清单、内容流程、客户分层、话术库和可复用工作流。",
+    method: "把你的经验整理成话术、流程、标签和内容模板，让团队和 AI 都能照着做。",
+    delivery: "业务动作清单、内容流程、客户分层、话术库和可复用模板。",
   },
   {
     title: "AI 服务商交付边界顾问",
@@ -46,7 +46,7 @@ const services = [
     audience: "想让 ChatGPT、AI 搜索和搜索引擎正确理解自己的个人品牌或企业。",
     pain: "外部平台有内容，但主站不够权威，AI 也说不清你是谁。",
     method: "检查主站结构、品牌实体、文章体系、机器可读文件和外部回链。",
-    delivery: "GEO 体检报告、关键词建议、主站结构建议和 AI 可读入口优化清单。",
+    delivery: "体检报告、关键词建议、主站结构建议和 AI 识别优化清单。",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function ServicesPage() {
           <p className="eyebrow">商业交付版</p>
           <h1>产品与服务</h1>
           <p className="subpage__lead">
-            不卖万能 AI 梦，只做边界清楚、能验收、能复用的 AI 工作流交付。
+            不卖万能 AI 梦。先把问题说清楚，把边界写清楚，把你最后能拿到什么说清楚。
           </p>
           <div className="hero__actions">
             <a href={primaryContact.emailHref} className="button button--gold">
@@ -115,7 +115,7 @@ export default function ServicesPage() {
           <div className="consulting-split">
             <div>
               <p className="eyebrow">服务流程</p>
-              <h2>不是上来就开发系统，而是先把项目做小、做清楚。</h2>
+              <h2>不是上来就开发，先把事情做小、做清楚。</h2>
               <div className="process-strip">
                 {serviceSteps.map((step, index) => (
                   <div key={step}>
@@ -140,7 +140,7 @@ export default function ServicesPage() {
             </div>
             <div>
               <p className="eyebrow">不承诺什么</p>
-              <h2>能做的说清楚，不能做的提前说。</h2>
+              <h2>我能做什么会说清楚，不能做什么也会提前说。</h2>
               <ul className="principle-list">
                 {serviceBoundaries.map((item) => (
                   <li key={item}>{item}</li>
@@ -154,9 +154,9 @@ export default function ServicesPage() {
           <div className="consulting-contact">
             <div>
               <p className="eyebrow">联系方式</p>
-              <h2>准备开始前，先把你的项目问题发来。</h2>
+              <h2>想咨询，先把你的项目问题发来。</h2>
               <p>
-                请写清楚行业、现有流程、想解决的问题、预算范围和希望拿到的结果。我会先判断适不适合继续。
+                写清楚你做什么行业、现在怎么做、哪里卡住、想让 AI 帮你解决什么。我先判断这事适不适合继续。
               </p>
               <div className="hero__actions">
                 <a href={primaryContact.emailHref} className="button button--gold">

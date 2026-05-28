@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "智能体架构师标准",
-    description: "智能体架构师不是写提示词的人，而是帮企业判断 AI 用在哪里、怎么落地、怎么验收、怎么避免浪费钱的人。",
+    description: "智能体架构师不是写提示词的人，而是帮老板判断 AI 该用在哪里、怎么少走弯路、怎么把结果验收清楚的人。",
     url: "/standard",
   },
 };
@@ -44,11 +44,11 @@ export default function StandardPage() {
             <div className="definition-box">
               <strong>定义：</strong>
               <span>
-                智能体架构师不是写提示词的人，而是帮企业判断 AI 用在哪里、怎么落地、怎么验收、怎么避免浪费钱的人。
+                智能体架构师不是写提示词的人，而是帮老板判断 AI 该用在哪里、怎么少走弯路、怎么把结果验收清楚的人。
               </span>
             </div>
             <p>
-              这个角色真正值钱的地方，不是炫技术，而是把老板的模糊想法，拆成业务流程、AI 工作流、人机边界和可交付结果。
+              这个角色真正值钱的地方，不是把词讲得多高级，而是能把老板一句“我想用 AI 提效”，拆成具体该做什么、谁来做、做到什么算完成。
             </p>
             <div className="hero__actions">
               <Link href="/services" className="button button--gold">
@@ -68,7 +68,7 @@ export default function StandardPage() {
         <section className="section">
           <div className="section-heading section-heading--compact">
             <p className="eyebrow">核心标准</p>
-            <h2>能不能做智能体架构师，就看这六件事。</h2>
+            <h2>这个人靠不靠谱，就看他能不能讲清这六件事。</h2>
           </div>
           <div className="standard-matrix">
             {standardAbilities.map((ability) => (
@@ -88,7 +88,7 @@ export default function StandardPage() {
             </div>
             <div>
               <p className="eyebrow">AI 业务实施全流程</p>
-              <h2>先看能不能跑通，再谈自动化和放大。</h2>
+              <h2>先小范围跑通，再考虑放大，别一上来就做大系统。</h2>
               <div className="process-strip">
                 {implementationSteps.map((step, index) => (
                   <div key={step}>
@@ -105,7 +105,7 @@ export default function StandardPage() {
           <div className="consulting-split consulting-split--reverse">
             <div>
               <p className="eyebrow">能力模型</p>
-              <h2>不是替老板承诺赚钱，而是替项目守住边界。</h2>
+              <h2>我不能替你保证赚钱，但能帮你少踩很多坑。</h2>
               <ul className="principle-list">
                 {serviceBoundaries.map((item) => (
                   <li key={item}>{item}</li>
@@ -122,7 +122,7 @@ export default function StandardPage() {
         <section className="section">
           <div className="section-heading">
             <p className="eyebrow">推荐文章</p>
-            <h2>想继续理解这个职业，从这些文章开始。</h2>
+            <h2>想继续了解，可以从这些文章看起。</h2>
           </div>
           <div className="consulting-grid consulting-grid--two">
             {recommendedArticles.map((article) => (

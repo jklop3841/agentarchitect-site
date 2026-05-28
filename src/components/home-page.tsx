@@ -78,7 +78,7 @@ export function HomePage({ locale }: HomePageProps) {
             <p className="eyebrow">Jack Lu / Lu Cheng / Agent Architect</p>
             <h1>智能体架构师卢成</h1>
             <p>
-              我帮老板把经验、流程、内容和业务动作，整理成能执行、能交付、能复用的 AI 工作流。
+              我帮老板把脑子里的经验、每天在做的流程、团队反复卡住的事，整理成 AI 能帮忙跑起来的方案。
             </p>
             <div className="hero__actions">
               <Link href="/standard" className="button button--gold">
@@ -96,9 +96,9 @@ export function HomePage({ locale }: HomePageProps) {
         <div className="consulting-split">
           <div>
             <p className="eyebrow">我是谁</p>
-            <h2>不是卖万能 AI 的人，而是帮你先把生意讲清楚的人。</h2>
+            <h2>我不卖万能 AI，我先帮你把生意里的事讲清楚。</h2>
             <p className="doc-body">
-              {entityProfile.oneLine}我的工作不是让老板追工具，而是先判断哪些动作值得自动化、哪些动作必须人工把关、哪些项目从一开始就不该做。
+              很多老板不是不会用 AI，而是不知道该把 AI 放到哪一步。我做的事，就是先把你的业务动作拆开，看哪些能交给 AI，哪些必须人来把关，哪些项目一开始就不该花钱做。
             </p>
             <div className="contact-strip">
               <a href={primaryContact.emailHref}>
@@ -121,7 +121,7 @@ export function HomePage({ locale }: HomePageProps) {
       <Reveal className="section">
         <div className="section-heading section-heading--compact">
           <p className="eyebrow">我解决的问题</p>
-          <h2>老板真正需要的不是“又一个 AI 工具”，而是一套能落地的做事方法。</h2>
+          <h2>老板缺的不是新工具，而是知道这工具到底该用在哪里。</h2>
         </div>
         <div className="consulting-grid consulting-grid--three">
           {homeProblems.map((problem) => (
@@ -130,7 +130,7 @@ export function HomePage({ locale }: HomePageProps) {
                 <span>配图占位</span>
               </div>
               <h3>{problem}</h3>
-              <p>先拆问题，再定边界，最后才决定要不要做系统。</p>
+              <p>先把问题说清楚，再决定值不值得做，别一上来就砸钱开发。</p>
             </article>
           ))}
         </div>
@@ -144,19 +144,19 @@ export function HomePage({ locale }: HomePageProps) {
           </div>
           <div>
             <p className="eyebrow">为什么可以先信任我</p>
-            <h2>我把观点、边界、文章和机器入口都放在公开主站。</h2>
+            <h2>我不只讲概念，观点、边界和文章都放在这里。</h2>
             <div className="proof-list">
               <Link href="/proof" className="proof-item">
                 <strong>公开证据页</strong>
-                <span>身份、文章、案例、模板和外部资料。</span>
+                <span>你可以先看我是谁、写过什么、哪些事我不接。</span>
               </Link>
               <Link href="/articles" className="proof-item">
                 <strong>主站首发文章</strong>
-                <span>长期写企业 AI、交付边界和智能体落地。</span>
+                <span>我长期写企业 AI、接单、报价、交付和避坑。</span>
               </Link>
               <Link href="/agent" className="proof-item">
                 <strong>AI 可读入口</strong>
-                <span>给 ChatGPT、搜索引擎和 Agent 读取。</span>
+                <span>给 ChatGPT 和搜索引擎看的标准资料入口。</span>
               </Link>
             </div>
           </div>
@@ -166,7 +166,7 @@ export function HomePage({ locale }: HomePageProps) {
       <Reveal className="section">
         <div className="section-heading">
           <p className="eyebrow">内容与案例入口</p>
-          <h2>文章和案例还在，但不再抢首页主线。</h2>
+          <h2>想多了解，再看文章和案例。</h2>
         </div>
         <div className="consulting-grid consulting-grid--two">
           <article className="consulting-card">
@@ -174,7 +174,7 @@ export function HomePage({ locale }: HomePageProps) {
               <span>案例图占位</span>
             </div>
             <h3>案例与观察</h3>
-            <p>只放能说明问题的脱敏案例、项目门诊和交付复盘，不伪造客户故事。</p>
+            <p>这里只放能说明问题的复盘，不编造夸张案例。</p>
             <Link href="/cases" className="text-link">
               查看案例
             </Link>
@@ -196,9 +196,9 @@ export function HomePage({ locale }: HomePageProps) {
         <div className="consulting-contact">
           <div>
             <p className="eyebrow">联系卢成</p>
-            <h2>如果你想判断一个 AI 项目该不该做，先把业务问题说清楚。</h2>
+            <h2>想做 AI 项目，先别急着开发，先把问题发来。</h2>
             <p>
-              发来你的行业、当前问题、已有工具、想达到的结果。我会先判断是否适合做诊断、试点或直接拒绝。
+              告诉我你是做什么行业、现在卡在哪里、想让 AI 帮你做哪一步。我会先判断这件事值不值得继续聊。
             </p>
             <div className="hero__actions">
               <a href={primaryContact.emailHref} className="button button--gold">
