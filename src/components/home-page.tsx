@@ -169,9 +169,10 @@ export function HomePage({ locale }: HomePageProps) {
           <h2>想多了解，再看文章和案例。</h2>
         </div>
         <div className="consulting-grid consulting-grid--two">
-          <article className="consulting-card">
-            <div className="image-placeholder image-placeholder--wide">
-              <span>案例图占位</span>
+          <article className="consulting-card consulting-card--feature">
+            <div className="image-placeholder image-placeholder--case">
+              <span>案例主图待替换</span>
+              <small>这里后续放真实项目复盘、会议白板或资料截图，要放大，不做小缩略图。</small>
             </div>
             <h3>案例与观察</h3>
             <p>这里只放能说明问题的复盘，不编造夸张案例。</p>
@@ -179,9 +180,10 @@ export function HomePage({ locale }: HomePageProps) {
               查看案例
             </Link>
           </article>
-          <article className="consulting-card">
-            <div className="image-placeholder image-placeholder--wide">
-              <span>文章封面占位</span>
+          <article className="consulting-card consulting-card--feature">
+            <div className="image-placeholder image-placeholder--case">
+              <span>文章主图待替换</span>
+              <small>这里后续放文章封面、现场照片或主题图，视觉上要和案例同等级。</small>
             </div>
             <h3>主站首发文章</h3>
             <p>{articles[0]?.title}</p>
