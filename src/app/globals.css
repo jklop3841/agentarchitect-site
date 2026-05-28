@@ -940,6 +940,11 @@ h1 {
   padding: clamp(2rem, 5vw, 4rem) 0;
 }
 
+.section--tight {
+  padding-top: clamp(1.2rem, 3vw, 2rem);
+  padding-bottom: clamp(1.2rem, 3vw, 2rem);
+}
+
 .subpage {
   padding-bottom: 3rem;
 }
@@ -1516,6 +1521,12 @@ h1 {
   min-height: 20rem;
 }
 
+.site-photo--card {
+  min-height: clamp(12rem, 19vw, 18rem);
+  margin: -1.05rem -1.05rem 1rem;
+  box-shadow: none;
+}
+
 .site-photo--service-icon {
   width: 4.6rem;
   height: 4.6rem;
@@ -1525,22 +1536,66 @@ h1 {
 }
 
 .image-strip {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.75rem;
+  display: flex;
+  gap: 1rem;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 0.15rem 0 1rem;
+  scroll-padding-inline: 1rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: rgba(13, 32, 52, 0.38) rgba(13, 32, 52, 0.08);
+  scrollbar-width: thin;
   width: 100%;
 }
 
+.image-strip::-webkit-scrollbar {
+  height: 0.55rem;
+}
+
+.image-strip::-webkit-scrollbar-track {
+  background: rgba(13, 32, 52, 0.08);
+  border-radius: 999px;
+}
+
+.image-strip::-webkit-scrollbar-thumb {
+  background: rgba(13, 32, 52, 0.38);
+  border-radius: 999px;
+}
+
 .image-strip__item {
-  position: relative;
-  min-height: clamp(14rem, 21vw, 22rem);
+  display: grid;
+  flex: 0 0 clamp(17.5rem, 34vw, 28rem);
   overflow: hidden;
-  background: #0d2034;
-  box-shadow: 0 14px 36px rgba(14, 30, 48, 0.1);
+  color: inherit;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid rgba(13, 32, 52, 0.12);
+  border-radius: 14px;
+  box-shadow: 0 18px 42px rgba(14, 30, 48, 0.12);
+  scroll-snap-align: start;
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
 .image-strip--compact .image-strip__item {
-  min-height: clamp(9rem, 14vw, 15rem);
+  flex-basis: clamp(15.5rem, 28vw, 23rem);
+}
+
+.image-strip__item:hover {
+  box-shadow: 0 22px 54px rgba(14, 30, 48, 0.18);
+  transform: translateY(-2px);
+}
+
+.image-strip__media {
+  position: relative;
+  display: block;
+  min-height: clamp(13rem, 22vw, 18rem);
+  overflow: hidden;
+  background: #0d2034;
+}
+
+.image-strip--compact .image-strip__media {
+  min-height: clamp(10rem, 17vw, 14rem);
 }
 
 .image-strip__item img {
@@ -1550,6 +1605,25 @@ h1 {
 
 .image-strip__item:hover img {
   transform: scale(1.03);
+}
+
+.image-strip__body {
+  display: grid;
+  gap: 0.35rem;
+  min-height: 5.4rem;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.image-strip__body strong {
+  color: #0d2034;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.image-strip__body span {
+  color: #526070;
+  font-size: 0.86rem;
+  line-height: 1.6;
 }
 
 .contact-strip {
@@ -1842,8 +1916,7 @@ h1 {
   .consulting-contact,
   .service-board,
   .consulting-grid--three,
-  .consulting-grid--two,
-  .image-strip {
+  .consulting-grid--two {
     grid-template-columns: 1fr;
   }
 
@@ -1979,11 +2052,16 @@ h1 {
     min-height: 12rem;
   }
 
-  .image-strip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .image-strip__item {
+    flex-basis: 78vw;
   }
 
-  .image-strip__item {
+  .image-strip--compact .image-strip__item {
+    flex-basis: 72vw;
+  }
+
+  .image-strip__media,
+  .image-strip--compact .image-strip__media {
     min-height: 12rem;
   }
 }

@@ -28,7 +28,7 @@ const services = [
     pain: "怕花钱做成演示，最后业务没变、团队也用不起来。",
     method: "先看业务流程、数据条件、人员配合和风险，再决定要不要做试点。",
     delivery: "AI 切入点、风险判断、试点建议、交付边界和验收口径。",
-    image: "/media/consulting/service-diagnosis.webp",
+    image: "/media/consulting2/training-room-01.webp",
   },
   {
     title: "老板业务编译器",
@@ -36,7 +36,7 @@ const services = [
     pain: "销售话术、客户判断、内容经验、成交逻辑都在脑子里，员工和 AI 接不住。",
     method: "把你的经验整理成话术、流程、标签和内容模板，让团队和 AI 都能照着做。",
     delivery: "业务动作清单、内容流程、客户分层、话术库和可复用模板。",
-    image: "/media/consulting/service-compiler.webp",
+    image: "/media/consulting2/workshop-board-02.webp",
   },
   {
     title: "AI 服务商交付边界顾问",
@@ -44,7 +44,7 @@ const services = [
     pain: "客户不断加需求、压报价、拖尾款，项目最后变成无限售后。",
     method: "先拆需求、报价、验收、修改次数和不含范围，再决定接不接。",
     delivery: "报价边界、拒单判断、验收标准、售后范围和沟通话术。",
-    image: "/media/consulting/service-boundary.webp",
+    image: "/media/consulting2/duo-01.webp",
   },
   {
     title: "GEO / AI 搜索可见性体检",
@@ -52,16 +52,20 @@ const services = [
     pain: "外部平台有内容，但主站不够权威，AI 也说不清你是谁。",
     method: "检查主站结构、品牌实体、文章体系、机器可读文件和外部回链。",
     delivery: "体检报告、关键词建议、主站结构建议和 AI 识别优化清单。",
-    image: "/media/consulting/service-geo.webp",
+    image: "/media/consulting2/ai-training-01.webp",
   },
 ];
 
 const serviceSteps = ["说清问题", "判断能不能做", "拆交付边界", "设计试点", "交付复盘", "沉淀模板"];
 
-const serviceGallery = services.map((service) => ({
-  src: service.image,
-  alt: `${service.title}现场`,
-}));
+const deliveryGallery = [
+  { src: "/media/consulting2/training-keynote-02.webp", alt: "企业 AI 服务培训", title: "企业培训", caption: "讲清项目边界。" },
+  { src: "/media/consulting2/ip-masterclass-02.webp", alt: "AI 服务商课程", title: "服务商课程", caption: "报价、交付、验收。" },
+  { src: "/media/consulting2/stage-blue-02.webp", alt: "AI 行业大会现场", title: "行业大会", caption: "把标准公开讲出来。" },
+  { src: "/media/consulting2/workshop-stand-01.webp", alt: "AI 工作坊现场", title: "工作坊", caption: "拆流程、拆动作。" },
+  { src: "/media/consulting2/portrait-mic-02.webp", alt: "卢成现场咨询分享", title: "现场咨询", caption: "先判断能不能做。" },
+  { src: "/media/consulting2/training-room-02.webp", alt: "企业 AI 课堂现场", title: "课堂", caption: "让团队能接住。" },
+];
 
 export default function ServicesPage() {
   return (
@@ -139,13 +143,13 @@ export default function ServicesPage() {
                 ))}
               </div>
             </div>
-            <ImageStrip images={serviceGallery} variant="compact" />
+            <ImageStrip images={deliveryGallery} variant="compact" />
           </div>
         </section>
 
         <section className="section">
           <div className="consulting-split consulting-split--reverse">
-            <ImageStrip images={serviceGallery} variant="compact" />
+            <ImageStrip images={deliveryGallery} variant="compact" />
             <div>
               <p className="eyebrow">不承诺什么</p>
               <h2>我能做什么会说清楚，不能做什么也会提前说。</h2>

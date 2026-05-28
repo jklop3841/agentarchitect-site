@@ -21,22 +21,40 @@ const homeFocusCards = [
   {
     title: "企业AI化改革",
     body: "先改流程，再谈系统。",
+    image: "/media/consulting2/training-room-01.webp",
   },
   {
     title: "智能体架构师成长陪跑",
     body: "从认知、能力到案例。",
+    image: "/media/consulting2/ip-masterclass-02.webp",
   },
   {
     title: "AI服务商合作",
     body: "报价、交付、验收说清楚。",
+    image: "/media/consulting2/duo-01.webp",
   },
 ];
 
 const homeGallery = [
-  { src: "/media/consulting/home-work-scene.webp", alt: "卢成在企业 AI 交流现场分享" },
-  { src: "/media/consulting/home-proof.webp", alt: "卢成公开资料展示现场" },
-  { src: "/media/consulting/home-case.webp", alt: "智能体架构大会现场" },
-  { src: "/media/consulting/home-article.webp", alt: "智能体架构师趋势主题演讲现场" },
+  { src: "/media/consulting2/training-keynote-01.webp", alt: "卢成在企业培训现场", title: "企业培训", caption: "把 AI 落地讲给老板听。" },
+  { src: "/media/consulting2/training-room-01.webp", alt: "企业 AI 课程现场", title: "课程现场", caption: "围绕流程、内容、协作拆解。" },
+  { src: "/media/consulting2/ip-masterclass-01.webp", alt: "AI IP 主题课程现场", title: "主题课程", caption: "讲清 AI 服务怎么交付。" },
+  { src: "/media/consulting2/workshop-board-01.webp", alt: "AI 工作坊白板讲解", title: "工作坊", caption: "把经验整理成可执行方案。" },
+  { src: "/media/consulting2/stage-blue-01.webp", alt: "大型会场演讲现场", title: "公开演讲", caption: "智能体架构师行业表达。" },
+  { src: "/media/consulting2/portrait-mic-01.webp", alt: "卢成持麦分享", title: "现场分享", caption: "少讲玄学，多讲边界。" },
+  { src: "/media/consulting2/duo-01.webp", alt: "商业访谈现场", title: "对谈交流", caption: "围绕老板业务和 AI 化。" },
+  { src: "/media/consulting2/ai-training-01.webp", alt: "AI 培训课程海报", title: "AI 训练营", caption: "从概念走向交付。" },
+];
+
+const homeCaseGallery = [
+  { src: "/media/consulting2/training-keynote-02.webp", alt: "企业合作培训现场", title: "企业合作", caption: "先把业务问题说清楚。" },
+  { src: "/media/consulting2/workshop-board-02.webp", alt: "业务编译工作坊现场", title: "业务编译", caption: "把老板经验变成流程。" },
+  { src: "/media/consulting2/stage-blue-02.webp", alt: "大会演讲现场", title: "行业大会", caption: "输出智能体架构师标准。" },
+  { src: "/media/consulting2/ip-masterclass-02.webp", alt: "AI IP 实战课程", title: "AI IP 课程", caption: "内容、产品、服务一起拆。" },
+  { src: "/media/consulting2/training-room-02.webp", alt: "企业 AI 培训课堂", title: "课堂交付", caption: "让团队知道怎么用。" },
+  { src: "/media/consulting2/workshop-stand-01.webp", alt: "卢成在课程现场讲解", title: "现场讲解", caption: "把抽象 AI 变成动作。" },
+  { src: "/media/consulting2/stage-speech-01.webp", alt: "卢成台上演讲", title: "台上表达", caption: "面向老板的 AI 语言。" },
+  { src: "/media/consulting2/portrait-mic-02.webp", alt: "卢成持麦讲课", title: "持麦分享", caption: "谈交付、风险和边界。" },
 ];
 
 export function HomePage({ locale }: HomePageProps) {
@@ -135,6 +153,10 @@ export function HomePage({ locale }: HomePageProps) {
         </div>
       </Reveal>
 
+      <Reveal className="section section--tight">
+        <ImageStrip images={homeCaseGallery} variant="compact" />
+      </Reveal>
+
       <Reveal className="section">
         <div className="section-heading section-heading--compact">
           <p className="eyebrow">我解决的问题</p>
@@ -143,9 +165,9 @@ export function HomePage({ locale }: HomePageProps) {
         <div className="consulting-grid consulting-grid--three">
           {homeFocusCards.map((problem) => (
             <article key={problem.title} className="consulting-card">
-              <div className="image-placeholder image-placeholder--thumb">
-                <span>{problem.title}</span>
-              </div>
+              <figure className="site-photo site-photo--card">
+                <Image src={problem.image} alt={`${problem.title}现场`} fill sizes="(max-width: 980px) 100vw, 30vw" />
+              </figure>
               <h3>{problem.title}</h3>
               <p>{problem.body}</p>
             </article>
@@ -158,7 +180,7 @@ export function HomePage({ locale }: HomePageProps) {
           <p className="eyebrow">案例</p>
           <h2>图片可以点开，看高清大图。</h2>
         </div>
-        <ImageStrip images={homeGallery} />
+        <ImageStrip images={homeCaseGallery} />
         <div className="hero__actions">
           <Link href="/cases" className="button button--ghost">
             查看案例

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { ImageStrip } from "@/components/image-strip";
@@ -30,10 +31,21 @@ const implementationSteps = [
 ];
 
 const standardGallery = [
-  { src: "/media/consulting/standard-hero.webp", alt: "智能体架构师现场讲解" },
-  { src: "/media/consulting/standard-flow.webp", alt: "AI 业务实施流程现场" },
-  { src: "/media/consulting/standard-model.webp", alt: "智能体架构师资料展示" },
-  { src: "/media/consulting/home-proof.webp", alt: "智能体架构师公开资料现场" },
+  { src: "/media/consulting2/stage-blue-01.webp", alt: "智能体架构师大会现场", title: "行业标准", caption: "先定义角色，再定义交付。" },
+  { src: "/media/consulting2/workshop-board-01.webp", alt: "智能体架构师流程拆解", title: "流程拆解", caption: "从业务痛点开始。" },
+  { src: "/media/consulting2/training-keynote-01.webp", alt: "智能体架构师企业培训", title: "企业培训", caption: "老板能听懂，团队能执行。" },
+  { src: "/media/consulting2/ip-masterclass-01.webp", alt: "AI IP 课程现场", title: "能力模型", caption: "不只会工具，还要懂业务。" },
+  { src: "/media/consulting2/duo-01.webp", alt: "智能体架构师对谈", title: "对谈", caption: "把风险和边界说透。" },
+  { src: "/media/consulting2/stage-speech-01.webp", alt: "卢成智能体架构师演讲", title: "公开表达", caption: "用行业语言建立共识。" },
+  { src: "/media/consulting2/training-room-02.webp", alt: "AI 培训课堂", title: "课堂", caption: "从小闭环开始落地。" },
+  { src: "/media/consulting2/portrait-mic-01.webp", alt: "卢成现场分享智能体架构师标准", title: "现场分享", caption: "标准、验收、边界。" },
+];
+
+const articleThumbs = [
+  "/media/consulting2/stage-blue-02.webp",
+  "/media/consulting2/workshop-board-02.webp",
+  "/media/consulting2/training-keynote-02.webp",
+  "/media/consulting2/portrait-mic-02.webp",
 ];
 
 export default function StandardPage() {
@@ -122,11 +134,16 @@ export default function StandardPage() {
             <h2>想继续了解，可以从这些文章看起。</h2>
           </div>
           <div className="consulting-grid consulting-grid--two">
-            {recommendedArticles.map((article) => (
+            {recommendedArticles.map((article, index) => (
               <article key={article.slug} className="consulting-card">
-                <div className="image-placeholder image-placeholder--wide">
-                  <span>推荐文章缩略图占位</span>
-                </div>
+                <figure className="site-photo site-photo--card">
+                  <Image
+                    src={articleThumbs[index % articleThumbs.length]}
+                    alt={`${article.title}推荐图`}
+                    fill
+                    sizes="(max-width: 980px) 100vw, 44vw"
+                  />
+                </figure>
                 <h3>{article.title}</h3>
                 <p>{article.excerpt}</p>
                 <Link href={`/articles/${article.slug}`} className="text-link">
