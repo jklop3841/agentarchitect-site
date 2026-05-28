@@ -6,7 +6,6 @@ import {
   cases,
   deliverySteps,
   entityProfile,
-  homeProblems,
 } from "@/lib/commercial-site";
 import { articles, authorProfile } from "@/lib/content";
 import { externalProfiles, primaryContact } from "@/lib/site";
@@ -16,6 +15,21 @@ import type { Locale } from "@/lib/types";
 type HomePageProps = {
   locale: Locale;
 };
+
+const homeFocusCards = [
+  {
+    title: "企业AI化改革",
+    body: "帮企业先看清业务里哪些地方值得 AI 化，哪些地方不能乱动，先改流程，再谈系统。",
+  },
+  {
+    title: "智能体架构师成长陪跑",
+    body: "帮助想进入智能体架构师行业的人，建立认知、标准、能力、案例和长期发展路径。",
+  },
+  {
+    title: "AI服务商合作",
+    body: "帮助 AI 服务商把报价、交付、验收和售后边界说清楚，避免被客户和项目拖死。",
+  },
+];
 
 export function HomePage({ locale }: HomePageProps) {
   const isEnglish = locale === "en";
@@ -78,7 +92,7 @@ export function HomePage({ locale }: HomePageProps) {
             <p className="eyebrow">Jack Lu / Lu Cheng / Agent Architect</p>
             <h1>智能体架构师卢成</h1>
             <p>
-              我帮老板把脑子里的经验、每天在做的流程、团队反复卡住的事，整理成 AI 能帮忙跑起来的方案。
+              智能体架构师行业标准制定意见领袖，智能体架构师全国联盟发起者，智能体架构师概念中文奠基人。
             </p>
             <div className="hero__actions">
               <Link href="/standard" className="button button--gold">
@@ -96,9 +110,9 @@ export function HomePage({ locale }: HomePageProps) {
         <div className="consulting-split">
           <div>
             <p className="eyebrow">我是谁</p>
-            <h2>我不卖万能 AI，我先帮你把生意里的事讲清楚。</h2>
+            <h2>卢成，1996年出生，连续创业者、AI创业者、新媒体人。</h2>
             <p className="doc-body">
-              很多老板不是不会用 AI，而是不知道该把 AI 放到哪一步。我做的事，就是先把你的业务动作拆开，看哪些能交给 AI，哪些必须人来把关，哪些项目一开始就不该花钱做。
+              专注中国智能体架构师行业赋能与发展，推动中国企业 AI 化变革。长期关注智能体架构师标准、企业 AI 化改革、AI 服务商交付边界和智能体行业生态建设。
             </p>
             <div className="contact-strip">
               <a href={primaryContact.emailHref}>
@@ -107,7 +121,7 @@ export function HomePage({ locale }: HomePageProps) {
               </a>
               <Link href="/contact">
                 <strong>微信 / 资料</strong>
-                <span>{primaryContact.wechatLabel}</span>
+                <span>lucheng196｜备用：lucheng961</span>
               </Link>
             </div>
           </div>
@@ -125,16 +139,16 @@ export function HomePage({ locale }: HomePageProps) {
       <Reveal className="section">
         <div className="section-heading section-heading--compact">
           <p className="eyebrow">我解决的问题</p>
-          <h2>老板缺的不是新工具，而是知道这工具到底该用在哪里。</h2>
+          <h2>围绕智能体架构师行业，做三件真正有价值的事。</h2>
         </div>
         <div className="consulting-grid consulting-grid--three">
-          {homeProblems.map((problem) => (
-            <article key={problem} className="consulting-card">
+          {homeFocusCards.map((problem) => (
+            <article key={problem.title} className="consulting-card">
               <div className="image-placeholder image-placeholder--thumb">
-                <span>配图占位</span>
+                <span>{problem.title}</span>
               </div>
-              <h3>{problem}</h3>
-              <p>先把问题说清楚，再决定值不值得做，别一上来就砸钱开发。</p>
+              <h3>{problem.title}</h3>
+              <p>{problem.body}</p>
             </article>
           ))}
         </div>

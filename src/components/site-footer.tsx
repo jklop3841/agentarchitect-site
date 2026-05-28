@@ -69,11 +69,7 @@ export function SiteFooter() {
           </ul>
         </div>
       </div>
-      <p className="footer-copy">
-        {isEnglish
-          ? "Disclaimer: this site provides industry observation, methodology, and project breakdowns. It does not promise fixed investment returns, automatic lead generation, or guaranteed sales."
-          : "声明：本站内容为行业观察、方法论与项目拆解，不承诺任何投资收益、自动获客结果或固定成交结果。所有服务以明确交付清单、验收标准和能力边界为准。"}
-      </p>
+      <div className="footer-luxury-rule" aria-hidden="true" />
     </footer>
   );
 }

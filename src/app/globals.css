@@ -1183,6 +1183,23 @@ h1 {
   color: var(--muted);
 }
 
+.footer-luxury-rule {
+  width: min(calc(100% - 2rem), var(--max));
+  height: 3.5rem;
+  margin: 2rem auto 0;
+  background:
+    linear-gradient(90deg, transparent, rgba(184, 131, 45, 0.88), transparent),
+    repeating-linear-gradient(
+      135deg,
+      rgba(13, 32, 52, 0.95) 0,
+      rgba(13, 32, 52, 0.95) 2px,
+      rgba(13, 32, 52, 0.08) 2px,
+      rgba(13, 32, 52, 0.08) 9px
+    );
+  border-top: 1px solid rgba(184, 131, 45, 0.5);
+  border-bottom: 1px solid rgba(13, 32, 52, 0.18);
+}
+
 .site-footer {
   background: transparent;
 }
@@ -1315,7 +1332,7 @@ h1 {
 }
 
 .consulting-grid--three {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .consulting-grid--two {
