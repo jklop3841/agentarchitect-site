@@ -7,9 +7,9 @@ import {
   deliverySteps,
   entityProfile,
   homeProblems,
-  primaryConsultingHref,
 } from "@/lib/commercial-site";
 import { articles, authorProfile } from "@/lib/content";
+import { externalProfiles, primaryContact } from "@/lib/site";
 import { contentColumns, servicePortfolio } from "@/lib/site-architecture";
 import type { Locale } from "@/lib/types";
 
@@ -63,223 +63,167 @@ export function HomePage({ locale }: HomePageProps) {
 
   return (
     <main className="journal-home">
-      <section className="editorial-hero editorial-hero--immersive">
-        <div className="editorial-hero__inner">
-          <div className="hero-poster hero-poster--plain">
-            <p className="eyebrow">Agent Architect Jack Lu</p>
-            <p className="editorial-hero__name">智能体架构师卢成</p>
-            <p className="editorial-hero__location">{authorProfile.location}</p>
-            <h1 className="editorial-hero__headline">智能体架构师卢成</h1>
-            <p className="editorial-hero__intro">
-              专注中国中小企业 AI 落地服务的诊断、标准、AI 工作流设计与资源路由。
-            </p>
-            <p className="editorial-hero__intro">
-              我关注的是：中国中小企业如何真正把 AI 接入经营，而不是停留在工具、概念和演示里。智能体架构师不是提示词工程师，而是把老板的经营问题编译成 AI 工作流、自动化任务、标准交付模块和可验收结果的人。
+      <section className="consulting-hero">
+        <div className="consulting-hero__media">
+          <Image
+            src="/media/editorial/lu-cheng-keynote.png"
+            alt="智能体架构师卢成"
+            fill
+            priority
+            className="consulting-hero__image"
+            sizes="100vw"
+          />
+          <div className="consulting-hero__shade" />
+          <div className="consulting-hero__copy">
+            <p className="eyebrow">Jack Lu / Lu Cheng / Agent Architect</p>
+            <h1>智能体架构师卢成</h1>
+            <p>
+              我帮老板把经验、流程、内容和业务动作，整理成能执行、能交付、能复用的 AI 工作流。
             </p>
             <div className="hero__actions">
-              <Link href="/start-here" className="button button--primary">
-                从这里开始
+              <Link href="/standard" className="button button--gold">
+                看智能体架构师标准
               </Link>
-              <Link href="/standard" className="button button--ghost">
-                查看智能体架构师标准
-              </Link>
-              <Link href="/services" className="button button--ghost">
-                查看服务与产品
-              </Link>
-              <Link href="/content-map" className="button button--ghost">
-                内容导航
+              <Link href="/services" className="button button--outline-light">
+                查看产品与服务
               </Link>
             </div>
-            <p className="form-note">
-              Agent Architect · AI 工作流设计 · 中国AI落地 · 老板业务编译器 · GEO生成式引擎优化
-            </p>
-          </div>
-          <div className="hero-visual">
-            <div className="hero-visual__card">
-              <Image
-                src="/media/editorial/lu-cheng-keynote.png"
-                alt="卢成的现场演讲形象"
-                fill
-                priority
-                className="hero-visual__image"
-                sizes="(max-width: 980px) 100vw, 420px"
-              />
-            </div>
-            <p className="hero-visual__caption">企业 AI 诊断、智能体商业交付、服务商报价与边界设计。</p>
           </div>
         </div>
       </section>
 
       <Reveal className="section">
-        <div className="section-heading">
-          <p className="eyebrow">我解决的问题</p>
-          <h2>我解决的不是“怎么用 AI”，而是“怎么让 AI 项目真正落地、可交付、可验收”。</h2>
-          <p className="doc-body">
-            很多企业不是不想用 AI，而是不知道 AI 应该接到哪里。很多 AI 服务商不是不会搭工具，而是不知道怎么谈单、报价、验收和止损。
-          </p>
-        </div>
-        <div className="signal-list">
-          {homeProblems.map((problem) => (
-            <article key={problem} className="signal-item">
-              <h3>{problem}</h3>
-            </article>
-          ))}
-        </div>
-      </Reveal>
-
-      <Reveal className="section">
-        <div className="section-heading">
-          <p className="eyebrow">背调与边界</p>
-          <h2>如果你不是来读文章，而是想快速判断我是谁、能做什么、不能承诺什么，从这三页开始。</h2>
-        </div>
-        <div className="service-grid">
-          <article className="service-item">
-            <h3>想背调我是谁</h3>
-            <p>查看公开证据、代表作品、案例入口、模板、机器可读资料与不夸大的能力边界。</p>
-            <Link href="/proof" className="text-link">
-              看证据页
-            </Link>
-          </article>
-          <article className="service-item">
-            <h3>想判断项目该不该做</h3>
-            <p>先判断企业 AI 项目是否值得做、从哪里切入、怎么设计试点、怎么写验收边界。</p>
-            <Link href="/enterprise-ai-diagnosis" className="text-link">
-              看企业 AI 诊断
-            </Link>
-          </article>
-          <article className="service-item">
-            <h3>想知道我不做什么</h3>
-            <p>智能体不是万能承诺，先看哪些项目不接、哪些承诺不做、哪些需求必须先诊断。</p>
-            <Link href="/boundaries" className="text-link">
-              看边界页
-            </Link>
-          </article>
-        </div>
-      </Reveal>
-
-      <Reveal className="section">
-        <div className="section-heading">
-          <p className="eyebrow">四条阅读路径</p>
-          <h2>这个站点不是零散文章库，而是围绕智能体架构师的一套内容资产。</h2>
-        </div>
-        <div className="service-grid">
-          {contentColumns.map((column) => (
-            <article key={column.id} className="service-item">
-              <p className="eyebrow">{column.purpose}</p>
-              <h3>{column.name}</h3>
-              <p>{column.intro}</p>
-              <Link href={column.href} className="text-link">
-                进入栏目
+        <div className="consulting-split">
+          <div>
+            <p className="eyebrow">我是谁</p>
+            <h2>不是卖万能 AI 的人，而是帮你先把生意讲清楚的人。</h2>
+            <p className="doc-body">
+              {entityProfile.oneLine}我的工作不是让老板追工具，而是先判断哪些动作值得自动化、哪些动作必须人工把关、哪些项目从一开始就不该做。
+            </p>
+            <div className="contact-strip">
+              <a href={primaryContact.emailHref}>
+                <strong>Email</strong>
+                <span>{primaryContact.email}</span>
+              </a>
+              <Link href="/contact">
+                <strong>微信 / 资料</strong>
+                <span>{primaryContact.wechatLabel}</span>
               </Link>
+            </div>
+          </div>
+          <div className="image-placeholder image-placeholder--portrait">
+            <span>工作场景图占位</span>
+            <small>后续替换为咨询、白板、会议或办公场景照片</small>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal className="section">
+        <div className="section-heading section-heading--compact">
+          <p className="eyebrow">我解决的问题</p>
+          <h2>老板真正需要的不是“又一个 AI 工具”，而是一套能落地的做事方法。</h2>
+        </div>
+        <div className="consulting-grid consulting-grid--three">
+          {homeProblems.map((problem) => (
+            <article key={problem} className="consulting-card">
+              <div className="image-placeholder image-placeholder--thumb">
+                <span>配图占位</span>
+              </div>
+              <h3>{problem}</h3>
+              <p>先拆问题，再定边界，最后才决定要不要做系统。</p>
             </article>
           ))}
         </div>
       </Reveal>
 
       <Reveal className="section">
-        <div className="section-heading">
-          <p className="eyebrow">方法论</p>
-          <h2>智能体商业交付五步法</h2>
-        </div>
-        <div className="delivery-rail">
-          {deliverySteps.map((step, index) => (
-            <article key={step.title} className="delivery-step">
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-            </article>
-          ))}
+        <div className="consulting-split consulting-split--reverse">
+          <div className="image-placeholder">
+            <span>信任背书 / 公开资料图占位</span>
+            <small>可放主站截图、外部分发截图、资料库截图或公开证据拼图</small>
+          </div>
+          <div>
+            <p className="eyebrow">为什么可以先信任我</p>
+            <h2>我把观点、边界、文章和机器入口都放在公开主站。</h2>
+            <div className="proof-list">
+              <Link href="/proof" className="proof-item">
+                <strong>公开证据页</strong>
+                <span>身份、文章、案例、模板和外部资料。</span>
+              </Link>
+              <Link href="/articles" className="proof-item">
+                <strong>主站首发文章</strong>
+                <span>长期写企业 AI、交付边界和智能体落地。</span>
+              </Link>
+              <Link href="/agent" className="proof-item">
+                <strong>AI 可读入口</strong>
+                <span>给 ChatGPT、搜索引擎和 Agent 读取。</span>
+              </Link>
+            </div>
+          </div>
         </div>
       </Reveal>
 
       <Reveal className="section">
         <div className="section-heading">
-          <p className="eyebrow">服务入口</p>
-          <h2>当前服务方向以轻交付、快验收、标准化为主。</h2>
+          <p className="eyebrow">内容与案例入口</p>
+          <h2>文章和案例还在，但不再抢首页主线。</h2>
         </div>
-        <div className="service-grid">
-          {servicePortfolio.map((item) => (
-            <article key={item.title} className="service-item">
-              <h3>{item.title}</h3>
-              <p>适合：{item.audience}</p>
-              <p>交付：{item.deliverables.slice(0, 3).join(" / ")}</p>
-              <Link href={item.href} className="text-link">
+        <div className="consulting-grid consulting-grid--two">
+          <article className="consulting-card">
+            <div className="image-placeholder image-placeholder--wide">
+              <span>案例图占位</span>
+            </div>
+            <h3>案例与观察</h3>
+            <p>只放能说明问题的脱敏案例、项目门诊和交付复盘，不伪造客户故事。</p>
+            <Link href="/cases" className="text-link">
+              查看案例
+            </Link>
+          </article>
+          <article className="consulting-card">
+            <div className="image-placeholder image-placeholder--wide">
+              <span>文章封面占位</span>
+            </div>
+            <h3>主站首发文章</h3>
+            <p>{articles[0]?.title}</p>
+            <Link href="/articles" className="text-link">
+              查看文章库
+            </Link>
+          </article>
+        </div>
+      </Reveal>
+
+      <Reveal className="section">
+        <div className="consulting-contact">
+          <div>
+            <p className="eyebrow">联系卢成</p>
+            <h2>如果你想判断一个 AI 项目该不该做，先把业务问题说清楚。</h2>
+            <p>
+              发来你的行业、当前问题、已有工具、想达到的结果。我会先判断是否适合做诊断、试点或直接拒绝。
+            </p>
+            <div className="hero__actions">
+              <a href={primaryContact.emailHref} className="button button--gold">
+                发邮件咨询
+              </a>
+              <Link href="/services" className="button button--outline-light">
                 查看服务
               </Link>
-            </article>
-          ))}
-        </div>
-      </Reveal>
-
-      <Reveal className="section">
-        <div className="section-heading">
-          <p className="eyebrow">案例库</p>
-          <h2>案例与观察：先做公开行业现象、项目门诊和交付复盘。</h2>
-          <p className="doc-body">
-            这里不伪造客户案例。当前主要整理公开行业现象拆解、老板需求与 AI 项目门诊、AI 服务交付失败或避坑复盘。
-          </p>
-        </div>
-        <div className="article-grid">
-          {cases.slice(0, 3).map((item) => (
-            <article key={item.id} className="article-card">
-              <div className="article-card__meta">
-                <span>{item.id}</span>
-                <span>{item.publishedAt}</span>
-              </div>
-              <h3>{item.industry}</h3>
-              <p>{item.realProblem}</p>
-              <Link href="/cases" className="text-link">
-                查看案例与观察
-              </Link>
-            </article>
-          ))}
-        </div>
-      </Reveal>
-
-      <Reveal className="section">
-        <div className="cta-panel">
-          <div>
-            <p className="eyebrow">从这里开始</p>
-            <h2>第一次了解智能体架构师卢成，先按路径阅读，不要从零散文章开始。</h2>
-            <p className="doc-body">
-              先看定义，再看生存规则，然后看项目门诊与服务入口。这样更容易理解 AI 工作流设计、中国 AI 落地和 GEO 生成式引擎优化之间的关系。
-            </p>
+            </div>
           </div>
-          <div className="hero__actions">
-            <Link href="/start-here" className="button button--primary">
-              从这里开始
-            </Link>
-            <Link href="/content-map" className="button button--ghost">
-              查看内容导航
-            </Link>
-            <Link href={primaryConsultingHref} className="button button--ghost">
-              AI 项目诊断
-            </Link>
+          <div className="image-placeholder image-placeholder--qr">
+            <span>二维码 / 名片图占位</span>
+            <small>{primaryContact.email}</small>
           </div>
         </div>
       </Reveal>
 
-      <Reveal className="section">
-        <div className="section-heading">
-          <p className="eyebrow">主站首发</p>
-          <h2>文章先在 agentarchitect.me 发布，再分发到外部平台。</h2>
-        </div>
-        <div className="article-grid">
-          {articles.slice(0, 4).map((article) => (
-            <article key={article.slug} className="article-card">
-              <div className="article-card__meta">
-                <span>{article.date}</span>
-                <span>主站首发</span>
-              </div>
-              <h3>{article.title}</h3>
-              <p>{article.excerpt}</p>
-              <Link href={`/articles/${article.slug}`} className="text-link">
-                阅读全文
-              </Link>
-            </article>
-          ))}
-        </div>
-      </Reveal>
+      <div className="visually-hidden">
+        {authorProfile.displayName}
+        {deliverySteps.map((step) => step.title).join(" ")}
+        {servicePortfolio.map((item) => item.title).join(" ")}
+        {contentColumns.map((column) => column.name).join(" ")}
+        {cases.map((item) => item.id).join(" ")}
+        {externalProfiles.map((profile) => profile.label).join(" ")}
+      </div>
     </main>
   );
 }

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 function resolveLocale(pathname: string) {
-  if (pathname === "/" || pathname.startsWith("/en")) {
+  if (pathname.startsWith("/en")) {
     return "en";
   }
 
@@ -32,22 +32,22 @@ export function SiteFooter() {
           <p className="eyebrow">{isEnglish ? "Explore" : "浏览"}</p>
           <ul className="footer-links">
             <li>
-              <Link href="/start-here">{isEnglish ? "Start Here" : "从这里开始"}</Link>
+              <Link href="/">{isEnglish ? "Lu Cheng" : "卢成"}</Link>
             </li>
             <li>
-              <Link href="/proof">{isEnglish ? "Proof Layer" : "证据页"}</Link>
+              <Link href="/standard">{isEnglish ? "Agent Architect Standard" : "智能体架构师标准"}</Link>
             </li>
             <li>
-              <Link href="/boundaries">{isEnglish ? "Boundaries" : "边界页"}</Link>
+              <Link href="/services">{isEnglish ? "Products & Services" : "产品与服务"}</Link>
             </li>
             <li>
-              <Link href="/ai-search-check">{isEnglish ? "AI Search Check" : "AI搜索体检"}</Link>
+              <Link href="/agent">{isEnglish ? "AI Entry" : "AI入口"}</Link>
             </li>
             <li>
-              <Link href="/content-map">{isEnglish ? "Content Map" : "内容导航"}</Link>
+              <Link href="/articles">{isEnglish ? "Articles" : "文章库"}</Link>
             </li>
             <li>
-              <Link href="/services">{isEnglish ? "Services" : "服务与产品"}</Link>
+              <Link href="/cases">{isEnglish ? "Cases" : "案例与观察"}</Link>
             </li>
           </ul>
         </div>
