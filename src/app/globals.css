@@ -1326,6 +1326,26 @@ h1 {
   max-width: 19ch;
 }
 
+.journal-home .consulting-split h2,
+.journal-home .section-heading h2,
+.journal-home .consulting-contact h2,
+.consulting-page .consulting-split h2,
+.consulting-page .section-heading h2,
+.consulting-page .consulting-contact h2,
+.standard-hero h1 {
+  max-width: 34rem;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(1.65rem, 3vw, 2.55rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.22;
+}
+
+.journal-home .section-heading,
+.consulting-page .section-heading {
+  max-width: 48rem;
+}
+
 .consulting-grid {
   display: grid;
   gap: 1.2rem;
@@ -1354,6 +1374,9 @@ h1 {
 
 .consulting-card h3 {
   margin: 1.15rem 1.15rem 0.55rem;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
   font-size: 1.25rem;
 }
 
