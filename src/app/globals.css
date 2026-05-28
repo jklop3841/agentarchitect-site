@@ -1519,6 +1519,12 @@ h1 {
 
 .site-photo--contact {
   min-height: 20rem;
+  background: #fff;
+}
+
+.site-photo--contact img {
+  object-fit: contain;
+  padding: 0.75rem;
 }
 
 .site-photo--card {
@@ -1669,17 +1675,139 @@ h1 {
   margin-top: 1.4rem;
 }
 
-.contact-strip a {
+.contact-strip a,
+.contact-strip__trigger {
   display: grid;
   gap: 0.2rem;
+  width: 100%;
   padding: 1rem;
   border-left: 4px solid #d1a356;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
   background: #fff;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
   box-shadow: 0 12px 34px rgba(14, 30, 48, 0.08);
 }
 
-.contact-strip span {
+.contact-strip span,
+.contact-strip__trigger small {
   color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.consultation-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.consultation-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(7, 13, 22, 0.68);
+  cursor: pointer;
+}
+
+.consultation-modal__panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 58rem);
+  max-height: min(92vh, 58rem);
+  overflow: auto;
+  padding: clamp(1.2rem, 3vw, 2rem);
+  background: #fffdf8;
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.28);
+}
+
+.consultation-modal__panel h2 {
+  margin: 0.3rem 0 0.65rem;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  letter-spacing: 0;
+}
+
+.consultation-modal__panel p {
+  max-width: 44rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.consultation-modal__close {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid rgba(13, 32, 52, 0.14);
+  background: #fff;
+  color: #0d2034;
+  cursor: pointer;
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.consultation-modal__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.consultation-card {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0.85rem;
+  border: 1px solid rgba(13, 32, 52, 0.12);
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(14, 30, 48, 0.08);
+}
+
+.consultation-card--primary {
+  border-color: rgba(209, 163, 86, 0.55);
+}
+
+.consultation-card img {
+  width: 100%;
+  height: clamp(18rem, 54vh, 34rem);
+  object-fit: contain;
+  background: #f6f7f8;
+}
+
+.consultation-card figcaption {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.consultation-card strong {
+  color: #0d2034;
+  font-size: 1.05rem;
+}
+
+.consultation-card span {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.footer-contact-button {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.footer-contact-button:hover {
+  color: var(--accent-2);
 }
 
 .consulting-contact {
@@ -2083,6 +2211,14 @@ h1 {
   .process-strip,
   .standard-matrix {
     grid-template-columns: 1fr;
+  }
+
+  .consultation-modal__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .consultation-card img {
+    height: min(70vh, 32rem);
   }
 
   .image-placeholder {

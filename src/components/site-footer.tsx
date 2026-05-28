@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { ConsultationTrigger } from "@/components/consultation-modal";
+
 function resolveLocale(pathname: string) {
   if (pathname.startsWith("/en")) {
     return "en";
@@ -15,7 +17,6 @@ export function SiteFooter() {
   const pathname = usePathname();
   const locale = resolveLocale(pathname);
   const isEnglish = locale === "en";
-  const contactHref = "/contact";
 
   return (
     <footer className="site-footer">
@@ -55,7 +56,10 @@ export function SiteFooter() {
           <p className="eyebrow">{isEnglish ? "Contact" : "联系"}</p>
           <ul className="footer-links">
             <li>
-              <Link href={contactHref}>{isEnglish ? "Email & Profiles" : "邮箱与外部资料"}</Link>
+              <ConsultationTrigger
+                label={isEnglish ? "Assistant WeCom" : "卢成助理企业微信"}
+                className="footer-contact-button"
+              />
             </li>
             <li>
               <Link href="/enterprise-ai-diagnosis">{isEnglish ? "Book AI Diagnosis" : "预约 AI 项目诊断"}</Link>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ConsultationTrigger } from "@/components/consultation-modal";
 import { ImageStrip } from "@/components/image-strip";
 import { Reveal } from "@/components/reveal";
 import {
@@ -9,7 +10,7 @@ import {
   entityProfile,
 } from "@/lib/commercial-site";
 import { authorProfile } from "@/lib/content";
-import { externalProfiles, primaryContact } from "@/lib/site";
+import { externalProfiles } from "@/lib/site";
 import { contentColumns, servicePortfolio } from "@/lib/site-architecture";
 import type { Locale } from "@/lib/types";
 
@@ -141,14 +142,11 @@ export function HomePage({ locale }: HomePageProps) {
             <h2>卢成，1996年出生，连续创业者、AI创业者、新媒体人。</h2>
             <p className="doc-body">专注中国智能体架构师行业赋能与发展，推动中国企业 AI 化变革。</p>
             <div className="contact-strip">
-              <a href={primaryContact.emailHref}>
-                <strong>Email</strong>
-                <span>{primaryContact.email}</span>
-              </a>
-              <Link href="/contact">
-                <strong>微信 / 资料</strong>
-                <span>lucheng196｜备用：lucheng961</span>
-              </Link>
+              <ConsultationTrigger
+                className="contact-strip__trigger"
+                label="微信 / 咨询"
+                description="添加卢成助理企业微信，说明你的行业和问题。"
+              />
             </div>
           </div>
           <ImageStrip images={homeGallery} />
@@ -200,9 +198,7 @@ export function HomePage({ locale }: HomePageProps) {
             <h2>想做 AI 项目，先别急着开发，先把问题发来。</h2>
             <p>告诉我你做什么行业、现在卡在哪里、想让 AI 帮你做哪一步。</p>
             <div className="hero__actions">
-              <a href={primaryContact.emailHref} className="button button--gold">
-                发邮件咨询
-              </a>
+              <ConsultationTrigger label="添加助理咨询" className="button button--gold" />
               <Link href="/services" className="button button--outline-light">
                 查看服务
               </Link>
@@ -210,8 +206,8 @@ export function HomePage({ locale }: HomePageProps) {
           </div>
           <figure className="site-photo site-photo--contact">
             <Image
-              src="/media/consulting/contact-portrait.webp"
-              alt="智能体架构师卢成商务形象照"
+              src="/media/contact/wecom-assistant.png"
+              alt="卢成助理企业微信二维码"
               fill
               sizes="(max-width: 980px) 100vw, 340px"
             />

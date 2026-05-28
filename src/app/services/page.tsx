@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { ConsultationTrigger } from "@/components/consultation-modal";
 import { ImageStrip } from "@/components/image-strip";
 import { SiteHeader } from "@/components/site-header";
-import { primaryContact } from "@/lib/site";
 import { serviceBoundaries } from "@/lib/site-architecture";
 
 export const metadata: Metadata = {
@@ -71,9 +71,7 @@ export default function ServicesPage() {
           <h1>产品与服务</h1>
           <p className="subpage__lead">不卖万能 AI 梦。先把问题、边界、交付结果说清楚。</p>
           <div className="hero__actions">
-            <a href={primaryContact.emailHref} className="button button--gold">
-              立即咨询
-            </a>
+            <ConsultationTrigger label="立即咨询" className="button button--gold" />
             <Link href="/standard" className="button button--ghost">
               先看标准
             </Link>
@@ -115,9 +113,7 @@ export default function ServicesPage() {
                     <dd>{service.delivery}</dd>
                   </div>
                 </dl>
-                <a href={primaryContact.emailHref} className="button button--primary service-sheet__cta">
-                  立即咨询
-                </a>
+                <ConsultationTrigger label="立即咨询" className="button button--primary service-sheet__cta" />
               </article>
             ))}
           </div>
@@ -165,18 +161,16 @@ export default function ServicesPage() {
                 写清楚你做什么行业、哪里卡住、想让 AI 解决什么。
               </p>
               <div className="hero__actions">
-                <a href={primaryContact.emailHref} className="button button--gold">
-                  发邮件咨询
-                </a>
-                <Link href="/contact" className="button button--outline-light">
-                  查看更多联系方式
+                <ConsultationTrigger label="添加助理咨询" className="button button--gold" />
+                <Link href="/standard" className="button button--outline-light">
+                  先看标准
                 </Link>
               </div>
             </div>
             <figure className="site-photo site-photo--contact">
               <Image
-                src="/media/consulting/contact-portrait.webp"
-                alt="智能体架构师卢成联系方式形象照"
+                src="/media/contact/wecom-assistant.png"
+                alt="卢成助理企业微信二维码"
                 fill
                 sizes="(max-width: 980px) 100vw, 340px"
               />
