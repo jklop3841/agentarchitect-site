@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { SiteHeader } from "@/components/site-header";
@@ -59,10 +60,15 @@ export default function StandardPage() {
               </Link>
             </div>
           </div>
-          <div className="image-placeholder image-placeholder--standard">
-            <span>智能体架构师主视觉图占位</span>
-            <small>可替换为人物、白板、工作流或企业咨询场景图</small>
-          </div>
+          <figure className="site-photo site-photo--standard">
+            <Image
+              src="/media/consulting/standard-hero.webp"
+              alt="智能体架构师在现场讲解企业 AI 流程"
+              fill
+              priority
+              sizes="(max-width: 980px) 100vw, 460px"
+            />
+          </figure>
         </section>
 
         <section className="section">
@@ -82,10 +88,14 @@ export default function StandardPage() {
 
         <section className="section">
           <div className="consulting-split">
-            <div className="image-placeholder">
-              <span>AI 业务实施流程图占位</span>
-              <small>后续可放流程图、路线图或项目白板图</small>
-            </div>
+            <figure className="site-photo">
+              <Image
+                src="/media/consulting/standard-flow.webp"
+                alt="AI 业务实施流程讲解现场"
+                fill
+                sizes="(max-width: 980px) 100vw, 560px"
+              />
+            </figure>
             <div>
               <p className="eyebrow">AI 业务实施全流程</p>
               <h2>先小范围跑通，再考虑放大，别一上来就做大系统。</h2>
@@ -112,10 +122,14 @@ export default function StandardPage() {
                 ))}
               </ul>
             </div>
-            <div className="image-placeholder">
-              <span>智能体架构师能力模型图占位</span>
-              <small>可放五力模型、交付边界图或角色说明图</small>
-            </div>
+            <figure className="site-photo">
+              <Image
+                src="/media/consulting/standard-model.webp"
+                alt="智能体架构师能力模型与公开资料展示"
+                fill
+                sizes="(max-width: 980px) 100vw, 560px"
+              />
+            </figure>
           </div>
         </section>
 

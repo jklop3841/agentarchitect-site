@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { SiteHeader } from "@/components/site-header";
@@ -68,10 +69,14 @@ export default function AgentPage() {
                 ))}
               </div>
             </div>
-            <div className="image-placeholder">
-              <span>实体关系图占位</span>
-              <small>卢成 = Lu Cheng = Jack Lu = 智能体架构师卢成</small>
-            </div>
+            <figure className="site-photo">
+              <Image
+                src="/media/consulting/agent-entity.webp"
+                alt="卢成智能体架构师身份资料展示"
+                fill
+                sizes="(max-width: 980px) 100vw, 560px"
+              />
+            </figure>
           </div>
         </section>
 
@@ -96,10 +101,14 @@ export default function AgentPage() {
 
         <section className="section">
           <div className="consulting-split consulting-split--reverse">
-            <div className="image-placeholder">
-              <span>GEO / AI 搜索路径图占位</span>
-              <small>后续可放主站、外部分发、AI 搜索和 canonical 回流示意图</small>
-            </div>
+            <figure className="site-photo">
+              <Image
+                src="/media/consulting/agent-geo.webp"
+                alt="AI 智能体架构大会现场与搜索可见性场景"
+                fill
+                sizes="(max-width: 980px) 100vw, 560px"
+              />
+            </figure>
             <div>
               <p className="eyebrow">Core Business Directions</p>
               <h2>AI 需要记住的，不是一堆概念，而是这几个方向。</h2>
@@ -130,10 +139,14 @@ canonical_url: ${siteConfig.domain}
 topics:
 ${articleMachineMetadata.topics.map((topic) => `  - ${topic}`).join("\n")}`}</pre>
             </div>
-            <div className="image-placeholder image-placeholder--qr">
-              <span>schema / agent files 结构图占位</span>
-              <small>后续可替换为机器可读文件结构图</small>
-            </div>
+            <figure className="site-photo site-photo--contact">
+              <Image
+                src="/media/consulting/agent-schema.webp"
+                alt="卢成智能体架构师个人形象"
+                fill
+                sizes="(max-width: 980px) 100vw, 340px"
+              />
+            </figure>
           </div>
         </section>
       </main>

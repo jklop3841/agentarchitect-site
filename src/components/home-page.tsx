@@ -66,7 +66,7 @@ export function HomePage({ locale }: HomePageProps) {
       <section className="consulting-hero">
         <div className="consulting-hero__media">
           <Image
-            src="/media/editorial/lu-cheng-keynote.png"
+            src="/media/consulting/home-hero.webp"
             alt="智能体架构师卢成"
             fill
             priority
@@ -111,10 +111,14 @@ export function HomePage({ locale }: HomePageProps) {
               </Link>
             </div>
           </div>
-          <div className="image-placeholder image-placeholder--portrait">
-            <span>工作场景图占位</span>
-            <small>后续替换为咨询、白板、会议或办公场景照片</small>
-          </div>
+          <figure className="site-photo site-photo--portrait">
+            <Image
+              src="/media/consulting/home-work-scene.webp"
+              alt="卢成在企业 AI 交流现场分享智能体落地方法"
+              fill
+              sizes="(max-width: 980px) 100vw, 520px"
+            />
+          </figure>
         </div>
       </Reveal>
 
@@ -138,10 +142,14 @@ export function HomePage({ locale }: HomePageProps) {
 
       <Reveal className="section">
         <div className="consulting-split consulting-split--reverse">
-          <div className="image-placeholder">
-            <span>信任背书 / 公开资料图占位</span>
-            <small>可放主站截图、外部分发截图、资料库截图或公开证据拼图</small>
-          </div>
+          <figure className="site-photo">
+            <Image
+              src="/media/consulting/home-proof.webp"
+              alt="卢成公开身份与智能体架构师资料展示现场"
+              fill
+              sizes="(max-width: 980px) 100vw, 560px"
+            />
+          </figure>
           <div>
             <p className="eyebrow">为什么可以先信任我</p>
             <h2>我不只讲概念，观点、边界和文章都放在这里。</h2>
@@ -170,10 +178,14 @@ export function HomePage({ locale }: HomePageProps) {
         </div>
         <div className="consulting-grid consulting-grid--two">
           <article className="consulting-card consulting-card--feature">
-            <div className="image-placeholder image-placeholder--case">
-              <span>案例主图待替换</span>
-              <small>这里后续放真实项目复盘、会议白板或资料截图，要放大，不做小缩略图。</small>
-            </div>
+            <figure className="site-photo site-photo--case">
+              <Image
+                src="/media/consulting/home-case.webp"
+                alt="企业 AI 与智能体架构大会现场案例图"
+                fill
+                sizes="(max-width: 980px) 100vw, 560px"
+              />
+            </figure>
             <h3>案例与观察</h3>
             <p>这里只放能说明问题的复盘，不编造夸张案例。</p>
             <Link href="/cases" className="text-link">
@@ -181,10 +193,14 @@ export function HomePage({ locale }: HomePageProps) {
             </Link>
           </article>
           <article className="consulting-card consulting-card--feature">
-            <div className="image-placeholder image-placeholder--case">
-              <span>文章主图待替换</span>
-              <small>这里后续放文章封面、现场照片或主题图，视觉上要和案例同等级。</small>
-            </div>
+            <figure className="site-photo site-photo--case">
+              <Image
+                src="/media/consulting/home-article.webp"
+                alt="智能体架构师未来趋势主题演讲现场"
+                fill
+                sizes="(max-width: 980px) 100vw, 560px"
+              />
+            </figure>
             <h3>主站首发文章</h3>
             <p>{articles[0]?.title}</p>
             <Link href="/articles" className="text-link">
@@ -211,10 +227,14 @@ export function HomePage({ locale }: HomePageProps) {
               </Link>
             </div>
           </div>
-          <div className="image-placeholder image-placeholder--qr">
-            <span>二维码 / 名片图占位</span>
-            <small>{primaryContact.email}</small>
-          </div>
+          <figure className="site-photo site-photo--contact">
+            <Image
+              src="/media/consulting/contact-portrait.webp"
+              alt="智能体架构师卢成商务形象照"
+              fill
+              sizes="(max-width: 980px) 100vw, 340px"
+            />
+          </figure>
         </div>
       </Reveal>
 

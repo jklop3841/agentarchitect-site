@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { SiteHeader } from "@/components/site-header";
@@ -26,6 +27,7 @@ const services = [
     pain: "怕花钱做成演示，最后业务没变、团队也用不起来。",
     method: "先看业务流程、数据条件、人员配合和风险，再决定要不要做试点。",
     delivery: "AI 切入点、风险判断、试点建议、交付边界和验收口径。",
+    image: "/media/consulting/service-diagnosis.webp",
   },
   {
     title: "老板业务编译器",
@@ -33,6 +35,7 @@ const services = [
     pain: "销售话术、客户判断、内容经验、成交逻辑都在脑子里，员工和 AI 接不住。",
     method: "把你的经验整理成话术、流程、标签和内容模板，让团队和 AI 都能照着做。",
     delivery: "业务动作清单、内容流程、客户分层、话术库和可复用模板。",
+    image: "/media/consulting/service-compiler.webp",
   },
   {
     title: "AI 服务商交付边界顾问",
@@ -40,6 +43,7 @@ const services = [
     pain: "客户不断加需求、压报价、拖尾款，项目最后变成无限售后。",
     method: "先拆需求、报价、验收、修改次数和不含范围，再决定接不接。",
     delivery: "报价边界、拒单判断、验收标准、售后范围和沟通话术。",
+    image: "/media/consulting/service-boundary.webp",
   },
   {
     title: "GEO / AI 搜索可见性体检",
@@ -47,6 +51,7 @@ const services = [
     pain: "外部平台有内容，但主站不够权威，AI 也说不清你是谁。",
     method: "检查主站结构、品牌实体、文章体系、机器可读文件和外部回链。",
     delivery: "体检报告、关键词建议、主站结构建议和 AI 识别优化清单。",
+    image: "/media/consulting/service-geo.webp",
   },
 ];
 
@@ -78,9 +83,14 @@ export default function ServicesPage() {
             {services.map((service, index) => (
               <article key={service.title} className="service-sheet">
                 <div className="service-sheet__header">
-                  <div className="image-placeholder image-placeholder--icon">
-                    <span>{index + 1}</span>
-                  </div>
+                  <figure className="site-photo site-photo--service-icon">
+                    <Image
+                      src={service.image}
+                      alt={`${service.title}服务场景`}
+                      fill
+                      sizes="72px"
+                    />
+                  </figure>
                   <h2>
                     {index + 1}. {service.title}
                   </h2>
@@ -125,19 +135,27 @@ export default function ServicesPage() {
                 ))}
               </div>
             </div>
-            <div className="image-placeholder">
-              <span>服务流程图占位</span>
-              <small>可替换为咨询流程、项目路线图或交付看板图片</small>
-            </div>
+            <figure className="site-photo">
+              <Image
+                src="/media/consulting/service-boundary.webp"
+                alt="AI 服务商交付边界研讨现场"
+                fill
+                sizes="(max-width: 980px) 100vw, 560px"
+              />
+            </figure>
           </div>
         </section>
 
         <section className="section">
           <div className="consulting-split consulting-split--reverse">
-            <div className="image-placeholder">
-              <span>咨询场景图占位</span>
-              <small>可放会议、沟通、白板、资料整理或远程咨询图</small>
-            </div>
+            <figure className="site-photo">
+              <Image
+                src="/media/consulting/service-compiler.webp"
+                alt="卢成在企业 AI 咨询现场沟通方案"
+                fill
+                sizes="(max-width: 980px) 100vw, 560px"
+              />
+            </figure>
             <div>
               <p className="eyebrow">不承诺什么</p>
               <h2>我能做什么会说清楚，不能做什么也会提前说。</h2>
@@ -167,10 +185,14 @@ export default function ServicesPage() {
                 </Link>
               </div>
             </div>
-            <div className="image-placeholder image-placeholder--qr">
-              <span>二维码 / 预约图占位</span>
-              <small>{primaryContact.email}</small>
-            </div>
+            <figure className="site-photo site-photo--contact">
+              <Image
+                src="/media/consulting/contact-portrait.webp"
+                alt="智能体架构师卢成联系方式形象照"
+                fill
+                sizes="(max-width: 980px) 100vw, 340px"
+              />
+            </figure>
           </div>
         </section>
       </main>
