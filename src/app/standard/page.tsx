@@ -31,21 +31,21 @@ const implementationSteps = [
 ];
 
 const standardGallery = [
-  { src: "/media/consulting2/stage-blue-01.webp", alt: "智能体架构师大会现场", title: "行业标准", caption: "先定义角色，再定义交付。" },
-  { src: "/media/consulting2/workshop-board-01.webp", alt: "智能体架构师流程拆解", title: "流程拆解", caption: "从业务痛点开始。" },
-  { src: "/media/consulting2/training-keynote-01.webp", alt: "智能体架构师企业培训", title: "企业培训", caption: "老板能听懂，团队能执行。" },
-  { src: "/media/consulting2/ip-masterclass-01.webp", alt: "AI IP 课程现场", title: "能力模型", caption: "不只会工具，还要懂业务。" },
-  { src: "/media/consulting2/duo-01.webp", alt: "智能体架构师对谈", title: "对谈", caption: "把风险和边界说透。" },
-  { src: "/media/consulting2/stage-speech-01.webp", alt: "卢成智能体架构师演讲", title: "公开表达", caption: "用行业语言建立共识。" },
-  { src: "/media/consulting2/training-room-02.webp", alt: "AI 培训课堂", title: "课堂", caption: "从小闭环开始落地。" },
-  { src: "/media/consulting2/portrait-mic-01.webp", alt: "卢成现场分享智能体架构师标准", title: "现场分享", caption: "标准、验收、边界。" },
+  { src: "/media/consulting3/graduation-01.webp", alt: "智能体架构师陪跑结业现场", title: "行业标准", caption: "先定义角色，再定义交付。" },
+  { src: "/media/consulting3/whiteboard-03.webp", alt: "智能体架构师白板流程拆解", title: "流程拆解", caption: "从业务痛点开始。" },
+  { src: "/media/consulting3/screen-teaching-01.webp", alt: "智能体架构师企业培训讲解", title: "企业培训", caption: "老板能听懂，团队能执行。" },
+  { src: "/media/consulting3/presentation-02.webp", alt: "智能体架构师能力模型讲解", title: "能力模型", caption: "不只会工具，还要懂业务。" },
+  { src: "/media/consulting3/consulting-talk-01.webp", alt: "智能体架构师对谈咨询", title: "对谈", caption: "把风险和边界说透。" },
+  { src: "/media/consulting3/group-banner-01.webp", alt: "智能体架构师线下活动", title: "线下活动", caption: "用行业语言建立共识。" },
+  { src: "/media/consulting3/workshop-table-01.webp", alt: "智能体架构师工作坊", title: "工作坊", caption: "从小闭环开始落地。" },
+  { src: "/media/consulting3/standing-teaching-01.webp", alt: "卢成现场分享智能体架构师标准", title: "现场分享", caption: "标准、验收、边界。" },
 ];
 
 const articleThumbs = [
-  "/media/consulting2/stage-blue-02.webp",
-  "/media/consulting2/workshop-board-02.webp",
-  "/media/consulting2/training-keynote-02.webp",
-  "/media/consulting2/portrait-mic-02.webp",
+  "/media/consulting3/screen-pointing-01.webp",
+  "/media/consulting3/whiteboard-02.webp",
+  "/media/consulting3/presentation-01.webp",
+  "/media/consulting3/certificate-01.webp",
 ];
 
 export default function StandardPage() {

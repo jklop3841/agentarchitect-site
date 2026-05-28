@@ -10,7 +10,7 @@ import { serviceBoundaries } from "@/lib/site-architecture";
 export const metadata: Metadata = {
   title: "产品与服务",
   description:
-    "智能体架构师卢成的产品与服务：企业 AI 项目诊断、老板业务编译器、AI 服务商交付边界顾问、GEO / AI 搜索可见性体检。",
+    "智能体架构师卢成的产品与服务：企业AI化改革、智能体架构师陪跑、AI服务商合作。",
   alternates: {
     canonical: "/services",
   },
@@ -23,48 +23,42 @@ export const metadata: Metadata = {
 
 const services = [
   {
-    title: "企业 AI 项目诊断",
-    audience: "想做 AI，但不知道从哪里下手的老板。",
-    pain: "怕花钱做成演示，最后业务没变、团队也用不起来。",
-    method: "先看业务流程、数据条件、人员配合和风险，再决定要不要做试点。",
-    delivery: "AI 切入点、风险判断、试点建议、交付边界和验收口径。",
-    image: "/media/consulting2/training-room-01.webp",
+    title: "企业AI化改革",
+    audience: "想用 AI 提效，但不想乱花钱试错的老板。",
+    pain: "工具很多，项目很多，但业务流程、员工执行和结果验收没打通。",
+    method: "先看业务、流程、团队和数据，再从一个小环节开始试点。",
+    delivery: "AI 改革路线、试点方案、流程优化建议、验收口径。",
+    image: "/media/consulting3/screen-teaching-01.webp",
   },
   {
-    title: "老板业务编译器",
-    audience: "有经验、有方法，但流程和内容都靠自己临时发挥的老板。",
-    pain: "销售话术、客户判断、内容经验、成交逻辑都在脑子里，员工和 AI 接不住。",
-    method: "把你的经验整理成话术、流程、标签和内容模板，让团队和 AI 都能照着做。",
-    delivery: "业务动作清单、内容流程、客户分层、话术库和可复用模板。",
-    image: "/media/consulting2/workshop-board-02.webp",
+    title: "智能体架构师陪跑",
+    audience: "想进入智能体架构师行业、做出案例和产品的人。",
+    pain: "懂一点 AI，但不会定位、不会报价、不会做交付闭环。",
+    method: "陪你拆能力、拆产品、拆案例、拆交付，把方向做实。",
+    delivery: "定位建议、产品设计、案例打磨、交付边界和成长路线。",
+    image: "/media/consulting3/whiteboard-01.webp",
   },
   {
-    title: "AI 服务商交付边界顾问",
-    audience: "做代运营、智能体定制、AI 交付的一人企业或小团队。",
-    pain: "客户不断加需求、压报价、拖尾款，项目最后变成无限售后。",
-    method: "先拆需求、报价、验收、修改次数和不含范围，再决定接不接。",
-    delivery: "报价边界、拒单判断、验收标准、售后范围和沟通话术。",
-    image: "/media/consulting2/duo-01.webp",
-  },
-  {
-    title: "GEO / AI 搜索可见性体检",
-    audience: "想让 ChatGPT、AI 搜索和搜索引擎正确理解自己的个人品牌或企业。",
-    pain: "外部平台有内容，但主站不够权威，AI 也说不清你是谁。",
-    method: "检查主站结构、品牌实体、文章体系、机器可读文件和外部回链。",
-    delivery: "体检报告、关键词建议、主站结构建议和 AI 识别优化清单。",
-    image: "/media/consulting2/ai-training-01.webp",
+    title: "AI服务商合作",
+    audience: "做 AI 交付、代运营、智能体定制的一人企业或小团队。",
+    pain: "客户需求乱、交付边界乱、售后重，项目容易被拖死。",
+    method: "一起梳理报价、合同边界、交付流程、验收标准和客户沟通。",
+    delivery: "合作方案、交付模板、边界清单、项目复盘和联合案例。",
+    image: "/media/consulting3/consulting-talk-01.webp",
   },
 ];
 
 const serviceSteps = ["说清问题", "判断能不能做", "拆交付边界", "设计试点", "交付复盘", "沉淀模板"];
 
 const deliveryGallery = [
-  { src: "/media/consulting2/training-keynote-02.webp", alt: "企业 AI 服务培训", title: "企业培训", caption: "讲清项目边界。" },
-  { src: "/media/consulting2/ip-masterclass-02.webp", alt: "AI 服务商课程", title: "服务商课程", caption: "报价、交付、验收。" },
-  { src: "/media/consulting2/stage-blue-02.webp", alt: "AI 行业大会现场", title: "行业大会", caption: "把标准公开讲出来。" },
-  { src: "/media/consulting2/workshop-stand-01.webp", alt: "AI 工作坊现场", title: "工作坊", caption: "拆流程、拆动作。" },
-  { src: "/media/consulting2/portrait-mic-02.webp", alt: "卢成现场咨询分享", title: "现场咨询", caption: "先判断能不能做。" },
-  { src: "/media/consulting2/training-room-02.webp", alt: "企业 AI 课堂现场", title: "课堂", caption: "让团队能接住。" },
+  { src: "/media/consulting3/group-room-01.webp", alt: "企业AI化改革合影", title: "企业AI化改革", caption: "从老板问题开始。" },
+  { src: "/media/consulting3/presentation-01.webp", alt: "企业AI方案讲解", title: "方案讲解", caption: "把流程讲清楚。" },
+  { src: "/media/consulting3/workshop-table-01.webp", alt: "AI 工作坊会议桌", title: "工作坊", caption: "一起拆业务动作。" },
+  { src: "/media/consulting3/graduation-01.webp", alt: "智能体架构师结业合影", title: "陪跑结业", caption: "把成长做成结果。" },
+  { src: "/media/consulting3/screen-pointing-01.webp", alt: "智能体架构师课程讲解", title: "课程讲解", caption: "标准、产品、交付。" },
+  { src: "/media/consulting3/paper-review-01.webp", alt: "AI服务商合作资料复盘", title: "服务商合作", caption: "报价和边界一起看。" },
+  { src: "/media/consulting3/certificate-01.webp", alt: "智能体架构师证书展示", title: "资料交付", caption: "可复盘、可沉淀。" },
+  { src: "/media/consulting3/group-banner-01.webp", alt: "智能体架构师线下合影", title: "线下活动", caption: "行业共识持续沉淀。" },
 ];
 
 export default function ServicesPage() {

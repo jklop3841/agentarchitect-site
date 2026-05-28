@@ -36,25 +36,27 @@ const homeFocusCards = [
 ];
 
 const homeGallery = [
-  { src: "/media/consulting2/training-keynote-01.webp", alt: "卢成在企业培训现场", title: "企业培训", caption: "把 AI 落地讲给老板听。" },
-  { src: "/media/consulting2/training-room-01.webp", alt: "企业 AI 课程现场", title: "课程现场", caption: "围绕流程、内容、协作拆解。" },
-  { src: "/media/consulting2/ip-masterclass-01.webp", alt: "AI IP 主题课程现场", title: "主题课程", caption: "讲清 AI 服务怎么交付。" },
-  { src: "/media/consulting2/workshop-board-01.webp", alt: "AI 工作坊白板讲解", title: "工作坊", caption: "把经验整理成可执行方案。" },
-  { src: "/media/consulting2/stage-blue-01.webp", alt: "大型会场演讲现场", title: "公开演讲", caption: "智能体架构师行业表达。" },
-  { src: "/media/consulting2/portrait-mic-01.webp", alt: "卢成持麦分享", title: "现场分享", caption: "少讲玄学，多讲边界。" },
-  { src: "/media/consulting2/duo-01.webp", alt: "商业访谈现场", title: "对谈交流", caption: "围绕老板业务和 AI 化。" },
-  { src: "/media/consulting2/ai-training-01.webp", alt: "AI 培训课程海报", title: "AI 训练营", caption: "从概念走向交付。" },
+  { src: "/media/consulting3/screen-pointing-01.webp", alt: "卢成屏幕讲解智能体架构师", title: "智能体架构师", caption: "讲标准，也讲交付。" },
+  { src: "/media/consulting3/meeting-screen-01.webp", alt: "卢成会议室讲解AI方案", title: "企业AI化", caption: "先从业务场景开始。" },
+  { src: "/media/consulting3/whiteboard-02.webp", alt: "卢成白板拆解业务", title: "业务拆解", caption: "把经验变成流程。" },
+  { src: "/media/consulting3/small-consulting-01.webp", alt: "小范围AI咨询交流", title: "小范围咨询", caption: "问题具体，方案才具体。" },
+  { src: "/media/consulting3/paper-discussion-01.webp", alt: "AI服务方案资料讨论", title: "资料讨论", caption: "把边界写清楚。" },
+  { src: "/media/consulting3/standing-consulting-01.webp", alt: "站立式AI咨询沟通", title: "现场沟通", caption: "围绕真实项目推进。" },
+  { src: "/media/consulting3/presentation-02.webp", alt: "卢成演示AI方案", title: "方案演示", caption: "让老板知道下一步。" },
+  { src: "/media/consulting3/group-room-02.webp", alt: "卢成线下课程合影", title: "线下课程", caption: "从认知到行动。" },
 ];
 
 const homeCaseGallery = [
-  { src: "/media/consulting2/training-keynote-02.webp", alt: "企业合作培训现场", title: "企业合作", caption: "先把业务问题说清楚。" },
-  { src: "/media/consulting2/workshop-board-02.webp", alt: "业务编译工作坊现场", title: "业务编译", caption: "把老板经验变成流程。" },
-  { src: "/media/consulting2/stage-blue-02.webp", alt: "大会演讲现场", title: "行业大会", caption: "输出智能体架构师标准。" },
-  { src: "/media/consulting2/ip-masterclass-02.webp", alt: "AI IP 实战课程", title: "AI IP 课程", caption: "内容、产品、服务一起拆。" },
-  { src: "/media/consulting2/training-room-02.webp", alt: "企业 AI 培训课堂", title: "课堂交付", caption: "让团队知道怎么用。" },
-  { src: "/media/consulting2/workshop-stand-01.webp", alt: "卢成在课程现场讲解", title: "现场讲解", caption: "把抽象 AI 变成动作。" },
-  { src: "/media/consulting2/stage-speech-01.webp", alt: "卢成台上演讲", title: "台上表达", caption: "面向老板的 AI 语言。" },
-  { src: "/media/consulting2/portrait-mic-02.webp", alt: "卢成持麦讲课", title: "持麦分享", caption: "谈交付、风险和边界。" },
+  { src: "/media/consulting3/group-room-01.webp", alt: "卢成企业AI化改革现场合影", title: "企业AI化改革", caption: "把老板问题拆成动作。" },
+  { src: "/media/consulting3/whiteboard-01.webp", alt: "卢成白板讲解业务流程", title: "白板拆解", caption: "先拆流程，再谈系统。" },
+  { src: "/media/consulting3/graduation-01.webp", alt: "智能体架构师陪跑结业合影", title: "陪跑结业", caption: "从学习走向案例。" },
+  { src: "/media/consulting3/presentation-01.webp", alt: "卢成讲解企业AI方案", title: "方案讲解", caption: "让老板听懂 AI 怎么用。" },
+  { src: "/media/consulting3/consulting-talk-01.webp", alt: "AI服务商合作咨询现场", title: "服务商合作", caption: "一起把边界说清楚。" },
+  { src: "/media/consulting3/screen-teaching-01.webp", alt: "智能体架构师课程屏幕讲解", title: "课程现场", caption: "围绕标准、产品和交付。" },
+  { src: "/media/consulting3/workshop-table-01.webp", alt: "AI业务工作坊会议桌现场", title: "工作坊", caption: "把业务经验整理出来。" },
+  { src: "/media/consulting3/certificate-01.webp", alt: "智能体架构师资料交付展示", title: "资料交付", caption: "可复盘，可沉淀。" },
+  { src: "/media/consulting3/group-banner-01.webp", alt: "智能体架构师线下活动合影", title: "线下活动", caption: "行业共识持续沉淀。" },
+  { src: "/media/consulting3/standing-teaching-01.webp", alt: "卢成站立讲解智能体架构师", title: "现场讲解", caption: "少讲概念，多讲落地。" },
 ];
 
 export function HomePage({ locale }: HomePageProps) {
@@ -178,7 +180,7 @@ export function HomePage({ locale }: HomePageProps) {
       <Reveal className="section">
         <div className="section-heading">
           <p className="eyebrow">案例</p>
-          <h2>图片可以点开，看高清大图。</h2>
+          <h2>卢成过往案例</h2>
         </div>
         <ImageStrip images={homeCaseGallery} />
         <div className="hero__actions">

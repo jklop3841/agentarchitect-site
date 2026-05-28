@@ -1536,31 +1536,49 @@ h1 {
 }
 
 .image-strip {
-  display: flex;
-  gap: 1rem;
   max-width: 100%;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
+  overflow: hidden;
   padding: 0.15rem 0 1rem;
-  scroll-padding-inline: 1rem;
-  scroll-snap-type: x mandatory;
-  scrollbar-color: rgba(13, 32, 52, 0.38) rgba(13, 32, 52, 0.08);
-  scrollbar-width: thin;
+  position: relative;
   width: 100%;
 }
 
-.image-strip::-webkit-scrollbar {
-  height: 0.55rem;
+.image-strip::before,
+.image-strip::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 1rem;
+  z-index: 2;
+  width: clamp(2rem, 7vw, 6rem);
+  pointer-events: none;
 }
 
-.image-strip::-webkit-scrollbar-track {
-  background: rgba(13, 32, 52, 0.08);
-  border-radius: 999px;
+.image-strip::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg), rgba(245, 247, 250, 0));
 }
 
-.image-strip::-webkit-scrollbar-thumb {
-  background: rgba(13, 32, 52, 0.38);
-  border-radius: 999px;
+.image-strip::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg), rgba(245, 247, 250, 0));
+}
+
+.image-strip__track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: image-strip-scroll 54s linear infinite;
+  will-change: transform;
+}
+
+.image-strip--compact .image-strip__track {
+  animation-duration: 46s;
+}
+
+.image-strip:hover .image-strip__track,
+.image-strip:focus-within .image-strip__track {
+  animation-play-state: paused;
 }
 
 .image-strip__item {
@@ -1573,7 +1591,6 @@ h1 {
   border: 1px solid rgba(13, 32, 52, 0.12);
   border-radius: 14px;
   box-shadow: 0 18px 42px rgba(14, 30, 48, 0.12);
-  scroll-snap-align: start;
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
@@ -1624,6 +1641,26 @@ h1 {
   color: #526070;
   font-size: 0.86rem;
   line-height: 1.6;
+}
+
+@keyframes image-strip-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(calc(-50% - 0.5rem), 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-strip {
+    overflow-x: auto;
+  }
+
+  .image-strip__track {
+    animation: none;
+  }
 }
 
 .contact-strip {
@@ -1765,7 +1802,7 @@ h1 {
 
 .service-board {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.4rem;
 }
 
