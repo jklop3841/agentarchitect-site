@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { ImageStrip } from "@/components/image-strip";
 import { SiteHeader } from "@/components/site-header";
 import { primaryContact } from "@/lib/site";
 import { serviceBoundaries } from "@/lib/site-architecture";
@@ -57,6 +58,11 @@ const services = [
 
 const serviceSteps = ["说清问题", "判断能不能做", "拆交付边界", "设计试点", "交付复盘", "沉淀模板"];
 
+const serviceGallery = services.map((service) => ({
+  src: service.image,
+  alt: `${service.title}现场`,
+}));
+
 export default function ServicesPage() {
   return (
     <>
@@ -65,9 +71,7 @@ export default function ServicesPage() {
         <section className="subpage__hero subpage__hero--centered">
           <p className="eyebrow">商业交付版</p>
           <h1>产品与服务</h1>
-          <p className="subpage__lead">
-            不卖万能 AI 梦。先把问题说清楚，把边界写清楚，把你最后能拿到什么说清楚。
-          </p>
+          <p className="subpage__lead">不卖万能 AI 梦。先把问题、边界、交付结果说清楚。</p>
           <div className="hero__actions">
             <a href={primaryContact.emailHref} className="button button--gold">
               立即咨询
@@ -135,27 +139,13 @@ export default function ServicesPage() {
                 ))}
               </div>
             </div>
-            <figure className="site-photo">
-              <Image
-                src="/media/consulting/service-boundary.webp"
-                alt="AI 服务商交付边界研讨现场"
-                fill
-                sizes="(max-width: 980px) 100vw, 560px"
-              />
-            </figure>
+            <ImageStrip images={serviceGallery} variant="compact" />
           </div>
         </section>
 
         <section className="section">
           <div className="consulting-split consulting-split--reverse">
-            <figure className="site-photo">
-              <Image
-                src="/media/consulting/service-compiler.webp"
-                alt="卢成在企业 AI 咨询现场沟通方案"
-                fill
-                sizes="(max-width: 980px) 100vw, 560px"
-              />
-            </figure>
+            <ImageStrip images={serviceGallery} variant="compact" />
             <div>
               <p className="eyebrow">不承诺什么</p>
               <h2>我能做什么会说清楚，不能做什么也会提前说。</h2>
@@ -174,7 +164,7 @@ export default function ServicesPage() {
               <p className="eyebrow">联系方式</p>
               <h2>想咨询，先把你的项目问题发来。</h2>
               <p>
-                写清楚你做什么行业、现在怎么做、哪里卡住、想让 AI 帮你解决什么。我先判断这事适不适合继续。
+                写清楚你做什么行业、哪里卡住、想让 AI 解决什么。
               </p>
               <div className="hero__actions">
                 <a href={primaryContact.emailHref} className="button button--gold">

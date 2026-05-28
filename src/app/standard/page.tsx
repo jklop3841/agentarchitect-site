@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 
+import { ImageStrip } from "@/components/image-strip";
 import { SiteHeader } from "@/components/site-header";
 import { articles } from "@/lib/content";
 import { serviceBoundaries, standardAbilities } from "@/lib/site-architecture";
@@ -29,6 +29,13 @@ const implementationSteps = [
   "复盘后再放大",
 ];
 
+const standardGallery = [
+  { src: "/media/consulting/standard-hero.webp", alt: "智能体架构师现场讲解" },
+  { src: "/media/consulting/standard-flow.webp", alt: "AI 业务实施流程现场" },
+  { src: "/media/consulting/standard-model.webp", alt: "智能体架构师资料展示" },
+  { src: "/media/consulting/home-proof.webp", alt: "智能体架构师公开资料现场" },
+];
+
 export default function StandardPage() {
   const recommendedArticles = articles
     .filter((article) => article.tags.some((tag) => ["智能体架构师", "企业AI落地", "交付边界", "老板业务编译器"].includes(tag)))
@@ -48,9 +55,7 @@ export default function StandardPage() {
                 智能体架构师不是写提示词的人，而是帮老板判断 AI 该用在哪里、怎么少走弯路、怎么把结果验收清楚的人。
               </span>
             </div>
-            <p>
-              这个角色真正值钱的地方，不是把词讲得多高级，而是能把老板一句“我想用 AI 提效”，拆成具体该做什么、谁来做、做到什么算完成。
-            </p>
+            <p>把“我想用 AI 提效”，拆成具体该做什么、谁来做、做到什么算完成。</p>
             <div className="hero__actions">
               <Link href="/services" className="button button--gold">
                 看产品与服务
@@ -60,15 +65,7 @@ export default function StandardPage() {
               </Link>
             </div>
           </div>
-          <figure className="site-photo site-photo--standard">
-            <Image
-              src="/media/consulting/standard-hero.webp"
-              alt="智能体架构师在现场讲解企业 AI 流程"
-              fill
-              priority
-              sizes="(max-width: 980px) 100vw, 460px"
-            />
-          </figure>
+          <ImageStrip images={standardGallery} />
         </section>
 
         <section className="section">
@@ -88,14 +85,7 @@ export default function StandardPage() {
 
         <section className="section">
           <div className="consulting-split">
-            <figure className="site-photo">
-              <Image
-                src="/media/consulting/standard-flow.webp"
-                alt="AI 业务实施流程讲解现场"
-                fill
-                sizes="(max-width: 980px) 100vw, 560px"
-              />
-            </figure>
+            <ImageStrip images={standardGallery} variant="compact" />
             <div>
               <p className="eyebrow">AI 业务实施全流程</p>
               <h2>先小范围跑通，再考虑放大，别一上来就做大系统。</h2>
@@ -122,14 +112,7 @@ export default function StandardPage() {
                 ))}
               </ul>
             </div>
-            <figure className="site-photo">
-              <Image
-                src="/media/consulting/standard-model.webp"
-                alt="智能体架构师能力模型与公开资料展示"
-                fill
-                sizes="(max-width: 980px) 100vw, 560px"
-              />
-            </figure>
+            <ImageStrip images={standardGallery} variant="compact" />
           </div>
         </section>
 
