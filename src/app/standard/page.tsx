@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ImageStrip } from "@/components/image-strip";
 import { SiteHeader } from "@/components/site-header";
 import { articles } from "@/lib/content";
-import { serviceBoundaries, standardAbilities } from "@/lib/site-architecture";
+import { standardAbilities } from "@/lib/site-architecture";
 
 export const metadata: Metadata = {
   title: "智能体架构师标准",
@@ -34,7 +34,7 @@ const standardGallery = [
   { src: "/media/consulting3/graduation-01.webp", alt: "智能体架构师陪跑结业现场", title: "行业标准", caption: "先定义角色，再定义交付。" },
   { src: "/media/consulting3/whiteboard-03.webp", alt: "智能体架构师白板流程拆解", title: "流程拆解", caption: "从业务痛点开始。" },
   { src: "/media/consulting3/screen-teaching-01.webp", alt: "智能体架构师企业培训讲解", title: "企业培训", caption: "老板能听懂，团队能执行。" },
-  { src: "/media/consulting3/presentation-02.webp", alt: "智能体架构师能力模型讲解", title: "能力模型", caption: "不只会工具，还要懂业务。" },
+  { src: "/media/consulting3/presentation-02.webp", alt: "智能体架构师现场讲解", title: "架构讲解", caption: "不只会工具，还要懂业务。" },
   { src: "/media/consulting2/training-room-01.webp", alt: "智能体架构师企业课堂", title: "企业课堂", caption: "把风险和边界说透。" },
   { src: "/media/consulting3/group-banner-01.webp", alt: "智能体架构师线下活动", title: "线下活动", caption: "用行业语言建立共识。" },
   { src: "/media/consulting3/workshop-table-01.webp", alt: "智能体架构师工作坊", title: "工作坊", caption: "从小闭环开始落地。" },
@@ -114,18 +114,7 @@ export default function StandardPage() {
         </section>
 
         <section className="section">
-          <div className="consulting-split consulting-split--reverse">
-            <div>
-              <p className="eyebrow">能力模型</p>
-              <h2>我不能替你保证赚钱，但能帮你少踩很多坑。</h2>
-              <ul className="principle-list">
-                {serviceBoundaries.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <ImageStrip images={standardGallery} variant="compact" />
-          </div>
+          <ImageStrip images={standardGallery} variant="compact" />
         </section>
 
         <section className="section">

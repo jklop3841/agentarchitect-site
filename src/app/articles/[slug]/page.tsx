@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SiteHeader } from "@/components/site-header";
+import { getArticleCover } from "@/lib/article-images";
 import { articleMachineMetadata, firstPublishNotice } from "@/lib/commercial-site";
 import { articles, authorProfile } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
@@ -26,6 +27,8 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     return {};
   }
 
+  const cover = getArticleCover(article);
+
   return {
     title: article.title,
     description: article.excerpt,
@@ -36,7 +39,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       title: article.title,
       description: article.excerpt,
       type: "article",
-      images: [{ url: article.coverImage, alt: article.coverAlt }],
+      images: [{ url: cover.src, alt: cover.alt }],
     },
   };
 }
@@ -49,6 +52,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
+  const cover = getArticleCover(article);
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -57,7 +61,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     datePublished: article.date,
     dateModified: article.updatedAt || article.date,
     mainEntityOfPage: new URL(`/articles/${article.slug}`, siteConfig.domain).toString(),
-    image: article.coverImage,
+    image: cover.src,
     author: {
       "@type": "Person",
       name: authorProfile.name,
@@ -97,8 +101,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </div>
           <div className="article-page__hero-media">
             <Image
-              src={article.coverImage}
-              alt={article.coverAlt}
+              src={cover.src}
+              alt={cover.alt}
               width={1200}
               height={900}
               className="article-page__hero-image"
