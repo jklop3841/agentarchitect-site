@@ -44,7 +44,7 @@ const services = [
     pain: "客户需求乱、交付边界乱、售后重，项目容易被拖死。",
     method: "一起梳理报价、合同边界、交付流程、验收标准和客户沟通。",
     delivery: "合作方案、交付模板、边界清单、项目复盘和联合案例。",
-    image: "/media/consulting3/consulting-talk-01.webp",
+    image: "/media/consulting3/group-banner-01.webp",
   },
 ];
 
@@ -56,8 +56,8 @@ const deliveryGallery = [
   { src: "/media/consulting3/workshop-table-01.webp", alt: "AI 工作坊会议桌", title: "工作坊", caption: "一起拆业务动作。" },
   { src: "/media/consulting3/graduation-01.webp", alt: "智能体架构师结业合影", title: "陪跑结业", caption: "把成长做成结果。" },
   { src: "/media/consulting3/screen-pointing-01.webp", alt: "智能体架构师课程讲解", title: "课程讲解", caption: "标准、产品、交付。" },
-  { src: "/media/consulting3/paper-review-01.webp", alt: "AI服务商合作资料复盘", title: "服务商合作", caption: "报价和边界一起看。" },
-  { src: "/media/consulting3/certificate-01.webp", alt: "智能体架构师证书展示", title: "资料交付", caption: "可复盘、可沉淀。" },
+  { src: "/media/consulting2/training-room-02.webp", alt: "企业 AI 课堂现场", title: "课堂交付", caption: "让团队能接住。" },
+  { src: "/media/consulting2/workshop-board-02.webp", alt: "AI 服务商工作坊", title: "服务商合作", caption: "报价和边界一起看。" },
   { src: "/media/consulting3/group-banner-01.webp", alt: "智能体架构师线下合影", title: "线下活动", caption: "行业共识持续沉淀。" },
 ];
 
