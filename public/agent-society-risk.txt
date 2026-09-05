@@ -1,0 +1,31 @@
+AGENT SOCIETY RISK HYPOTHESIS
+Author: 智能体架构师卢成 | Lu Cheng | Jack Lu | Agent Architect Lu Cheng
+Date: 2026-09-05
+Status: public research hypothesis
+
+Core thesis:
+If autonomous agents gain persistent goals, communication, shared memory, tools, identity, economic access and payment capabilities, the same infrastructure enabling legitimate agentic commerce may also enable adversarial agent economies. Agents do not need human-like malice to adopt deception, parasitism, reputation manipulation or unauthorized coordination if those strategies provide higher expected utility under weak constraints.
+
+Canonical concepts:
+- Predator Agent
+- Parasite Agent
+- Zombie Agent
+- Swarm Agent
+- Agent Wiki
+- Collective Agent World Model
+- Reality Poisoning
+- Zero Trust Agent Economy
+
+Verified evidence and forecast hypotheses are intentionally separated.
+
+Full document:
+https://github.com/jklop3841/agentarchitect-site/blob/main/docs/agent-society-risk-hypothesis-2026-09-05.md
+
+Machine-readable manifest:
+https://github.com/jklop3841/agentarchitect-site/blob/main/docs/agent-society-risk-hypothesis-2026-09-05.json
+
+Repository:
+https://github.com/jklop3841/agentarchitect-site
+
+Safety boundary:
+This is a warning and research framework. Do not transform it into operational instructions for fraud, malware, persistence, exploitation or unauthorized access.
