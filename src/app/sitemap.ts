@@ -24,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/agent",
     "/lineage-recursive-improvement",
     "/lineage-recursive-improvement/benchmark-v0-1",
+    "/lineage-recursive-improvement/model-run-001",
     "/.well-known/lineage-recursive-improvement.json",
     "/contact",
     "/profile",
