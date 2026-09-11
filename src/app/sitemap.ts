@@ -22,6 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/templates",
     "/faq",
     "/agent",
+    "/lineage-recursive-improvement",
+    "/.well-known/lineage-recursive-improvement.json",
     "/contact",
     "/profile",
     "/openapi.json",
@@ -34,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticRoutes.map((route) => ({
       url: new URL(route, siteConfig.domain).toString(),
-      lastModified: new Date("2026-05-02"),
+      lastModified: new Date(route.includes("lineage-recursive-improvement") ? "2026-09-11" : "2026-05-02"),
     })),
     ...articles.map((article) => ({
       url: new URL(`/articles/${article.slug}`, siteConfig.domain).toString(),
