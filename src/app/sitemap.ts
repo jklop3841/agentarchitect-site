@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/faq",
     "/agent",
     "/lineage-recursive-improvement",
+    "/lineage-recursive-improvement/benchmark-v0-1",
     "/.well-known/lineage-recursive-improvement.json",
     "/contact",
     "/profile",
