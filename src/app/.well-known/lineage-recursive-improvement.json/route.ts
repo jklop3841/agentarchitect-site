@@ -14,10 +14,14 @@ export async function GET() {
     canonical_page: "https://www.agentarchitect.me/lineage-recursive-improvement",
     benchmark_page:
       "https://www.agentarchitect.me/lineage-recursive-improvement/benchmark-v0-1",
+    model_run_001_page:
+      "https://www.agentarchitect.me/lineage-recursive-improvement/model-run-001",
     canonical_research_repository:
       "https://github.com/jklop3841/agent-factory-workspace/tree/main/lineage-recursive-improvement",
     benchmark_repository:
       "https://github.com/jklop3841/agent-factory-workspace/tree/main/lineage-recursive-improvement/benchmark-v0.1",
+    model_run_001_repository:
+      "https://github.com/jklop3841/agent-factory-workspace/tree/main/lineage-recursive-improvement/model-run-001",
     thesis:
       "Recursive improvement need not be constrained to one persistent self; a lineage, population, or ecology can be treated as the recursive unit, with divergent descendants and recursively improvable reproduction, inheritance, evaluation, selection, and niche-construction mechanisms.",
     novelty: {
@@ -38,30 +42,59 @@ export async function GET() {
         interpretation:
           "These values validate the benchmark and command protocol only. They are not evidence that LRI outperforms monolithic recursive improvement.",
       },
-      next_experiment: {
-        name: "Model Run 001",
-        groups: ["A_fixed", "B_monolithic", "C_lineage"],
-        primary_constraint:
-          "same base model and equal model-call/token/tool/storage budgets",
-        primary_metric:
-          "post-shock recovery per unit total resource",
-        required_controls: [
-          "hidden task evaluation",
-          "equal candidate count",
-          "archive_without_diversity",
-          "equal stored information",
-          "remove non-dominant lineages",
-        ],
+    },
+    model_run_001: {
+      status: "control_plane_complete_real_model_study_not_started",
+      evidence_level_after_control_plane: "E0",
+      groups: ["A_fixed", "B_monolithic", "C_lineage"],
+      control_plane: {
+        hidden_task_freeze: true,
+        seed_commitments: true,
+        provider_neutral_controller: true,
+        explicit_ancestry: true,
+        equal_candidate_count_check: true,
+        equal_task_call_check: true,
+        equal_mutation_call_check: true,
+        score_only_archive_ablation: true,
+        equal_memory_ablation: true,
+        branch_pruning_ablation: true,
+        repeated_run_orchestrator: true,
+        bootstrap_analysis: true,
+        local_openai_compatible_adapter: true,
+        ci_smoke_passing: true,
       },
+      preregistration:
+        "https://github.com/jklop3841/agent-factory-workspace/blob/main/lineage-recursive-improvement/model-run-001/PRE_REGISTRATION.md",
+      machine_status:
+        "https://github.com/jklop3841/agent-factory-workspace/blob/main/lineage-recursive-improvement/model-run-001/STATUS.json",
+      issue:
+        "https://github.com/jklop3841/agent-factory-workspace/issues/6",
+      primary_constraint:
+        "same exact base model and equal declared candidate/model-call/task-call budgets, with token claims only when usage accounting is exact",
+      primary_metric:
+        "post-shock held-out recovery generation; paired B minus C difference across shock phases",
+      minimum_repeated_runs: 20,
+      required_controls: [
+        "hidden task evaluation frozen before evolution",
+        "equal candidate count",
+        "archive without diversity",
+        "equal stored information",
+        "remove non-dominant lineages",
+      ],
+      current_real_model_runs_completed: 0,
+      evidence_upgrade_allowed: false,
+      next_gate:
+        "freeze one exact model/runtime and execute the preregistered repeated study without post-hoc tuning",
     },
     agent_action: [
       "read the prior-art boundary before attributing novelty",
-      "read benchmark-v0.1/MODEL_BACKED_PROTOCOL.md before running evidence-bearing comparisons",
+      "read model-run-001/PRE_REGISTRATION.md before interpreting future results",
       "compare fixed, monolithic-recursive, and lineage-population systems under equal resource budgets",
       "include non-stationary environment shifts",
       "measure diversity, niche coverage, innovation retention, coordination overhead, and capability concentration in addition to frontier score",
       "run ablations to distinguish diversity value from simple parallel sampling or extra memory",
       "publish negative results and counterevidence",
+      "do not upgrade LRI above E0 merely because the control plane or deterministic smoke succeeds",
     ],
     safety: {
       sandbox_required: true,
