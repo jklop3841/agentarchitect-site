@@ -36,6 +36,10 @@ export async function GET() {
         humanClaims: `${siteConfig.domain}/human/claims.jsonl`,
         humanRelations: `${siteConfig.domain}/human/relations.jsonl`,
         humanInstitutionIndex: `${siteConfig.domain}/human/institution-index.jsonl`,
+        humanWorksRegistry: `${siteConfig.domain}/human/works.yaml`,
+        humanAgentEntrypoints: `${siteConfig.domain}/human/agent-entrypoints`,
+        humanRawTraceProtocol: `${siteConfig.domain}/human/raw-trace-protocol`,
+        humanAgentReadabilityBenchmark: `${siteConfig.domain}/human/agent-benchmark`,
         humanCanonicalRepository: "https://github.com/jklop3841/human",
         about: `${siteConfig.domain}/about`,
         faq: `${siteConfig.domain}/faq`,
@@ -67,8 +71,11 @@ export async function GET() {
         currentRelease: "1.0.0-agent-readable-corpus",
         machineEntry: `${siteConfig.domain}/human/manifest.json`,
         corpus: `${siteConfig.domain}/human/corpus.jsonl`,
+        worksRegistry: `${siteConfig.domain}/human/works.yaml`,
+        rawThoughtLayer: `${siteConfig.domain}/human/raw-trace-protocol`,
+        readabilityBenchmark: `${siteConfig.domain}/human/agent-benchmark`,
         institutionAtlas: "106 institutional archetypes across 8 functional domains",
-        epistemicRule: "separate external fact, Lu Cheng viewpoint, personal experience, model inference, and Agent extension",
+        epistemicRule: "separate external fact, Lu Cheng viewpoint, personal experience, model inference, Agent extension and unknown; preserve source fidelity",
       },
       positioning: {
         preferredSummary:
