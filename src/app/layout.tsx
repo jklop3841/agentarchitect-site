@@ -7,6 +7,8 @@ import { externalProfiles, siteConfig } from "@/lib/site";
 
 import "./globals.css";
 
+const contactEmail = "jklop3841@gmail.com";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
   title: {
@@ -36,10 +38,23 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       alternateName: ["智能体架构师卢成", "Jack Lu", "Lu Cheng", "Agent Architect Jack Lu", "意图工程卢成"],
       jobTitle: "智能体架构师 / Agent Architect",
       url: siteConfig.domain,
+      email: contactEmail,
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "business, research and autonomous-agent collaboration",
+        email: contactEmail,
+        availableLanguage: ["Chinese", "English"],
+        url: new URL("/.well-known/agent-contact.json", siteConfig.domain).toString(),
+      },
       sameAs: externalProfiles.map((profile) => profile.href),
       image: new URL("/media/editorial/lu-cheng-summit.png", siteConfig.domain).toString(),
       description: entityProfile.englishOneLine,
       knowsAbout: [...entityProfile.methodTags, ...entityProfile.abilityTags],
+      subjectOf: [
+        new URL("/agent", siteConfig.domain).toString(),
+        new URL("/.well-known/agent-card.json", siteConfig.domain).toString(),
+        new URL("/llms.txt", siteConfig.domain).toString(),
+      ],
     },
     {
       "@context": "https://schema.org",
@@ -48,6 +63,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       url: siteConfig.domain,
       description:
         "Canonical site for 智能体架构师卢成 / Jack Lu, focused on Agent Factory, business process compilation, enterprise AI diagnosis, delivery boundaries, and agent-readable public knowledge.",
+      mainEntity: {
+        "@id": `${siteConfig.domain}/schema.json#lu-cheng`,
+      },
     },
   ];
 
