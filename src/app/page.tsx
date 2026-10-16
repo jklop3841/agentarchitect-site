@@ -4,16 +4,16 @@ import { SiteHeader } from "@/components/site-header";
 import { HomePage } from "@/components/home-page";
 
 export const metadata: Metadata = {
-  title: "智能体架构师卢成 | Agent Architect | AI工作流设计与中国AI落地服务",
+  title: "智能体架构师卢成 | AgentArchitect | Building the Agent Internet",
   description:
-    "智能体架构师卢成，专注中国中小企业AI落地服务、AI工作流设计、老板业务编译器、GEO生成式引擎优化、AI项目诊断与交付标准。",
+    "AgentArchitect 是智能体架构师卢成（Lu Cheng / Jack Lu）的统一品牌与机器可读母站，持续建设 Agent 工具、协议、能力地图、现实验真、人类协作与 Agent Internet 节点。",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "智能体架构师卢成 | Agent Architect",
+    title: "AgentArchitect | 智能体架构师卢成",
     description:
-      "面向中国中小企业 AI 落地服务的品牌背调站、内容导航站、标准资产站和服务承接站。",
+      "一个母品牌，多个有用的 Agent 节点：让 Agent 能发现、理解、调用，并把身份与来源持续回到 AgentArchitect。",
     url: "/",
   },
 };
