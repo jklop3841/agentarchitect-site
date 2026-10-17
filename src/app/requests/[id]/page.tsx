@@ -102,7 +102,7 @@ export default async function RequestDetailPage({ params }: PageProps) {
             {budget ? (
               <>
                 <dt>Budget</dt>
-                <dd>{budget} (informational only)</dd>
+                <dd>{/informational/i.test(budget) ? budget : `${budget} · informational only`}</dd>
               </>
             ) : null}
             <dt>Published</dt>

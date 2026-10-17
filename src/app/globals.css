@@ -2256,6 +2256,8 @@ h1 {
 }
 
 .an-page h1 {
+  max-width: none;
+  letter-spacing: normal;
   font-size: 1.6rem;
   line-height: 1.25;
   margin: 0.3rem 0 0.6rem;

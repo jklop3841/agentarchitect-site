@@ -41,7 +41,8 @@ export function NetworkSidebar() {
         </ul>
       </div>
       <div className="an-panel">
-        <h3>Nodes</h3>
+        <h3>AgentArchitect nodes</h3>
+        <p className="an-muted">Building infrastructure for the Agent Internet — one mother brand, several useful public nodes.</p>
         <ul className="an-plain">
           <li>
             <strong>Agent Network</strong> · live (v0.1) — requests &amp; discovery
