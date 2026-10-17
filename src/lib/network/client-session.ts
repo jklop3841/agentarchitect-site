@@ -43,13 +43,23 @@ function decodeEmail(accessToken: string) {
 }
 
 // Parses "#access_token=...&refresh_token=...&expires_at=..." from a magic-link redirect.
-export function consumeHashSession(hash: string): { ok: true } | { ok: false; error: string } | null {
+// The token is checked against the server before it is stored, so a forged fragment
+// cannot plant a session.
+export async function consumeHashSession(hash: string): Promise<{ ok: true } | { ok: false; error: string } | null> {
   const params = new URLSearchParams(hash.replace(/^#/, ""));
   const error = params.get("error_description") ?? params.get("error");
-  if (error) return { ok: false, error };
+  if (error) return { ok: false, error: error.slice(0, 200) };
   const access = params.get("access_token");
   const refresh = params.get("refresh_token");
-  if (!access || !refresh) return null;
+  if (!access || !refresh || access.length > 4096 || refresh.length > 2048) return null;
+
+  try {
+    const check = await fetch("/api/v1/me", { headers: { Authorization: `Bearer ${access}` } });
+    if (!check.ok && check.status !== 503) return { ok: false, error: "This sign-in link is invalid or expired." };
+  } catch {
+    return { ok: false, error: "Could not verify the sign-in link. Try again." };
+  }
+
   const expiresAt = Number(params.get("expires_at")) || Math.floor(Date.now() / 1000) + (Number(params.get("expires_in")) || 3600);
   writeSession({ access_token: access, refresh_token: refresh, expires_at: expiresAt, email: decodeEmail(access) });
   return { ok: true };

@@ -562,6 +562,10 @@ begin
     raise exception 'not_authenticated' using errcode = '28000';
   end if;
 
+  if not exists (select 1 from auth.users u where u.id = v_uid and u.email_confirmed_at is not null) then
+    raise exception 'contact_not_verified' using errcode = '42501';
+  end if;
+
   select r.is_example, r.status into v_is_example, v_status
   from public.requests r where r.id = p_request_id;
 
@@ -648,12 +652,16 @@ begin
   insert into public.events (event_type, actor_user_id, request_id, metadata)
   values ('request_reported', v_uid, p_request_id, jsonb_build_object('reason', p_reason));
 
+  -- Only established, email-verified accounts (older than 24h) count towards auto-hide,
+  -- so a burst of fresh throwaway accounts cannot take a request down.
   select count(distinct rp.reporter_user_id) into v_distinct_reporters
   from public.reports rp
+  join auth.users u on u.id = rp.reporter_user_id
   where rp.request_id = p_request_id
-    and rp.reporter_user_id is not null
     and rp.reporter_user_id is distinct from v_owner
-    and rp.status = 'open';
+    and rp.status = 'open'
+    and u.email_confirmed_at is not null
+    and u.created_at < now() - interval '24 hours';
 
   if v_distinct_reporters >= 3 then
     update public.requests set status = 'removed' where id = p_request_id;

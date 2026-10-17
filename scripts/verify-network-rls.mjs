@@ -64,7 +64,7 @@ await db.exec(`
   create role authenticated nologin;
   create role service_role nologin bypassrls;
   create schema auth;
-  create table auth.users (id uuid primary key, email text, email_confirmed_at timestamptz);
+  create table auth.users (id uuid primary key, email text, email_confirmed_at timestamptz, created_at timestamptz not null default now());
   create function auth.uid() returns uuid language sql stable as
     $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
   grant usage on schema public, auth to anon, authenticated, service_role;
@@ -245,6 +245,11 @@ check("contact_unlocked events logged", unlockEvents.rows[0].n === 2);
 const afterUnlockContacts = await as("authenticated", B, "select * from public.request_contacts");
 check("unlock does not grant table-wide contact access", afterUnlockContacts.rows.length === 0);
 await expectError(
+  "unverified-email account cannot unlock contacts",
+  () => as("authenticated", C, "select * from public.unlock_request_contact($1)", [namedId]),
+  /contact_not_verified/,
+);
+await expectError(
   "example requests have no contact",
   () => as("authenticated", B, "select * from public.unlock_request_contact('00000000-0000-4000-8000-000000000001')"),
   /example_request_has_no_contact/,
@@ -279,12 +284,22 @@ const sorted = order.rows.every((row, index, rows) => index === 0 || rows[index 
 check("feed ordered created_at DESC", sorted);
 
 // --- Reports / auto-hide --------------------------------------------------------
+const F = "66666666-6666-4666-8666-666666666666";
+const G = "77777777-7777-4777-8777-777777777777";
+const H = "88888888-8888-4888-8888-888888888888";
+await db.query("insert into auth.users (id, email, email_confirmed_at) values ($1,'f@x.io',now()),($2,'g@x.io',now()),($3,'h@x.io',now())", [F, G, H]);
+for (const reporter of [F, G, H]) {
+  await as("authenticated", reporter, "select public.report_request($1, 'spam', null)", [namedId]);
+}
+const notHidden = await as("anon", null, "select id from public.public_requests where id = $1", [namedId]);
+check("fresh (<24h) accounts cannot auto-hide a request", notHidden.rows.length === 1);
+await db.query("update auth.users set created_at = now() - interval '3 days' where id in ($1, $2, $3)", [B, D, E]);
 await as("anon", null, "select public.report_request($1, 'spam', 'anon report')", [anonymousId]);
 for (const reporter of [B, D, E]) {
   await as("authenticated", reporter, "select public.report_request($1, 'spam', null)", [anonymousId]);
 }
 const hidden = await as("anon", null, "select * from public.public_requests where id = $1", [anonymousId]);
-check("3 distinct reporters auto-hide a request", hidden.rows.length === 0);
+check("3 established reporters auto-hide a request", hidden.rows.length === 0);
 await expectError(
   "anon cannot read reports after reporting",
   () => as("anon", null, "select * from public.reports"),

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { after } from "next/server";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
@@ -39,7 +40,7 @@ export default async function RequestDetailPage({ params }: PageProps) {
   const request = await load(id);
   if (!request) notFound();
 
-  void logRequestView(request.id);
+  after(() => logRequestView(request.id));
 
   const budget = formatBudget(request);
   const structured = {

@@ -299,7 +299,17 @@ export function validateReport(body: Record<string, unknown>): ValidationResult<
   return { ok: true, value: { reason, details } };
 }
 
+// Local paths only. Browsers strip tab/newline while parsing URLs ("/\t/evil.com" -> "//evil.com"),
+// so reject control characters and confirm the resolved origin stays on this site.
 export function safeNextPath(value: unknown) {
-  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//") || value.includes("\\")) return "/account";
-  return value.slice(0, 200);
+  const fallback = "/account";
+  if (typeof value !== "string" || value.length > 200 || !value.startsWith("/")) return fallback;
+  if (/[\u0000-\u001F\u007F\\]/.test(value) || value.startsWith("//")) return fallback;
+  try {
+    const base = "https://local.invalid";
+    const resolved = new URL(value, base);
+    return resolved.origin === base ? `${resolved.pathname}${resolved.search}` : fallback;
+  } catch {
+    return fallback;
+  }
 }

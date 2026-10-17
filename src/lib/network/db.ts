@@ -264,7 +264,7 @@ export async function createIdentity(accessToken: string, ownerUserId: string, i
   return data as Identity;
 }
 
-export async function getMyOverview(accessToken: string) {
+export async function getMyOverview(accessToken: string, userId: string) {
   const client = requireClient(getUserClient(accessToken));
   const [requests, stats, unlocks] = await Promise.all([
     client
@@ -273,7 +273,7 @@ export async function getMyOverview(accessToken: string) {
       .order("created_at", { ascending: false })
       .limit(100),
     client.rpc("get_my_request_stats"),
-    client.from("contact_unlocks").select("request_id, viewer_id, created_at").order("created_at", { ascending: false }).limit(100),
+    client.from("contact_unlocks").select("request_id, created_at").eq("viewer_id", userId).order("created_at", { ascending: false }).limit(100),
   ]);
   for (const result of [requests, stats, unlocks]) {
     if (result.error) throw toNetworkError(result.error);

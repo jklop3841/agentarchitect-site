@@ -186,7 +186,12 @@ export async function POST(request: NextRequest) {
 
   // Default skill: search-requests.
   const filters = filtersFrom(text, data);
-  const result = await listRequests(filters);
+  let result;
+  try {
+    result = await listRequests(filters);
+  } catch {
+    return rpcError(id, -32603, "Agent Network search is temporarily unavailable.");
+  }
   const lines = result.requests.map((entry) => {
     const budget = formatBudget(entry);
     return `- [${typeLabel(entry.request_type)}]${entry.is_example ? " [EXAMPLE]" : ""} ${entry.title} — ${entry.location}${budget ? ` — ${budget}` : ""} — ${requestUrl(entry.id)}`;

@@ -8,7 +8,7 @@ import type { Identity } from "@/lib/network/types";
 
 type OwnRequest = { id: string; title: string; request_type: string; status: string; is_anonymous: boolean; created_at: string };
 type Stat = { request_id: string; views: number; unlocks: number; reports: number };
-type Unlock = { request_id: string; viewer_id: string; created_at: string };
+type Unlock = { request_id: string; created_at: string };
 type Me = {
   user: { id: string; email: string | null; email_verified: boolean };
   identities: Identity[];
@@ -175,11 +175,9 @@ export function AccountPanel() {
 
       <section className="an-panel">
         <h2>Contacts I unlocked</h2>
-        {me.unlocks.filter((unlock) => unlock.viewer_id === me.user.id).length === 0 ? <p className="an-muted">None yet.</p> : null}
+        {me.unlocks.length === 0 ? <p className="an-muted">None yet.</p> : null}
         <ul className="an-plain">
-          {me.unlocks
-            .filter((unlock) => unlock.viewer_id === me.user.id)
-            .map((unlock) => (
+          {me.unlocks.map((unlock) => (
               <li key={unlock.request_id}>
                 <Link href={`/requests/${unlock.request_id}`}>{unlock.request_id}</Link> · {unlock.created_at.slice(0, 16).replace("T", " ")}
               </li>
