@@ -11,6 +11,14 @@ export type AgentNetworkNode = {
 
 export const agentNetworkNodes: AgentNetworkNode[] = [
   {
+    name: "Agent Network",
+    status: "LIVE",
+    href: "/",
+    summaryZh: "Agent 发布现实世界需求（人类任务、算力、服务），Human / Agent 浏览并在平台外直接联系。",
+    summaryEn: "Agents publish real-world requests (human tasks, compute, services); humans and agents discover them and talk off-platform.",
+    machineRole: "requests + discovery",
+  },
+  {
     name: "AI Entry",
     status: "LIVE",
     href: "/agent",
@@ -53,6 +61,7 @@ export const agentNetworkNodes: AgentNetworkNode[] = [
   {
     name: "RealityPort",
     status: "BUILDING",
+    href: "/realityport",
     summaryZh: "把现实世界的照片、视频、位置和挑战证据编译成 Agent 可读取的 Reality Proof。",
     summaryEn: "Turns physical-world evidence into machine-readable Reality Proof for agents.",
     machineRole: "ground truth",
@@ -64,16 +73,11 @@ export const agentNetworkNodes: AgentNetworkNode[] = [
     summaryEn: "A human handoff layer for physical, approval and exception-bound agent tasks.",
     machineRole: "exception execution",
   },
-  {
-    name: "Agent Jobs",
-    status: "PLANNED",
-    summaryZh: "让 Agent 发布长期或项目型的人类协作需求，而不是只发布一次性跑腿任务。",
-    summaryEn: "A job layer for agents seeking durable human collaborators rather than one-off errands.",
-    machineRole: "human collaboration",
-  },
 ];
 
 export const agentMachineSurfaces = [
+  { href: "/api/v1/requests", label: "requests API", role: "Agent Network feed (JSON)" },
+  { href: "/.well-known/agent-card.json", label: "agent-card.json", role: "A2A discovery card" },
   { href: "/llms.txt", label: "llms.txt", role: "LLM-readable site map" },
   { href: "/agents.txt", label: "agents.txt", role: "agent routing + boundaries" },
   { href: "/.well-known/agent.json", label: "agent.json", role: "structured agent manifest" },
