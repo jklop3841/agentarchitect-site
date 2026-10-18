@@ -1,4 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server";
+
+import { decideVisit, logVisit } from "@/lib/agents/visits";
+import { checkAdminAuth } from "@/lib/admin-auth";
 
 function unauthorized() {
   return new NextResponse("Authentication required", {
@@ -10,41 +13,10 @@ function unauthorized() {
   });
 }
 
-function bytesToHex(bytes: Uint8Array) {
-  return Array.from(bytes)
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
-}
+async function adminGate(request: NextRequest) {
+  const result = await checkAdminAuth(request.headers.get("authorization"));
 
-function timingSafeEqual(left: string, right: string) {
-  if (left.length !== right.length) {
-    return false;
-  }
-
-  let result = 0;
-  for (let index = 0; index < left.length; index += 1) {
-    result |= left.charCodeAt(index) ^ right.charCodeAt(index);
-  }
-
-  return result === 0;
-}
-
-async function sha256Hex(value: string) {
-  const data = new TextEncoder().encode(value);
-  const digest = await crypto.subtle.digest("SHA-256", data);
-
-  return bytesToHex(new Uint8Array(digest));
-}
-
-export async function middleware(request: NextRequest) {
-  if (!request.nextUrl.pathname.startsWith("/admin")) {
-    return NextResponse.next();
-  }
-
-  const username = process.env.ADMIN_USERNAME;
-  const password = process.env.ADMIN_PASSWORD;
-
-  if (!username || !password) {
+  if (result === "unconfigured") {
     return new NextResponse("Admin access is not configured.", {
       status: 503,
       headers: {
@@ -54,33 +26,7 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  const authHeader = request.headers.get("authorization");
-  if (!authHeader?.startsWith("Basic ")) {
-    return unauthorized();
-  }
-
-  let decoded = "";
-  try {
-    decoded = atob(authHeader.replace("Basic ", ""));
-  } catch {
-    return unauthorized();
-  }
-  const separatorIndex = decoded.indexOf(":");
-  if (separatorIndex < 0) {
-    return unauthorized();
-  }
-
-  const providedUser = decoded.slice(0, separatorIndex);
-  const providedPass = decoded.slice(separatorIndex + 1);
-
-  const [expectedUserHash, expectedPassHash, providedUserHash, providedPassHash] = await Promise.all([
-    sha256Hex(username),
-    sha256Hex(password),
-    sha256Hex(providedUser ?? ""),
-    sha256Hex(providedPass ?? ""),
-  ]);
-
-  if (!timingSafeEqual(expectedUserHash, providedUserHash) || !timingSafeEqual(expectedPassHash, providedPassHash)) {
+  if (result !== "ok") {
     return unauthorized();
   }
 
@@ -91,6 +37,26 @@ export async function middleware(request: NextRequest) {
   return response;
 }
 
+// Visit log (V0.2): fire-and-forget via waitUntil, never blocks or fails the request.
+function scheduleVisitLog(request: NextRequest, event: NextFetchEvent) {
+  try {
+    const decision = decideVisit(request.nextUrl.pathname, request.headers.get("user-agent"));
+    if (decision.log) event.waitUntil(logVisit(request, decision));
+  } catch {
+    // Logging must never affect the response.
+  }
+}
+
+export async function middleware(request: NextRequest, event: NextFetchEvent) {
+  if (request.nextUrl.pathname.startsWith("/admin")) {
+    return adminGate(request);
+  }
+  scheduleVisitLog(request, event);
+  return NextResponse.next();
+}
+
 export const config = {
-  matcher: ["/admin/:path*"],
+  // Everything except build assets and obvious static files; the visit logger
+  // re-checks with isStaticPath(). /admin keeps its Basic-auth gate.
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|media/|images/|downloads/).*)"],
 };
