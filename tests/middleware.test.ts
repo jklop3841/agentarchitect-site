@@ -79,6 +79,12 @@ describe("middleware", () => {
     expect(ev.waitUntil).not.toHaveBeenCalled();
   });
 
+  it("skips router prefetches", async () => {
+    const ev = event();
+    await middleware(new NextRequest("https://www.agentarchitect.me/requests", { headers: { "user-agent": "GPTBot", "next-router-prefetch": "1" } }), ev as never);
+    expect(ev.waitUntil).not.toHaveBeenCalled();
+  });
+
   it("swallows logging failures", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => {
       throw new Error("network down");

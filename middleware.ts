@@ -40,6 +40,8 @@ async function adminGate(request: NextRequest) {
 // Visit log (V0.2): fire-and-forget via waitUntil, never blocks or fails the request.
 function scheduleVisitLog(request: NextRequest, event: NextFetchEvent) {
   try {
+    // Router prefetches are not visits.
+    if (request.headers.get("next-router-prefetch") || request.headers.get("purpose") === "prefetch") return;
     const decision = decideVisit(request.nextUrl.pathname, request.headers.get("user-agent"));
     if (decision.log) event.waitUntil(logVisit(request, decision));
   } catch {
