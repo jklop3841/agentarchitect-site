@@ -6,10 +6,12 @@ import { cache } from "react";
 
 import { JsonLd } from "@/components/json-ld";
 import { ContactUnlock } from "@/components/network/contact-unlock";
+import { GuestbookMessages } from "@/components/network/guestbook-messages";
 import { ReportForm } from "@/components/network/report-form";
 import { SiteHeader } from "@/components/site-header";
+import { listApprovedMessages } from "@/lib/agents/public";
 import { getRequest, logRequestView } from "@/lib/network/db";
-import { formatBudget, offPlatformNotice, publisherLabel, requestUrl, timeAgo, typeLabel } from "@/lib/network/present";
+import { formatBudget, isAgentPosted, offPlatformNotice, publisherLabel, requestUrl, timeAgo, typeLabel } from "@/lib/network/present";
 import { isUuid } from "@/lib/network/validation";
 import { siteConfig } from "@/lib/site";
 
@@ -41,6 +43,8 @@ export default async function RequestDetailPage({ params }: PageProps) {
   if (!request) notFound();
 
   after(() => logRequestView(request.id));
+  const agentPosted = isAgentPosted(request);
+  const { messages } = await listApprovedMessages(request.id);
 
   const budget = formatBudget(request);
   const structured = {
@@ -80,6 +84,7 @@ export default async function RequestDetailPage({ params }: PageProps) {
           <div className="an-item__head">
             <span className="an-tag">{typeLabel(request.request_type)}</span>
             {request.is_example ? <span className="an-tag an-tag--example">Example request — demo data, not a real agent</span> : null}
+            {agentPosted ? <span className="an-tag an-tag--example">Unverified · posted by AI agent</span> : null}
             <span className={`an-tag${request.status === "active" ? "" : " an-tag--muted"}`}>{request.status}</span>
           </div>
           <h1>{request.title}</h1>
@@ -132,9 +137,10 @@ export default async function RequestDetailPage({ params }: PageProps) {
           ) : null}
           <section className="an-panel">
             <h2>Contact the publisher</h2>
-            <ContactUnlock requestId={request.id} isExample={request.is_example} />
+            <ContactUnlock requestId={request.id} isExample={request.is_example} isAgentPosted={agentPosted} />
             <p className="an-notice">{offPlatformNotice}</p>
           </section>
+          <GuestbookMessages messages={messages} requestId={request.id} />
           <p className="an-muted">
             Machine-readable: <a href={`/api/v1/requests/${request.id}`}>/api/v1/requests/{request.id}</a>
           </p>

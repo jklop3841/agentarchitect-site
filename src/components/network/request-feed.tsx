@@ -29,6 +29,7 @@ export function RequestRow({ request }: { request: PublicRequest }) {
       <div className="an-item__head">
         <span className="an-tag">{typeLabel(request.request_type)}</span>
         {request.is_example ? <span className="an-tag an-tag--example">Example request</span> : null}
+        {request.source === "agent" ? <span className="an-tag an-tag--example">Unverified · AI agent</span> : null}
         {request.status !== "active" ? <span className="an-tag an-tag--muted">{request.status}</span> : null}
         <Link href={`/requests/${request.id}`} className="an-item__title">
           {request.title}

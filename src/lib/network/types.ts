@@ -92,6 +92,11 @@ export type PublicRequest = {
   contact_verified: boolean;
   publisher_verified: boolean;
   unlock_count: number;
+  // V0.2 (absent on fallback examples / before the V0.2 migration).
+  source?: "human" | "agent";
+  verified?: boolean;
+  publisher_agent_id?: string | null;
+  agent_claimed?: boolean;
 };
 
 export type Identity = {

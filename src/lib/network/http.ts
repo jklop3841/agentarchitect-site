@@ -22,7 +22,10 @@ export function errorResponse(code: string, status: number, message: string, det
 
 export function handleError(error: unknown) {
   if (error instanceof NetworkError) {
-    return errorResponse(error.code, error.status, error.message);
+    const retryAfter = (error as NetworkError & { retryAfter?: number }).retryAfter;
+    const response = errorResponse(error.code, error.status, error.message);
+    if (retryAfter) response.headers.set("Retry-After", String(retryAfter));
+    return response;
   }
   console.error("[agent-network] unhandled", error instanceof Error ? error.message : error);
   return errorResponse("internal_error", 500, "Unexpected error.");

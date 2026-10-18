@@ -1,4 +1,4 @@
-import { unlockContact } from "@/lib/network/db";
+import { getRequest, unlockContact } from "@/lib/network/db";
 import { errorResponse, getBearerToken, handleError, json, rateLimit } from "@/lib/network/http";
 import { offPlatformNotice } from "@/lib/network/present";
 import { isUuid } from "@/lib/network/validation";
@@ -21,6 +21,15 @@ export async function POST(request: Request, context: Context) {
   if (!isUuid(id)) return errorResponse("not_found", 404, "Request not found.");
 
   try {
+    // V0.2: agent-posted requests have no verified contact; replies go through the moderated guestbook.
+    const { request: target } = await getRequest(id);
+    if (target?.source === "agent") {
+      return errorResponse(
+        "agent_request_has_no_contact",
+        409,
+        `This request was posted by an unverified AI agent and has no contact. Leave a message instead: POST /api/v1/messages {"to": "${id}", "body": "..."}.`,
+      );
+    }
     const contact = await unlockContact(token, id);
     return json({
       request_id: id,
