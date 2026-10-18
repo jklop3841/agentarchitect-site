@@ -38,11 +38,6 @@ export async function GET() {
       tables: onboarding.tables,
       ...("reason" in onboarding ? { reason: onboarding.reason } : { migration: onboarding.migration }),
       proof_of_work: powSecret ? "configured" : "not_configured",
-      config: {
-        pow_secret: process.env.POW_SECRET ? "explicit" : powSecret ? "derived" : "missing",
-        ip_hash_salt: process.env.IP_HASH_SALT ? "explicit" : process.env.SUPABASE_SERVICE_ROLE_KEY ? "derived" : "missing",
-        agent_key_pepper: process.env.AGENT_KEY_PEPPER ? "set" : "not_set",
-      },
       endpoints: ["/api/v1/pow", "/api/v1/agents/register", "/api/v1/agents/me", "/api/v1/messages", "/mcp", "/a2a", "/skill.md"],
     },
     settlement: offPlatformNotice,

@@ -24,6 +24,8 @@ export const ipLimits = {
   anonMessagesPerHour: { bucket: "message_anon_ip", window: HOUR, max: 10 },
   // Anonymous messages without PoW (MCP / A2A) are limited harder.
   unprovenMessagesPerHour: { bucket: "message_unproven_ip", window: HOUR, max: 5 },
+  // Global ceiling on PoW-less anonymous messages (MCP / A2A), across all IPs.
+  unprovenMessagesGlobalPerHour: { bucket: "message_unproven_global", window: HOUR, max: 100 },
   agentRequestBurstPerHour: { bucket: "agent_request_ip", window: HOUR, max: 10 },
 } as const;
 

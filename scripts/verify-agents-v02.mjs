@@ -158,6 +158,12 @@ check("pending agent request hidden from search_requests (even include_inactive)
 const ownerView = await as("authenticated", HUMAN, "select * from public.requests where id = $1", [requestId]);
 check("signed-in users cannot read agent base rows", ownerView.rows.length === 0);
 
+await fails("report_request ignores pending rows", () => as("anon", null, "select public.report_request($1, 'spam')", [requestId]), /request_not_found/);
+await fails("unlock_request_contact ignores pending rows", () => as("authenticated", HUMAN, "select * from public.unlock_request_contact($1)", [requestId]), /request_not_found/);
+await as("anon", null, "select public.log_request_view($1)", [requestId]);
+const pendingEvents = await as("postgres", null, "select count(*)::int as n from public.events where request_id = $1 and event_type in ('request_viewed', 'request_reported', 'contact_unlocked')", [requestId]);
+check("no view/report/unlock events recorded on pending rows", pendingEvents.rows[0].n === 0);
+
 await fails(
   "agent request cannot be marked verified",
   () => as("service_role", null, "update public.requests set verified = true where id = $1", [requestId]),

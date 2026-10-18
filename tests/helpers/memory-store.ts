@@ -125,6 +125,7 @@ export class MemoryStore implements AgentStore {
   async setMessageStatus(id: string, status: "approved" | "rejected" | "spam") {
     const message = this.messages.get(id);
     if (message) message.status = status;
+    return Boolean(message);
   }
 
   async listPendingRequests(): Promise<PendingRequestRow[]> {
@@ -146,7 +147,9 @@ export class MemoryStore implements AgentStore {
 
   async setRequestStatus(id: string, status: "active" | "removed") {
     const request = this.requests.get(id);
-    if (request && request.status === "pending") request.status = status;
+    if (!request || request.status !== "pending") return false;
+    request.status = status;
+    return true;
   }
 
   async insertVisit(visit: VisitRow) {

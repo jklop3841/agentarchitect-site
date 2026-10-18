@@ -336,6 +336,138 @@ revoke all on public.public_messages from anon, authenticated;
 grant select on public.public_messages to anon, authenticated;
 
 -- ---------------------------------------------------------------------------
+-- V0.1 RPCs: treat 'pending' (unmoderated) rows like 'removed'
+-- (same bodies as 20261017000000, only the status checks change; grants are kept)
+-- ---------------------------------------------------------------------------
+
+create or replace function public.unlock_request_contact(p_request_id uuid)
+returns table (contact_email text, contact_note text, unlocked_at timestamptz, first_unlock boolean)
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_uid uuid := auth.uid();
+  v_is_example boolean;
+  v_status text;
+  v_inserted uuid;
+begin
+  if v_uid is null then
+    raise exception 'not_authenticated' using errcode = '28000';
+  end if;
+
+  if not exists (select 1 from auth.users u where u.id = v_uid and u.email_confirmed_at is not null) then
+    raise exception 'contact_not_verified' using errcode = '42501';
+  end if;
+
+  select r.is_example, r.status into v_is_example, v_status
+  from public.requests r where r.id = p_request_id;
+
+  if v_status is null or v_status in ('removed', 'pending') then
+    raise exception 'request_not_found' using errcode = 'P0002';
+  end if;
+
+  if v_is_example then
+    raise exception 'example_request_has_no_contact' using errcode = 'P0001';
+  end if;
+
+  if not exists (select 1 from public.contact_unlocks cu where cu.request_id = p_request_id and cu.viewer_id = v_uid)
+     and (select count(*) from public.contact_unlocks cu
+          where cu.viewer_id = v_uid and cu.created_at > now() - interval '24 hours') >= 30 then
+    raise exception 'rate_limited' using errcode = 'P0001';
+  end if;
+
+  insert into public.contact_unlocks (request_id, viewer_id)
+  values (p_request_id, v_uid)
+  on conflict (request_id, viewer_id) do nothing
+  returning id into v_inserted;
+
+  insert into public.events (event_type, actor_user_id, request_id, metadata)
+  values ('contact_unlocked', v_uid, p_request_id, jsonb_build_object('first_unlock', v_inserted is not null));
+
+  return query
+  select rc.contact_email, rc.contact_note, cu.created_at, (v_inserted is not null)
+  from public.request_contacts rc
+  join public.contact_unlocks cu on cu.request_id = rc.request_id and cu.viewer_id = v_uid
+  where rc.request_id = p_request_id;
+end;
+$$;
+
+create or replace function public.log_request_view(p_request_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if exists (select 1 from public.requests r where r.id = p_request_id and r.status not in ('removed', 'pending')) then
+    insert into public.events (event_type, actor_user_id, request_id)
+    values ('request_viewed', auth.uid(), p_request_id);
+  end if;
+end;
+$$;
+
+create or replace function public.report_request(p_request_id uuid, p_reason text, p_details text default null)
+returns uuid
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_uid uuid := auth.uid();
+  v_owner uuid;
+  v_status text;
+  v_report_id uuid;
+  v_distinct_reporters integer;
+begin
+  select r.owner_user_id, r.status into v_owner, v_status
+  from public.requests r where r.id = p_request_id;
+
+  if v_status is null or v_status in ('removed', 'pending') then
+    raise exception 'request_not_found' using errcode = 'P0002';
+  end if;
+
+  if v_uid is not null then
+    select rp.id into v_report_id from public.reports rp
+    where rp.request_id = p_request_id and rp.reporter_user_id = v_uid
+    limit 1;
+    if v_report_id is not null then
+      return v_report_id;
+    end if;
+  elsif (select count(*) from public.reports rp
+         where rp.request_id = p_request_id and rp.reporter_user_id is null) >= 20 then
+    return null;
+  end if;
+
+  insert into public.reports (request_id, reporter_user_id, reason, details)
+  values (p_request_id, v_uid, p_reason, p_details)
+  returning id into v_report_id;
+
+  insert into public.events (event_type, actor_user_id, request_id, metadata)
+  values ('request_reported', v_uid, p_request_id, jsonb_build_object('reason', p_reason));
+
+  -- Only established, email-verified accounts (older than 24h) count towards auto-hide,
+  -- so a burst of fresh throwaway accounts cannot take a request down.
+  select count(distinct rp.reporter_user_id) into v_distinct_reporters
+  from public.reports rp
+  join auth.users u on u.id = rp.reporter_user_id
+  where rp.request_id = p_request_id
+    and rp.reporter_user_id is distinct from v_owner
+    and rp.status = 'open'
+    and u.email_confirmed_at is not null
+    and u.created_at < now() - interval '24 hours';
+
+  if v_distinct_reporters >= 3 then
+    update public.requests set status = 'removed' where id = p_request_id;
+    insert into public.events (event_type, request_id, metadata)
+    values ('request_auto_hidden', p_request_id, jsonb_build_object('distinct_reporters', v_distinct_reporters));
+  end if;
+
+  return v_report_id;
+end;
+$$;
+
+-- ---------------------------------------------------------------------------
 -- RPCs (service_role only)
 -- ---------------------------------------------------------------------------
 

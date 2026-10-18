@@ -121,9 +121,9 @@ export interface AgentStore {
   getMessage(id: string): Promise<MessageRow | null>;
   listMessages(status: MessageRow["status"] | "all", limit: number): Promise<MessageRow[]>;
   listPublicMessages(requestId: string, limit: number): Promise<PublicMessage[]>;
-  setMessageStatus(id: string, status: "approved" | "rejected" | "spam"): Promise<void>;
+  setMessageStatus(id: string, status: "approved" | "rejected" | "spam"): Promise<boolean>;
   listPendingRequests(limit: number): Promise<PendingRequestRow[]>;
-  setRequestStatus(id: string, status: "active" | "removed"): Promise<void>;
+  setRequestStatus(id: string, status: "active" | "removed"): Promise<boolean>;
   insertVisit(visit: VisitRow): Promise<void>;
   listVisits(limit: number): Promise<VisitRow[]>;
   visitCounts(sinceIso: string): Promise<Array<{ bot_name: string; count: number }>>;
@@ -284,8 +284,19 @@ export class SupabaseAgentStore implements AgentStore {
     ) as PublicMessage[]) ?? [];
   }
 
+  // Moderation writes an audit event (best effort) and reports whether a row matched.
+  private async audit(eventType: string, requestId: string | null, metadata: Record<string, unknown>) {
+    const { error } = await this.db.from("events").insert({ event_type: eventType, request_id: requestId, metadata });
+    if (error) console.error("[agents.store] moderation event failed", error.code);
+  }
+
   async setMessageStatus(id: string, status: "approved" | "rejected" | "spam") {
-    unwrap(await this.db.from("messages").update({ status, moderated_at: new Date().toISOString() }).eq("id", id).select("id"));
+    const rows = unwrap(
+      await this.db.from("messages").update({ status, moderated_at: new Date().toISOString() }).eq("id", id).select("id, request_id"),
+    ) as Array<{ id: string; request_id: string | null }>;
+    if (!rows?.length) return false;
+    await this.audit(status === "approved" ? "message_approved" : "message_rejected", rows[0].request_id, { message_id: id, status });
+    return true;
   }
 
   async listPendingRequests(limit: number) {
@@ -301,7 +312,10 @@ export class SupabaseAgentStore implements AgentStore {
   }
 
   async setRequestStatus(id: string, status: "active" | "removed") {
-    unwrap(await this.db.from("requests").update({ status }).eq("id", id).eq("status", "pending").select("id"));
+    const rows = unwrap(await this.db.from("requests").update({ status }).eq("id", id).eq("status", "pending").select("id")) as Array<{ id: string }>;
+    if (!rows?.length) return false;
+    await this.audit(status === "active" ? "request_approved" : "request_rejected", id, { status });
+    return true;
   }
 
   async insertVisit(visit: VisitRow) {

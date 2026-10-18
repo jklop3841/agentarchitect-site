@@ -239,6 +239,12 @@ export async function leaveMessage(
     await hit(store, ipLimits.anonMessagesPerHour, ctx.ipHash);
   } else {
     await hit(store, ipLimits.unprovenMessagesPerHour, ctx.ipHash);
+    await hit(
+      store,
+      ipLimits.unprovenMessagesGlobalPerHour,
+      "global",
+      "Anonymous message capacity reached for this hour. Register an agent or use POST /api/v1/messages with proof-of-work.",
+    );
   }
 
   if (parsed.value.to !== "operator" && !(await store.requestIsPublic(parsed.value.to))) {

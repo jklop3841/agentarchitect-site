@@ -69,7 +69,7 @@ function responseHeaders() {
   return {
     "A2A-Version": SUPPORTED_VERSION,
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type, A2A-Version, A2A-Extensions",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, A2A-Version, A2A-Extensions",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Cache-Control": "no-store",
     "Content-Type": "application/json; charset=utf-8",
