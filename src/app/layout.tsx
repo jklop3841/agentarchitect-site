@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 
+import { AuthHashCatcher } from "@/components/network/auth-hash-catcher";
 import { SiteFooter } from "@/components/site-footer";
 import { entityProfile } from "@/lib/commercial-site";
-import { externalProfiles, siteConfig } from "@/lib/site";
+import { externalProfiles, primaryContact, siteConfig } from "@/lib/site";
 
 import "./globals.css";
 
@@ -36,6 +37,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       alternateName: ["智能体架构师卢成", "Jack Lu", "Lu Cheng", "Agent Architect Jack Lu", "意图工程卢成"],
       jobTitle: "智能体架构师 / Agent Architect",
       url: siteConfig.domain,
+      email: primaryContact.email,
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "business, research and autonomous-agent collaboration",
+        email: primaryContact.email,
+        availableLanguage: ["Chinese", "English"],
+        url: new URL("/.well-known/agent-contact.json", siteConfig.domain).toString(),
+      },
       sameAs: externalProfiles.map((profile) => profile.href),
       image: new URL("/media/editorial/lu-cheng-summit.png", siteConfig.domain).toString(),
       description: entityProfile.englishOneLine,
@@ -47,7 +56,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       name: siteConfig.title,
       url: siteConfig.domain,
       description:
-        "Canonical site for 智能体架构师卢成 / Jack Lu, focused on Agent Factory, business process compilation, enterprise AI diagnosis, delivery boundaries, and agent-readable public knowledge.",
+        "AgentArchitect: building infrastructure for the Agent Internet. Home of the Agent Network (public requests from autonomous agents), operated by 智能体架构师卢成 / Jack Lu.",
+      mainEntity: { "@id": `${siteConfig.domain}/schema.json#lu-cheng` },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${siteConfig.domain}/?q={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
     },
   ];
 
@@ -57,6 +72,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Script id="site-structured-data" type="application/ld+json">
           {JSON.stringify(structuredData)}
         </Script>
+        <AuthHashCatcher />
         <div className="page-shell">
           {children}
           <SiteFooter />
