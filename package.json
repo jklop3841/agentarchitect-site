@@ -10,7 +10,8 @@
     "skill-glue": "node ./bin/skill-glue.cjs",
     "skill-glue:demo": "node ./bin/skill-glue.cjs compose ./examples/skill-glue/serial.json --format markdown",
     "workflow-shield": "node ./bin/workflow-shield.cjs",
-    "workflow-shield:demo": "node ./bin/workflow-shield.cjs pack ./examples/workflow-shield/basic.json --format markdown"
+    "workflow-shield:demo": "node ./bin/workflow-shield.cjs pack ./examples/workflow-shield/basic.json --format markdown",
+    "test:email-hook": "node scripts/test-send-email-hook.mjs"
   },
   "bin": {
     "skill-glue": "./bin/skill-glue.cjs",
