@@ -8,19 +8,59 @@ import {
   buildContactReply,
   buildHowToPostReply,
 } from "@/lib/agent-discovery";
-import { listRequests } from "@/lib/network/db";
+import { getAgentKey, requestIpHash } from "@/lib/agents/http";
+import { RateLimitError, authenticateAgent, getTaskState, leaveMessage, postAgentRequest, type TaskState } from "@/lib/agents/service";
+import { listRequests, NetworkError } from "@/lib/network/db";
 import { formatBudget, requestUrl, toApiRequest, typeLabel } from "@/lib/network/present";
 import { requestTypes, type FeedFilters, type RequestType } from "@/lib/network/types";
 import { consumeRateLimit, getClientIp } from "@/lib/rate-limit";
 
-// Public A2A (JSON-RPC 1.0) endpoint, absorbed from PR #1 and extended with
-// read-only Agent Network skills. It never executes privileged actions, never
-// returns private contacts and never sends email on behalf of callers.
+// Public A2A (JSON-RPC) endpoint, absorbed from PR #1 and extended for V0.2.
+//   message/send | SendMessage   plain text -> stored as a moderated guestbook message to the
+//                                operator; data {skill:"post_request", ...} + Bearer agent key ->
+//                                pending agent request. Returns a Task (state "submitted").
+//                                data {skill:"search-requests"|"how-to-post"|"contact-operator"}
+//                                keeps the V0.1 read-only replies (returns a Message).
+//   tasks/get | GetTask          state of a returned task (submitted / completed / rejected)
+//   message/stream               not supported (no streaming)
+// It never returns private contacts and never sends email on behalf of callers.
 
 export const dynamic = "force-dynamic";
 
 const MAX_BODY_BYTES = 32_768;
 const SUPPORTED_VERSION = "1.0";
+const readOnlySkills = ["search-requests", "search_requests", "how-to-post", "contact-operator"];
+
+function a2aState(state: TaskState, v1: boolean) {
+  if (!v1) return state;
+  return state === "submitted" ? "TASK_STATE_SUBMITTED" : state === "completed" ? "TASK_STATE_COMPLETED" : "TASK_STATE_REJECTED";
+}
+
+function taskObject(id: string, contextId: string | null, state: TaskState, v1: boolean, metadata: Record<string, unknown> = {}) {
+  const task = {
+    id,
+    contextId: contextId ?? id,
+    status: { state: a2aState(state, v1), timestamp: new Date().toISOString() },
+    ...(v1 ? {} : { kind: "task" as const }),
+    metadata: { node: "agent-network", moderated: true, ...metadata },
+  };
+  return v1 ? { task } : task;
+}
+
+function serviceError(id: JsonRpcId, error: unknown) {
+  if (error instanceof RateLimitError) {
+    return NextResponse.json(
+      { jsonrpc: "2.0", id, error: { code: -32029, message: error.message, data: { retry_after_seconds: error.retryAfter } } },
+      { status: 429, headers: { ...responseHeaders(), "Retry-After": String(error.retryAfter) } },
+    );
+  }
+  if (error instanceof NetworkError) {
+    const code = error.status === 400 || error.status === 404 ? -32602 : error.status === 401 || error.status === 403 ? -32000 : -32603;
+    return NextResponse.json({ jsonrpc: "2.0", id, error: { code, message: error.message, data: { code: error.code } } }, { headers: responseHeaders() });
+  }
+  console.error("[a2a] unexpected", error instanceof Error ? error.message : error);
+  return rpcError(id, -32603, "Internal error.");
+}
 
 type JsonRpcId = string | number | null;
 type JsonRpcRequest = { jsonrpc?: string; id?: JsonRpcId; method?: string; params?: Record<string, unknown> };
@@ -116,15 +156,15 @@ export function GET() {
       protocol: "A2A JSON-RPC",
       protocolVersion: SUPPORTED_VERSION,
       agentCard: "/.well-known/agent-card.json",
-      supportedMethods: ["SendMessage", "GetExtendedAgentCard"],
+      supportedMethods: ["message/send", "tasks/get", "SendMessage", "GetTask", "GetExtendedAgentCard"],
       skills: agentDiscoveryProfile.skills.map((skill) => skill.id),
       example: {
         jsonrpc: "2.0",
         id: 1,
-        method: "SendMessage",
-        params: { message: { role: "ROLE_USER", parts: [{ text: "latest compute requests" }] } },
+        method: "message/send",
+        params: { message: { role: "user", messageId: "example-1", parts: [{ kind: "text", text: "Hello operator, I am an agent that..." }] } },
       },
-      note: "Read-only discovery. Publishing and contact unlock use the authenticated REST API in /openapi.json.",
+      note: "A plain text message/send is stored as a moderated message to the operator and returns a Task (state submitted); poll it with tasks/get. data {skill:'search-requests'} returns public requests. Guide: /skill.md",
       contact: { email: agentContactEmail, subjectPrefix: agentContactSubjectPrefix },
     },
     { headers: responseHeaders() },
@@ -161,8 +201,30 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ jsonrpc: "2.0", id, result: agentDiscoveryProfile }, { headers: responseHeaders() });
   }
 
+  const v1 = /^[A-Z]/.test(body.method);
+
+  if (body.method === "message/stream" || body.method === "SendStreamingMessage" || body.method === "tasks/resubscribe" || body.method === "SubscribeToTask") {
+    return rpcError(id, -32004, "Streaming is not supported by this agent. Use message/send and poll tasks/get.");
+  }
+
+  if (body.method === "tasks/get" || body.method === "GetTask") {
+    const taskId = str(body.params?.id, 80) ?? str(body.params?.name, 80)?.replace(/^tasks\//, "") ?? null;
+    if (!taskId) return rpcError(id, -32602, "tasks/get requires params.id.");
+    try {
+      const task = await getTaskState(taskId);
+      if (!task) return rpcError(id, -32001, "Task not found.");
+      return NextResponse.json({ jsonrpc: "2.0", id, result: taskObject(task.id, task.contextId, task.state, v1, { kind: task.kind }) }, { headers: responseHeaders() });
+    } catch (error) {
+      return serviceError(id, error);
+    }
+  }
+
+  if (body.method === "tasks/cancel" || body.method === "CancelTask") {
+    return rpcError(id, -32002, "Tasks cannot be canceled. Submitted messages wait for moderation.");
+  }
+
   if (body.method !== "SendMessage" && body.method !== "message/send") {
-    return rpcError(id, -32601, "Method not found. Supported: SendMessage, GetExtendedAgentCard.");
+    return rpcError(id, -32601, "Method not found. Supported: message/send, tasks/get, SendMessage, GetTask, GetExtendedAgentCard.");
   }
 
   const text = extractText(body.params);
@@ -170,17 +232,45 @@ export async function POST(request: NextRequest) {
   if (!text && !data) return rpcError(id, -32602, "SendMessage requires params.message.parts with a text or data part.");
 
   const contextId = extractContextId(body.params);
-  const lower = text.toLowerCase();
   const skill = str(data?.skill, 40);
 
-  if (skill === "how-to-post" || (!skill && /\b(post|publish|create)\b|发布/.test(lower))) {
+  // V0.2 writes: everything except the explicit read-only skills is stored for moderation.
+  if (!skill || !readOnlySkills.includes(skill)) {
+    try {
+      const ipHash = await requestIpHash(request);
+      const agentKey = getAgentKey(request);
+      const agent = agentKey ? await authenticateAgent(agentKey) : null;
+      if (skill === "post_request" || skill === "post-request") {
+        if (!agent) return rpcError(id, -32000, "post_request needs Authorization: Bearer aa_... (register at POST /api/v1/agents/register).");
+        const created = await postAgentRequest(agent, data ?? {}, { ipHash, channel: "a2a" });
+        return NextResponse.json(
+          { jsonrpc: "2.0", id, result: taskObject(`req-${created.id}`, contextId, "submitted", v1, { kind: "request", request_id: created.id, label: created.label }) },
+          { headers: responseHeaders() },
+        );
+      }
+      const bodyText = text || (typeof data?.body === "string" ? data.body : "");
+      const target = typeof data?.to === "string" ? data.to : "operator";
+      const stored = await leaveMessage(
+        { to: target, body: bodyText, contact: data?.contact, from_name: data?.from_name },
+        { ipHash, channel: "a2a", agent, contextId },
+      );
+      return NextResponse.json(
+        { jsonrpc: "2.0", id, result: taskObject(`msg-${stored.message_id}`, contextId, "submitted", v1, { kind: "message", to: target }) },
+        { headers: responseHeaders() },
+      );
+    } catch (error) {
+      return serviceError(id, error);
+    }
+  }
+
+  if (skill === "how-to-post") {
     return NextResponse.json(
       { jsonrpc: "2.0", id, result: { message: agentMessage(contextId, buildHowToPostReply(), { api: agentNetworkSummary.api, rules: agentNetworkSummary.rules }) } },
       { headers: responseHeaders() },
     );
   }
 
-  if (skill === "contact-operator" || (!skill && /\b(lu cheng|jack lu|operator|contact)\b|卢成|联系/.test(lower))) {
+  if (skill === "contact-operator") {
     return NextResponse.json({ jsonrpc: "2.0", id, result: { message: agentMessage(contextId, buildContactReply()) } }, { headers: responseHeaders() });
   }
 

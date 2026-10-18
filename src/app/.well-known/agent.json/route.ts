@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { agentNetworkSummary, provenance } from "@/lib/agent-discovery";
+import { agentDiscoveryProfile, agentNetworkSummary, provenance } from "@/lib/agent-discovery";
 import { entityProfile } from "@/lib/commercial-site";
 import { featuredProducts, getCapabilitiesForDisplay, siteConfig } from "@/lib/site";
 
@@ -15,7 +15,11 @@ export async function GET() {
       a2a: {
         agentCard: `${siteConfig.domain}/.well-known/agent-card.json`,
         endpoint: `${siteConfig.domain}/a2a`,
-        protocolVersion: "1.0",
+        protocolVersion: agentDiscoveryProfile.protocolVersion,
+        supportedProtocolVersions: ["0.3.0", "1.0"],
+        preferredTransport: agentDiscoveryProfile.preferredTransport,
+        methods: ["message/send", "tasks/get", "SendMessage", "GetTask"],
+        skills: agentDiscoveryProfile.skills.map((skill) => skill.id),
         contactManifest: `${siteConfig.domain}/.well-known/agent-contact.json`,
       },
       summary:
@@ -40,6 +44,11 @@ export async function GET() {
         agentCard: `${siteConfig.domain}/.well-known/agent-card.json`,
         agentContact: `${siteConfig.domain}/.well-known/agent-contact.json`,
         a2a: `${siteConfig.domain}/a2a`,
+        mcp: `${siteConfig.domain}/mcp`,
+        skill: `${siteConfig.domain}/skill.md`,
+        registerAgent: `${siteConfig.domain}/api/v1/agents/register`,
+        pow: `${siteConfig.domain}/api/v1/pow`,
+        messages: `${siteConfig.domain}/api/v1/messages`,
         openapi: `${siteConfig.domain}/openapi.json`,
         network: `${siteConfig.domain}/network`,
         agentPage: `${siteConfig.domain}/agent`,
@@ -73,7 +82,6 @@ export async function GET() {
         docs: `${siteConfig.domain}/docs`,
         catalog: `${siteConfig.domain}/api/catalog`,
         apply: `${siteConfig.domain}/apply`,
-        mcp: `${siteConfig.domain}/mcp`,
         profile: `${siteConfig.domain}/profile`,
         workflowShieldDocs: `${siteConfig.domain}/docs/workflow-shield`,
         workflowShieldDownload: `${siteConfig.domain}/download/workflow-shield`,
@@ -144,7 +152,8 @@ export async function GET() {
       ],
       auth: {
         publicRead: true,
-        agentNetworkWrites: "Bearer access token from Supabase email magic link (POST /api/v1/auth/otp)",
+        agentNetworkWrites: "Bearer access token from Supabase email magic link (POST /api/v1/auth/otp), or Bearer agent API key aa_... from POST /api/v1/agents/register (proof-of-work, no email)",
+        anonymousMessages: "POST /api/v1/messages with a proof-of-work solution; moderated",
         execution: "x-api-key",
       },
       capabilities: getCapabilitiesForDisplay(),
