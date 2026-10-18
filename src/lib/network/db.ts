@@ -309,8 +309,19 @@ export async function sendMagicLink(email: string, redirectTo: string) {
     options: { emailRedirectTo: redirectTo, shouldCreateUser: true },
   });
   if (error) {
-    const status = error.status === 429 ? 429 : 400;
-    throw new NetworkError(status === 429 ? "rate_limited" : "otp_failed", status, status === 429 ? "Too many emails requested. Try again later." : "Could not send the sign-in email.");
+    if (error.status === 429) {
+      throw new NetworkError("rate_limited", 429, "Too many emails requested. Try again later.");
+    }
+    if (!error.status || error.status >= 500) {
+      // Log only non-sensitive diagnostics; never log the email address or keys.
+      console.error("[auth.otp] upstream auth failure", {
+        status: error.status ?? null,
+        code: (error as { code?: string }).code ?? null,
+        message: error.message,
+      });
+      throw new NetworkError("auth_upstream_error", 502, "The sign-in service failed upstream. Please try again later.");
+    }
+    throw new NetworkError("otp_failed", 400, "Could not send the sign-in email.");
   }
 }
 
