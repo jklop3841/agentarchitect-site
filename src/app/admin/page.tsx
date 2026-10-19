@@ -21,6 +21,9 @@ export default async function AdminPage() {
         <section className="subpage__hero">
           <p className="eyebrow">Admin</p>
           <h1>Seed operations dashboard</h1>
+          <p>
+            Agent Network V0.2: <a href="/admin/messages">moderation queue</a> · <a href="/admin/visits">agent visits</a>
+          </p>
           <p className="subpage__lead">
             极简运营视图：申请、Key 与执行记录。生产环境建议通过 Basic Auth 或 Vercel 访问保护进行保护。
           </p>

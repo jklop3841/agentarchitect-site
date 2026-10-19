@@ -5,11 +5,9 @@
 // Supabase `auth` schema and roles, then checks the security boundaries from
 // TASK §28 by switching roles (anon / authenticated users).
 //
-// PGlite is intentionally NOT a project dependency. Install it anywhere and point
-// PGLITE_MODULE at its entry file:
-//   mkdir -p /tmp/pglite && (cd /tmp/pglite && npm i @electric-sql/pglite@0.3)
-//   PGLITE_MODULE=/tmp/pglite/node_modules/@electric-sql/pglite/dist/index.js \
-//     node scripts/verify-network-rls.mjs
+// PGlite is a devDependency (V0.2), so `npm test` runs this directly:
+//   node scripts/verify-network-rls.mjs
+// PGLITE_MODULE=/path/to/@electric-sql/pglite/dist/index.js still overrides it.
 
 import { readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -17,11 +15,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const modulePath = process.env.PGLITE_MODULE;
-if (!modulePath) {
-  console.error("Set PGLITE_MODULE to the @electric-sql/pglite entry file (see header).");
-  process.exit(2);
-}
-const { PGlite } = await import(pathToFileURL(modulePath).href);
+// PGlite is a devDependency since V0.2; PGLITE_MODULE still overrides it.
+const { PGlite } = modulePath ? await import(pathToFileURL(modulePath).href) : await import("@electric-sql/pglite");
 
 const db = new PGlite();
 let failures = 0;
@@ -89,12 +84,16 @@ await db.query(
 // --- Apply migrations (twice: must be idempotent) ---------------------------
 const migrationsDir = join(root, "supabase", "migrations");
 const migrations = readdirSync(migrationsDir).filter((file) => file.endsWith(".sql")).sort();
-for (let pass = 1; pass <= 2; pass += 1) {
-  for (const file of migrations) {
-    await db.exec(readFileSync(join(migrationsDir, file), "utf8"));
-  }
+for (const file of migrations) {
+  await db.exec(readFileSync(join(migrationsDir, file), "utf8"));
 }
-check("migrations apply twice (idempotent)", true);
+// Second pass: every migration from V0.2 on must be re-runnable on top of the final state.
+// (V0.1 itself cannot be re-run after V0.2: it would redefine public_requests with fewer
+// columns, which Postgres rejects with 42P16 — see docs/FINAL_REPORT_V0.2.md.)
+for (const file of migrations.filter((name) => name >= "20261019")) {
+  await db.exec(readFileSync(join(migrationsDir, file), "utf8"));
+}
+check("migrations apply, V0.2+ re-runnable (idempotent)", true);
 
 // --- Unauthenticated --------------------------------------------------------
 const anonFeed = await as("anon", null, "select * from public.public_requests");

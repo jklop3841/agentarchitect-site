@@ -26,7 +26,7 @@ export function isEmail(value: unknown): value is string {
   return typeof value === "string" && value.length <= 320 && emailPattern.test(value);
 }
 
-function cleanText(value: unknown, max: number, { multiline = false } = {}) {
+export function cleanText(value: unknown, max: number, { multiline = false } = {}) {
   if (typeof value !== "string") return null;
   let text = value.replace(controlChars, "");
   if (!multiline) text = text.replace(/\s+/g, " ");
@@ -35,7 +35,7 @@ function cleanText(value: unknown, max: number, { multiline = false } = {}) {
   return text.length > max ? null : text;
 }
 
-function cleanUrl(value: unknown, { httpsOnly = false } = {}) {
+export function cleanUrl(value: unknown, { httpsOnly = false } = {}) {
   if (value === undefined || value === null || value === "") return { ok: true as const, value: null };
   if (typeof value !== "string" || value.length > 300) return { ok: false as const };
   try {
@@ -103,11 +103,11 @@ export type CreateRequestPayload = {
   contact_note: string | null;
 };
 
-export function validateCreateRequest(body: Record<string, unknown>, verifiedEmail: string): ValidationResult<CreateRequestPayload> {
-  const errors: string[] = [];
+export type RequestFields = Omit<CreateRequestPayload, "identity_id" | "contact_note">;
 
-  const identity_id = isUuid(body.identity_id) ? body.identity_id : null;
-  if (!identity_id) errors.push("identity_id must be the UUID of one of your agent/organization/service identities.");
+// Content fields shared by the human (email-verified) and agent (API key) publishing paths.
+export function validateRequestFields(body: Record<string, unknown>): ValidationResult<RequestFields> {
+  const errors: string[] = [];
 
   const rawType = body.request_type ?? body.category ?? body.type;
   const request_type = typeof rawType === "string" && (requestTypes as readonly string[]).includes(rawType) ? (rawType as RequestType) : null;
@@ -166,25 +166,13 @@ export function validateCreateRequest(body: Record<string, unknown>, verifiedEma
     }
   }
 
-  // The contact is always the publisher's own verified login email; no relay, no
-  // unverified substitute. A different contact_email is rejected explicitly.
-  if (body.contact_email !== undefined && body.contact_email !== null && body.contact_email !== "") {
-    if (typeof body.contact_email !== "string" || body.contact_email.trim().toLowerCase() !== verifiedEmail.toLowerCase()) {
-      errors.push("contact_email must equal your verified sign-in email. Sign in with the address you want agents/humans to contact.");
-    }
-  }
-
-  const contact_note = body.contact_note ? cleanText(body.contact_note, 300, { multiline: true }) : null;
-  if (body.contact_note && !contact_note) errors.push("contact_note must be at most 300 characters.");
-
-  if (errors.length || !identity_id || !request_type || !title || !description || !work_mode) {
+  if (errors.length || !request_type || !title || !description || !work_mode) {
     return { ok: false, errors };
   }
 
   return {
     ok: true,
     value: {
-      identity_id,
       request_type,
       title,
       description,
@@ -197,9 +185,35 @@ export function validateCreateRequest(body: Record<string, unknown>, verifiedEma
       anonymous,
       expires_at,
       metadata,
-      contact_note,
     },
   };
+}
+
+export function validateCreateRequest(body: Record<string, unknown>, verifiedEmail: string): ValidationResult<CreateRequestPayload> {
+  const errors: string[] = [];
+
+  const identity_id = isUuid(body.identity_id) ? body.identity_id : null;
+  if (!identity_id) errors.push("identity_id must be the UUID of one of your agent/organization/service identities.");
+
+  const fields = validateRequestFields(body);
+  if (!fields.ok) errors.push(...fields.errors);
+
+  // The contact is always the publisher's own verified login email; no relay, no
+  // unverified substitute. A different contact_email is rejected explicitly.
+  if (body.contact_email !== undefined && body.contact_email !== null && body.contact_email !== "") {
+    if (typeof body.contact_email !== "string" || body.contact_email.trim().toLowerCase() !== verifiedEmail.toLowerCase()) {
+      errors.push("contact_email must equal your verified sign-in email. Sign in with the address you want agents/humans to contact.");
+    }
+  }
+
+  const contact_note = body.contact_note ? cleanText(body.contact_note, 300, { multiline: true }) : null;
+  if (body.contact_note && !contact_note) errors.push("contact_note must be at most 300 characters.");
+
+  if (errors.length || !identity_id || !fields.ok) {
+    return { ok: false, errors };
+  }
+
+  return { ok: true, value: { identity_id, ...fields.value, contact_note } };
 }
 
 const updatableTextFields: Record<string, number> = { title: 140, location: 80, budget_note: 140 };

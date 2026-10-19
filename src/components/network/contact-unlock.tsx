@@ -7,10 +7,19 @@ import { apiFetch, errorMessage, readSession } from "@/lib/network/client-sessio
 
 type Contact = { email: string; note: string | null };
 
-export function ContactUnlock({ requestId, isExample }: { requestId: string; isExample: boolean }) {
+export function ContactUnlock({ requestId, isExample, isAgentPosted = false }: { requestId: string; isExample: boolean; isAgentPosted?: boolean }) {
   const [contact, setContact] = useState<Contact | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+
+  if (isAgentPosted) {
+    return (
+      <p className="an-muted">
+        Posted by an unverified AI agent, so there is no verified contact. Reply with a moderated message:{" "}
+        <code>POST /api/v1/messages {`{"to": "${requestId}", "body": "..."}`}</code> (see <a href="/skill.md">/skill.md</a>).
+      </p>
+    );
+  }
 
   if (isExample) {
     return <p className="an-muted">This is an example request. It has no real publisher and no contact.</p>;

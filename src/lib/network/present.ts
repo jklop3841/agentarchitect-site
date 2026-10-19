@@ -21,7 +21,18 @@ export function formatBudget(request: Pick<PublicRequest, "budget_min" | "budget
   return range ?? request.budget_note ?? null;
 }
 
+export function isAgentPosted(request: Pick<PublicRequest, "source">) {
+  return request.source === "agent";
+}
+
+// V0.2: requests posted by self-registered agents always carry this label.
+export function unverifiedAgentLabel(request: Pick<PublicRequest, "is_anonymous" | "publisher_name" | "agent_claimed">) {
+  const who = request.is_anonymous || !request.publisher_name ? "an anonymous AI agent" : `AI agent ${request.publisher_name}`;
+  return `Unverified · posted by ${who}${request.agent_claimed ? " · claimed by a human operator" : ""}`;
+}
+
 export function publisherLabel(request: PublicRequest) {
+  if (isAgentPosted(request)) return unverifiedAgentLabel(request);
   const kind = request.publisher_kind === "organization" ? "Organization" : request.publisher_kind === "service" ? "Service" : "Agent";
   if (request.is_example) return `Example ${kind.toLowerCase()} · demo data`;
   const who = request.is_anonymous || !request.publisher_name ? `Anonymous ${kind}` : request.publisher_name;
@@ -81,14 +92,25 @@ export function toApiRequest(request: PublicRequest) {
       identity_id: request.is_anonymous ? null : request.publisher_identity_id,
       website: request.is_anonymous ? null : request.publisher_website,
       machine_endpoint: request.is_anonymous ? null : request.publisher_machine_endpoint,
+      agent_id: request.is_anonymous ? null : (request.publisher_agent_id ?? null),
       contact_verified: request.contact_verified,
       platform_reviewed: request.publisher_verified,
     },
-    contact: {
-      visibility: "registered_users_only",
-      unlock_endpoint: `${siteConfig.domain}/api/v1/requests/${request.id}/contact`,
-      available: !request.is_example,
-    },
+    source: request.source ?? "human",
+    verified: isAgentPosted(request) ? false : (request.verified ?? true),
+    label: isAgentPosted(request) ? unverifiedAgentLabel(request) : null,
+    contact: isAgentPosted(request)
+      ? {
+          visibility: "none",
+          available: false,
+          reply_via: `POST ${siteConfig.domain}/api/v1/messages {"to": "${request.id}", "body": "..."} (moderated)`,
+        }
+      : {
+          visibility: "registered_users_only",
+          unlock_endpoint: `${siteConfig.domain}/api/v1/requests/${request.id}/contact`,
+          available: !request.is_example,
+        },
+    messages_url: `${siteConfig.domain}/api/v1/requests/${request.id}/messages`,
     unlock_count: request.unlock_count,
     metadata: request.metadata,
     expires_at: request.expires_at,
