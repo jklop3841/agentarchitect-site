@@ -7,7 +7,7 @@ on:
   pull_request:
     paths:
       - "scripts/agent-discovery-scout.py"
-      - "scripts/test-agent-discovery-scout.py"
+      - "scripts/test_agent_discovery_scout.py"
       - ".github/workflows/agent-discovery-scout.yml"
 
 permissions:
@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Test safety and report logic without network
-        run: python3 -m unittest discover -s scripts -p "test-agent-discovery-scout.py"
+        run: python3 -m unittest discover -s scripts -p "test_agent_discovery_scout.py"
       - name: Read public discovery surfaces and prepare review queue
         run: |
           if [ "$GITHUB_EVENT_NAME" = "schedule" ] || [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
