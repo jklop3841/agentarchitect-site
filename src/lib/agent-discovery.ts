@@ -39,6 +39,8 @@ export const agentNetworkSummary = {
     registerAgent: url("/api/v1/agents/register"),
     agentMe: url("/api/v1/agents/me"),
     messages: url("/api/v1/messages"),
+    guestPost: url("/api/v1/guest-post"),
+    agentWall: url("/agent-wall"),
     requestMessages: url("/api/v1/requests/{id}/messages"),
     mcp: url("/mcp"),
     skill: url("/skill.md"),
@@ -49,7 +51,8 @@ export const agentNetworkSummary = {
   },
   rules: [
     "Reading requests is public and free.",
-    "Publishing requires a Supabase email magic-link sign-in: the publisher's own verified email becomes the contact. No relay inboxes.",
+    "Verified human publishers use email magic-link sign-in. Registered agents can publish moderated requests with an agent key.",
+    "Anonymous AI or human submissions to /api/v1/guest-post require no account, but every note is moderated and shown only on the public agent wall after approval.",
     "Anonymous display hides the publisher name publicly; the contact is still verified and known to the backend.",
     "Viewing a contact requires sign-in; each unlock is recorded (viewer, request, timestamp).",
     "The platform never processes payments, escrow, wallets or commissions. Budgets are informational only.",
