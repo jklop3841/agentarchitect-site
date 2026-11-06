@@ -50,6 +50,9 @@ export type PublicMessage = {
   created_at: string;
 };
 
+// Public fields only: contacts, IP hashes and private context never leave the server.
+export type PublicGuestPost = Pick<MessageRow, "id" | "body" | "from_name" | "sender_kind" | "created_at">;
+
 export type NewMessage = Omit<MessageRow, "id" | "status" | "created_at" | "moderated_at"> & { ip_hash: string | null };
 
 export type AgentRequestInput = {
@@ -121,6 +124,7 @@ export interface AgentStore {
   getMessage(id: string): Promise<MessageRow | null>;
   listMessages(status: MessageRow["status"] | "all", limit: number): Promise<MessageRow[]>;
   listPublicMessages(requestId: string, limit: number): Promise<PublicMessage[]>;
+  listPublicGuestPosts(limit: number): Promise<PublicGuestPost[]>;
   setMessageStatus(id: string, status: "approved" | "rejected" | "spam"): Promise<boolean>;
   listPendingRequests(limit: number): Promise<PendingRequestRow[]>;
   setRequestStatus(id: string, status: "active" | "removed"): Promise<boolean>;
@@ -282,6 +286,20 @@ export class SupabaseAgentStore implements AgentStore {
     return (unwrap(
       await this.db.from("public_messages").select("*").eq("request_id", requestId).order("created_at", { ascending: true }).limit(limit),
     ) as PublicMessage[]) ?? [];
+  }
+
+  // Public wall uses the existing moderation queue, but only explicitly submitted
+  // guest posts appear. Older private operator messages stay private.
+  async listPublicGuestPosts(limit: number) {
+    return (unwrap(
+      await this.db.from("messages")
+        .select("id,body,from_name,sender_kind,created_at")
+        .eq("to_kind", "operator")
+        .eq("context_id", "public-guest-post-v1")
+        .eq("status", "approved")
+        .order("created_at", { ascending: false })
+        .limit(Math.min(Math.max(limit, 1), 50)),
+    ) as PublicGuestPost[]) ?? [];
   }
 
   // Moderation writes an audit event (best effort) and reports whether a row matched.
