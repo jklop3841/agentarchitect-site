@@ -27,7 +27,7 @@ export async function POST(request: Request) {
   }
 
   const store = getAgentStore();
-  if (!store) return new NextResponse("SUPABASE_SERVICE_ROLE_KEY is not set on this deployment.", { status: 503 });
+  if (!store) return new NextResponse("Supabase backend secret is not set on this deployment.", { status: 503 });
   try {
     const matched =
       kind === "message"
