@@ -13,7 +13,7 @@ export const metadata = { title: "Moderation", robots: { index: false, follow: f
 
 async function load() {
   const store = getAgentStore();
-  if (!store) return { error: "SUPABASE_SERVICE_ROLE_KEY is not set on this deployment.", messages: [], requests: [], recent: [] };
+  if (!store) return { error: "Supabase backend secret is not set on this deployment.", messages: [], requests: [], recent: [] };
   try {
     const [messages, requests, recent] = await Promise.all([
       store.listMessages("pending", 200),

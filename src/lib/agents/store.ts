@@ -161,7 +161,9 @@ function unwrap<T>(result: { data: T | null; error: PgError }): T {
 
 export function getServiceConfig() {
   const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // New Supabase secret API keys are preferred; support legacy service_role
+  // during migration so existing deployments are not broken.
+  const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
   return { url: url.replace(/\/+$/, ""), key };
 }

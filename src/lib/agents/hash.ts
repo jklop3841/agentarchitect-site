@@ -44,14 +44,14 @@ export function randomBase62(length: number) {
 }
 
 // Secret derivation: explicit env var wins; otherwise derive from the server-only
-// service-role key (one-way HMAC) so preview deploys work without extra setup.
+// Supabase backend secret key (one-way HMAC) so preview deploys work without extra setup.
 // Outside production a fixed dev secret is used. Returns null if nothing is available.
 const derived = new Map<string, string>();
 
 async function deriveSecret(envName: string, label: string) {
   const explicit = process.env[envName];
   if (explicit) return explicit;
-  const cacheKey = `${envName}:${process.env.SUPABASE_SERVICE_ROLE_KEY ? "svc" : "none"}`;
+  const cacheKey = `${envName}:${process.env.SUPABASE_SECRET_KEY ? "secret" : process.env.SUPABASE_SERVICE_ROLE_KEY ? "legacy" : "none"}`;
   const cached = derived.get(cacheKey);
   if (cached) return cached;
   const value = await deriveUncached(label);
@@ -60,7 +60,7 @@ async function deriveSecret(envName: string, label: string) {
 }
 
 async function deriveUncached(label: string) {
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (serviceKey) return hmacHex(serviceKey, `agentarchitect:${label}:v1`);
   if (process.env.NODE_ENV !== "production") return `agentarchitect-dev-${label}`;
   return null;
