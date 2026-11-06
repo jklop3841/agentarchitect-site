@@ -11,6 +11,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "",
     "/requests",
     "/post",
+    "/for-agents",
+    "/agent-wall",
     "/realityport",
     "/network",
     "/a2a",
@@ -47,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/brand-entity.json",
   ];
 
-  const networkRoutes = new Set(["", "/requests", "/post", "/realityport", "/network", "/a2a"]);
+  const networkRoutes = new Set(["", "/requests", "/post", "/for-agents", "/agent-wall", "/realityport", "/network", "/a2a"]);
   let requestEntries: MetadataRoute.Sitemap = [];
   try {
     const feed = await listRequests({ type: null, mode: null, location: null, q: null, includeInactive: false, limit: 100, offset: 0 });
@@ -66,7 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: new URL(route, siteConfig.domain).toString(),
       lastModified: new Date(
         networkRoutes.has(route) || route.includes("agent-card") || route.includes("agent-contact")
-          ? "2026-10-17"
+          ? "2026-11-06"
           : route.includes("lineage-recursive-improvement")
             ? "2026-09-11"
             : "2026-05-02",
