@@ -122,6 +122,20 @@ export class MemoryStore implements AgentStore {
       .map((message) => ({ id: message.id, request_id: requestId, body: message.body, from_name: message.from_name, sender_kind: message.sender_kind, agent_name: null, created_at: message.created_at }));
   }
 
+  async listPublicGuestPosts(limit: number) {
+    return [...this.messages.values()]
+      .filter((message) => message.to_kind === "operator" && message.context_id === "public-guest-post-v1" && message.status === "approved")
+      .sort((a, b) => b.created_at.localeCompare(a.created_at))
+      .slice(0, Math.min(Math.max(limit, 1), 50))
+      .map((message) => ({
+        id: message.id,
+        body: message.body,
+        from_name: message.from_name,
+        sender_kind: message.sender_kind,
+        created_at: message.created_at,
+      }));
+  }
+
   async setMessageStatus(id: string, status: "approved" | "rejected" | "spam") {
     const message = this.messages.get(id);
     if (message) message.status = status;
