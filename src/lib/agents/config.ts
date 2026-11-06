@@ -26,6 +26,9 @@ export const ipLimits = {
   unprovenMessagesPerHour: { bucket: "message_unproven_ip", window: HOUR, max: 5 },
   // Global ceiling on PoW-less anonymous messages (MCP / A2A), across all IPs.
   unprovenMessagesGlobalPerHour: { bucket: "message_unproven_global", window: HOUR, max: 100 },
+  // Public one-call dropbox: much tighter than PoW-protected messages.
+  guestPostPerHour: { bucket: "guest_post_ip", window: HOUR, max: 2 },
+  guestPostGlobalPerHour: { bucket: "guest_post_global", window: HOUR, max: 30 },
   agentRequestBurstPerHour: { bucket: "agent_request_ip", window: HOUR, max: 10 },
 } as const;
 

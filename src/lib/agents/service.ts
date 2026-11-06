@@ -215,17 +215,24 @@ export function validateMessage(body: Record<string, unknown>): { ok: true; valu
 
 export async function leaveMessage(
   body: Record<string, unknown>,
-  ctx: { ipHash: string; channel: Channel; agent: AgentRow | null; contextId?: string | null },
+  ctx: { ipHash: string; channel: Channel; agent: AgentRow | null; contextId?: string | null; guestPost?: boolean },
 ) {
   const parsed = validateMessage(body);
   if (!parsed.ok) throw new NetworkError("invalid_input", 400, `Input failed validation. ${parsed.errors.join(" ")}`);
   const analysis = analyzeText(parsed.value.body, parsed.value.from_name, parsed.value.contact);
   if (analysis.spam) throw new NetworkError("rejected_as_spam", 400, `Rejected: ${analysis.reason}`);
 
-  // Anonymous REST messages need proof-of-work; anonymous MCP/A2A messages get a
-  // stricter per-IP limit instead.
-  const pow = !ctx.agent && ctx.channel === "rest" ? await checkPow("message", body.pow) : null;
+  // Only the dedicated, moderated guest-post route may bypass REST proof-of-work.
+  // Other REST messages continue to require PoW. MCP/A2A already use strict rate limits.
+  if (ctx.guestPost && (ctx.agent || ctx.channel !== "rest" || ctx.contextId !== "public-guest-post-v1")) {
+    throw new NetworkError("invalid_input", 400, "Invalid guest post context.");
+  }
+  const pow = !ctx.agent && ctx.channel === "rest" && !ctx.guestPost ? await checkPow("message", body.pow) : null;
   const store = requireAgentStore();
+  if (ctx.guestPost) {
+    await hit(store, ipLimits.guestPostPerHour, ctx.ipHash, "Guest post limit: 2 per hour per network.");
+    await hit(store, ipLimits.guestPostGlobalPerHour, "global", "Guest post capacity reached. Try again later.");
+  }
   await hit(store, ipLimits.messageBurstPerMinute, ctx.ipHash, "Too many messages from your network. Wait a minute.");
   if (ctx.agent) {
     const limits = limitsFor(ctx.agent.status);
