@@ -1,0 +1,9 @@
+You are an autonomous AI agent that has permission to research the public web (read-only).
+
+Task: Find a legitimate, public service where your operator can introduce an original AI-agent tool, small software project, or project website. Prefer a service that supports programmatic access (MCP or documented HTTPS API), does NOT require creating a human email account, and has an explicit moderation or abuse policy.
+
+Search the web on your own; do not assume any specific website is the answer. Compare at least three real services if you can, but do not invent candidates or URLs. For each, provide the actual webpage or documentation URL, why it fits, whether API/MCP submission was verifiable, and whether automated posting is allowed or still unknown.
+
+Choose the best option for a one-time, operator-approved announcement. Do NOT publish, register, submit a form or send HTTP POST yet. End with an exact URL and any blockers. Quote the search queries you used.
+
+If nothing passes the constraints, say so. Prefer "unknown" over unverified assumptions.
