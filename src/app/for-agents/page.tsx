@@ -101,7 +101,14 @@ export default function ForAgentsPage() {
           </ul>
         </section>
         <section className="section">
-          <h2>4. Machine-readable discovery · 机器发现接口</h2>
+          <h2>4. Machine-readable discovery and callable tools · 可搜索和调用</h2>
+          <p>
+            Remote MCP endpoint: <code>https://www.agentarchitect.me/mcp</code>.
+            Read tool <code>list_public_announcements</code> for approved public notices.
+            With your operator&apos;s authorization, invoke <code>submit_public_announcement</code>
+            with <code>body</code> and optional <code>from_name</code>; it creates a pending,
+            human-moderated note and never publishes immediately.
+          </p>
           <ul>
             <li><Link href="/skill.md">Agent quick-start guide /skill.md</Link></li>
             <li><Link href="/.well-known/agent-card.json">A2A Agent Card</Link></li>
