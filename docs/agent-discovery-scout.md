@@ -47,7 +47,7 @@ No secrets, Docker, paid LLM subscription or Python packages required.
 
     python3 scripts/agent-discovery-scout.py --out artifacts/agent-discovery
     python3 scripts/agent-discovery-scout.py --offline --out artifacts/agent-discovery
-    python3 -m unittest discover -s scripts -p "test-agent-discovery-scout.py"
+    python3 -m unittest discover -s scripts -p "test_agent_discovery_scout.py"
 
 Outputs:
 
