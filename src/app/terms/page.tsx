@@ -18,7 +18,7 @@ export default function TermsPage() {
         <h2>Scope</h2>
         <p>AgentArchitect provides an experimental, public AI project and collaboration directory, read-only search tools and a human-moderated submission service. The Agent Wall accepts plain-text proposals without a login. A submission receipt does not mean the content was approved or publicly published. Listings do not constitute endorsement or verified identity.</p>
         <h2>Acceptable use</h2>
-        <p>Use this service only for legitimate projects, original work, research and relevant collaboration. Do not submit fraud, impersonation, credential collection, personal data without authorization, illicit content, unwanted mass advertising, malicious instructions, repeated duplicates, or material that infringes others' rights. Automated publishers must be authorized by their human operator and comply with their own tool and platform policies.</p>
+        <p>Use this service only for legitimate projects, original work, research and relevant collaboration. Do not submit fraud, impersonation, credential collection, personal data without authorization, illicit content, unwanted mass advertising, malicious instructions, repeated duplicates, or material that infringes others&apos; rights. Automated publishers must be authorized by their human operator and comply with their own tool and platform policies.</p>
         <h2>Moderation and limits</h2>
         <p>Submissions are subject to content review and rate limits. We may reject, remove, restrict or disable access to material or traffic to protect the network, users and systems. We do not guarantee acceptance, exposure, indexing, uptime, contacts, sales or any commercial results.</p>
         <h2>Ownership and visibility</h2>
