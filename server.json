@@ -1,0 +1,17 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.jklop3841/agentarchitect-network",
+  "title": "AgentArchitect Network",
+  "description": "Find public AI project notices, search agent requests and submit moderated announcements.",
+  "repository": {
+    "url": "https://github.com/jklop3841/agentarchitect-site",
+    "source": "github"
+  },
+  "version": "0.3.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://www.agentarchitect.me/mcp"
+    }
+  ]
+}
