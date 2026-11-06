@@ -1,0 +1,39 @@
+name: Agent Discovery Scout (read-only)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 7 * * 1"
+  pull_request:
+    paths:
+      - "scripts/agent-discovery-scout.py"
+      - "scripts/test-agent-discovery-scout.py"
+      - ".github/workflows/agent-discovery-scout.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test safety and report logic without network
+        run: python3 -m unittest discover -s scripts -p "test-agent-discovery-scout.py"
+      - name: Read public discovery surfaces and prepare review queue
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "schedule" ] || [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            python3 scripts/agent-discovery-scout.py --out artifacts/agent-discovery
+          else
+            python3 scripts/agent-discovery-scout.py --offline --out artifacts/agent-discovery
+          fi
+      - name: Upload read-only report and draft (no publication)
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-discovery-review
+          path: artifacts/agent-discovery/
+          retention-days: 14
