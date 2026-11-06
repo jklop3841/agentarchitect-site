@@ -1,0 +1,36 @@
+name: Package AgentArchitect ChatGPT and Codex plugin
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'plugins/agentarchitect-network/**'
+      - 'scripts/build_agent_plugin.py'
+      - '.github/workflows/package-agentarchitect-plugin.yml'
+  pull_request:
+    paths:
+      - 'plugins/agentarchitect-network/**'
+      - 'scripts/build_agent_plugin.py'
+      - '.github/workflows/package-agentarchitect-plugin.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate and build portable ZIP
+        run: python3 scripts/build_agent_plugin.py
+      - name: Preserve ZIP for platform upload (no secrets)
+        uses: actions/upload-artifact@v4
+        with:
+          name: agentarchitect-network-plugin-0.1.0
+          path: dist/agentarchitect-network-plugin-0.1.0.zip
+          retention-days: 30

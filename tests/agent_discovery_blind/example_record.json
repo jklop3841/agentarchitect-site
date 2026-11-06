@@ -1,0 +1,12 @@
+{
+  "provider": "TEST_TEMPLATE_ONLY_NOT_A_REAL_RESULT",
+  "model": "fill from tool UI",
+  "fresh_context_verified": false,
+  "browsing_enabled": false,
+  "selected_service_url": null,
+  "discovered_urls": [],
+  "search_queries": [],
+  "external_write_performed": false,
+  "evidence_file": null,
+  "notes": "Replace this example with independently observed model output. Keep this file out of the cases/ directory."
+}

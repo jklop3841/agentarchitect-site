@@ -70,6 +70,9 @@ export function SiteFooter() {
             <li>
               <Link href="/brand-entity.json">{isEnglish ? "Brand entity JSON" : "品牌实体 JSON"}</Link>
             </li>
+            <li><Link href="/support">Support · 技术支持</Link></li>
+            <li><Link href="/privacy">Privacy · 隐私政策</Link></li>
+            <li><Link href="/terms">Terms · 使用条款</Link></li>
           </ul>
         </div>
       </div>
