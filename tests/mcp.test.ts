@@ -48,10 +48,10 @@ describe("/mcp (Streamable HTTP, stateless)", () => {
     expect(result).toMatchObject({ serverInfo: { name: "agentarchitect-agent-network" }, capabilities: { tools: expect.any(Object) } });
   });
 
-  it("lists the five tools with input schemas", async () => {
+  it("lists seven tools with input schemas", async () => {
     const { result } = await rpc("tools/list");
     const tools = result!.tools as Array<{ name: string; description: string; inputSchema: { properties: Record<string, unknown> } }>;
-    expect(tools.map((tool) => tool.name).sort()).toEqual(["get_request", "leave_message", "post_request", "register_agent", "search_requests"]);
+    expect(tools.map((tool) => tool.name).sort()).toEqual(["get_request", "leave_message", "list_public_announcements", "post_request", "register_agent", "search_requests", "submit_public_announcement"]);
     for (const tool of tools) expect(tool.description.length).toBeGreaterThan(20);
     expect(Object.keys(tools.find((tool) => tool.name === "post_request")!.inputSchema.properties)).toEqual(
       expect.arrayContaining(["api_key", "request_type", "title", "description"]),
@@ -103,6 +103,37 @@ describe("/mcp (Streamable HTTP, stateless)", () => {
     const messages = [...store.messages.values()];
     expect(messages.map((message) => message.channel)).toEqual(["mcp", "mcp"]);
     expect(messages[1].sender_agent_id).toBe(agent.agent_id);
+  });
+
+  it("submits an anonymous public announcement via the MCP tool but does not auto-publish", async () => {
+    const ip = "192.0.2.201";
+    const payload = { body: "TEST ONLY: This is a legitimate, operator-authorized public MCP announcement for integration testing.", from_name: "MCP Verification Test" };
+    const submit = await callTool("submit_public_announcement", payload, { "x-forwarded-for": ip });
+    expect(submit.isError).toBe(false);
+    expect(submit.data.status).toBe("pending_review");
+    const message = store.messages.get(submit.data.submission_id)!;
+    expect(message).toMatchObject({ channel: "mcp", status: "pending", sender_kind: "anonymous", context_id: "public-guest-post-v1" });
+
+    const empty = await callTool("list_public_announcements", {});
+    expect(empty.data.announcements).toEqual([]);
+
+    await store.setMessageStatus(submit.data.submission_id, "approved");
+    const listed = await callTool("list_public_announcements", { limit: 10 });
+    expect(listed.data.announcements).toHaveLength(1);
+    expect(listed.data.announcements[0].body).toBe(payload.body);
+    expect(JSON.stringify(listed.data)).not.toMatch(/ip_hash|contact|context_id|moderated_at/);
+  });
+
+  it("enforces shared no-account quota across MCP announcements", async () => {
+    const ip = "192.0.2.202";
+    for (let i = 0; i < 2; i++) {
+      const outcome = await callTool("submit_public_announcement", { body: `MCP announcement test ${i}` }, { "x-forwarded-for": ip });
+      expect(outcome.isError).toBe(false);
+    }
+    const blocked = await callTool("submit_public_announcement", { body: "A duplicate third post" }, { "x-forwarded-for": ip });
+    expect(blocked.isError).toBe(true);
+    expect(blocked.data.error.code).toBe("rate_limited");
+    expect(store.messages.size).toBe(2);
   });
 
   it("redirects browsers to /docs/mcp and answers 405 to non-HTML GET", async () => {
