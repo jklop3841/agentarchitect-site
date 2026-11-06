@@ -222,9 +222,10 @@ export async function leaveMessage(
   const analysis = analyzeText(parsed.value.body, parsed.value.from_name, parsed.value.contact);
   if (analysis.spam) throw new NetworkError("rejected_as_spam", 400, `Rejected: ${analysis.reason}`);
 
-  // Only the dedicated, moderated guest-post route may bypass REST proof-of-work.
-  // Other REST messages continue to require PoW. MCP/A2A already use strict rate limits.
-  if (ctx.guestPost && (ctx.agent || ctx.channel !== "rest" || ctx.contextId !== "public-guest-post-v1")) {
+  // Only the dedicated, moderated guest-post REST route or MCP announcement
+  // tool may bypass REST proof-of-work. A2A and general messages are excluded.
+  // Both approved paths share the same strict DB-backed guest-post quotas.
+  if (ctx.guestPost && (ctx.agent || (ctx.channel !== "rest" && ctx.channel !== "mcp") || ctx.contextId !== "public-guest-post-v1")) {
     throw new NetworkError("invalid_input", 400, "Invalid guest post context.");
   }
   const pow = !ctx.agent && ctx.channel === "rest" && !ctx.guestPost ? await checkPow("message", body.pow) : null;
