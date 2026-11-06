@@ -1,0 +1,87 @@
+name: Publish AgentArchitect to official MCP Registry
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'server.json'
+      - '.github/workflows/publish-mcp-registry.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agentarchitect-mcp-registry
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'jklop3841/agentarchitect-site' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      MCP_PUBLISHER_VERSION: v1.8.1
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Assert registry metadata belongs to this GitHub identity
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          x = json.load(open('server.json'))
+          assert x['name'] == 'io.github.jklop3841/agentarchitect-network'
+          assert x['repository']['url'] == 'https://github.com/jklop3841/agentarchitect-site'
+          remotes = x.get('remotes', [])
+          assert len(remotes) == 1 and remotes[0]['url'] == 'https://www.agentarchitect.me/mcp'
+          print('Publisher namespace, source and remote endpoint verified.')
+          PY
+
+      - name: Install cosign to verify publisher release
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Download signed and pinned mcp-publisher
+        run: |
+          set -euo pipefail
+          archive="mcp-publisher_linux_amd64.tar.gz"
+          base="https://github.com/modelcontextprotocol/registry/releases/download/${MCP_PUBLISHER_VERSION}"
+          curl --fail --location --silent --show-error -o "$archive" "$base/$archive"
+          curl --fail --location --silent --show-error -o "$archive.sigstore.json" "$base/$archive.sigstore.json"
+          cosign verify-blob \
+            --bundle "$archive.sigstore.json" \
+            --certificate-identity "https://github.com/modelcontextprotocol/registry/.github/workflows/release.yml@refs/tags/${MCP_PUBLISHER_VERSION}" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            "$archive"
+          tar xzf "$archive" mcp-publisher
+          rm -f "$archive" "$archive.sigstore.json"
+
+      - name: Validate remote-only server.json
+        run: ./mcp-publisher validate ./server.json
+
+      - name: Authenticate with GitHub OIDC (no user token required)
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish official MCP Registry listing
+        run: ./mcp-publisher publish ./server.json
+
+      - name: Read public registry status
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from urllib.parse import urlencode
+          from urllib.request import urlopen
+          base = 'https://registry.modelcontextprotocol.io/v0.1/servers'
+          query = urlencode({'search': 'io.github.jklop3841/agentarchitect-network', 'limit': 100})
+          with urlopen(base + '?' + query, timeout=20) as resp:
+              data = json.load(resp)
+          hits = data.get('servers', [])
+          exact = [s for s in hits if (s.get('server') or s).get('name') == 'io.github.jklop3841/agentarchitect-network']
+          print(json.dumps({'queried': base, 'results': len(hits), 'exact_match': bool(exact)}, indent=2))
+          if not exact:
+              print('Registry may be eventually consistent; check listing again after indexing.')
+          PY
