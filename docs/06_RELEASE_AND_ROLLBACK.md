@@ -19,13 +19,13 @@
 
 ## 2. 上线前检查（已在预览部署上完成的部分）
 
-预览部署（提交 `7261c48`）实测结果：
+预览部署实测结果（最终一轮针对包含复核修复的提交，结果见 `04` 第 5.3 节）：
 
 | 检查 | 结果 |
 |---|---|
 | Vercel 构建 | 成功 |
 | C2PA 原生库在 Vercel 函数内加载 | 成功（`/api/v1/status` → `content_credentials_validator: "c2pa-node"`） |
-| `scripts/tools-smoke.py` 32 项 | 全部通过，含真实 URL 抓取和 7 个私网目标被拒 |
+| `scripts/tools-smoke.py` | 全部通过，含真实 URL 抓取、7 个私网目标被拒、带远程清单地址的图片不触发联网 |
 
 预览环境没有后端数据库密钥，所以预览上**没有验证**：数据库计数的限额、用量写入。这两项的逻辑由自动化测试用内存替身覆盖。
 
@@ -57,7 +57,7 @@ Supabase 控制台 → SQL Editor → 粘贴 `supabase/migrations/20261110000000
 # 状态：tools.content_credentials_validator 应为 "c2pa-node"
 curl -s https://www.agentarchitect.me/api/v1/status
 
-# 全套冒烟（32 项）
+# 全套冒烟（33 项）
 AA_INTERNAL_TEST_TOKEN=<第1步设的值> python3 scripts/tools-smoke.py https://www.agentarchitect.me tests/fixtures/c2pa
 ```
 
@@ -81,7 +81,7 @@ MCP Registry 的描述不会随 Vercel 回滚而恢复；需要的话把 `server
 
 - **看数**：`/admin/tools`（工具调用，按来源分类）和 `/admin/visits`（访问日志）。
 - **清理**：`tool_usage` 保留 90 天，需要定期执行 `select public.aa_purge_tool_usage();`。Supabase 里可以用 pg_cron 每天跑一次，和已有的 `aa_purge_old_rows()` 放一起。目前没有自动任务，需要卢成决定是否启用。
-- **依赖更新**：`@contentauth/c2pa-node` 和 `exifr` 版本已锁定。升级前先跑 `npm test`，里面有真实 C2PA 样本的校验。
+- **依赖更新**：`@contentauth/c2pa-node` 和 `exifr` 版本已锁定。升级前先跑 `npm test`，里面有真实 C2PA 样本的校验，以及「C2PA 库不得联网」的测试。后者必须通过才能升级：这个库的设置格式一旦变化，联网能力可能悄悄恢复。
 
 ## 6. 区域配置（国内站预留）
 

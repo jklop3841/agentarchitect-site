@@ -139,7 +139,7 @@ export async function validateC2pa(bytes: Uint8Array, mime: string): Promise<C2p
     const message = error instanceof Error ? error.message : "";
     // The file points at Content Credentials stored elsewhere. They are deliberately not
     // fetched; say so instead of treating it as a validator fault. The URL is not echoed.
-    if (/remote manifest/i.test(message)) {
+    if (/must fetch remote manifest/i.test(message)) {
       return { ...structural, validator: "c2pa-node", status_codes: ["remoteManifest.notFetched"] };
     }
     console.error("[tools] C2PA validation failed:", message.replace(/https?:\/\/\S+/g, "<url>").slice(0, 200) || "unknown");

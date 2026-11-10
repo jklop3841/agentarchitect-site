@@ -68,6 +68,26 @@ for name, want_state, want_verdict in [
     detail = f"{code} {body['result']['content_credentials']['state']}/{body['result']['content_credentials']['validator']} -> {body['result']['verdict']}" if code == 200 else str(body)[:160]
     check(f"imageproof inline {name}", ok, detail)
 
+# An image that names a remote manifest URL must not make the server fetch it. The address is
+# in a documentation range that routes nowhere: a server that tried would stall for seconds
+# and report a validator error instead of "not fetched".
+import time
+
+packet = (
+    '<?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d"?><x:xmpmeta xmlns:x="adobe:ns:meta/">'
+    '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><rdf:Description rdf:about="" '
+    'xmlns:dcterms="http://purl.org/dc/terms/" dcterms:provenance="http://203.0.113.1/manifest.c2pa"/>'
+    '</rdf:RDF></x:xmpmeta><?xpacket end="w"?>'
+).encode()
+payload = b"http://ns.adobe.com/xap/1.0/\x00" + packet
+jpeg = open(f"{fixtures}/adobe-20220124-A.jpg", "rb").read()
+crafted = jpeg[:2] + b"\xff\xe1" + (len(payload) + 2).to_bytes(2, "big") + payload + jpeg[2:]
+started = time.time()
+code, body = curl("POST", "/api/v1/tools/imageproof", {"image": {"content_base64": base64.b64encode(crafted).decode()}})
+elapsed = time.time() - started
+codes = body["result"]["content_credentials"]["status_codes"] if code == 200 else []
+check("image naming a remote manifest: not fetched, answered promptly", code == 200 and "remoteManifest.notFetched" in codes and elapsed < 6, f"{code} {codes} {elapsed:.1f}s")
+
 remote = "https://raw.githubusercontent.com/c2pa-org/public-testfiles/main/legacy/1.4/image/jpeg/adobe-20220124-C.jpg"
 code, body = curl("POST", "/api/v1/tools/imageproof", {"image": {"url": remote}})
 ok = code == 200 and body["result"]["file"]["input_mode"] == "url" and body["result"]["content_credentials"]["state"] == "valid_untrusted_signer"

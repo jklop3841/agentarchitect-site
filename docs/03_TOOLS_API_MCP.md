@@ -137,6 +137,8 @@ curl -s -X POST .../api/v1/tools/fileproof -H "Content-Type: application/json" \
 
 默认没有配置信任列表，所以默认不会出现 `verified_origin`。这是有意的。
 
+校验全程离线：图片若把内容凭证放在远程地址，本服务不会去抓，`status_codes` 里会出现 `remoteManifest.notFetched`；也不查证书吊销。文件声明的元数据量明显不合理时（构造来拖垮解析器的文件），EXIF 不解析，`findings` 里给出 `metadata_not_parsed`。
+
 ### ClaimCheck（beta）
 
 输入：`text`（≤20,000 字符），可选 `evidence[]`（最多 10 条，每条 ≤8,000 字符，可带 `id`、`source`）。
@@ -147,10 +149,12 @@ curl -s -X POST .../api/v1/tools/fileproof -H "Content-Type: application/json" \
 
 | 值 | 含义 |
 |---|---|
-| `supported` | 所给证据里有措辞相符、且主张中**所有**数字都对得上的表述 |
+| `supported` | 所给证据的同一句话里措辞相符，且主张中**所有**数字都能找到、单位一致、同类数字顺序一致 |
 | `contradicted` | 证据谈的是同一件事，但数字不同或肯定/否定相反 |
 | `inconclusive` | 给了证据，但证据没有直接谈到，或证据之间互相矛盾 |
 | `not_checked` | 没给证据 |
+
+数字识别支持阿拉伯数字、千分位、百分比、正负号、常见单位、中文数字和英文数词（`三亿` = `3亿` = `300 million`）。每份证据最多比对前 200 句。
 
 纯规则实现：不调用模型、不联网、不输出概率。它比对的是措辞和数字，不理解语义，会漏掉换了说法的表述。`supported` 只说明「证据文本这么写了」，不说明证据本身为真。
 
@@ -184,4 +188,4 @@ curl -s -X POST .../api/v1/tools/fileproof -H "Content-Type: application/json" \
 python3 scripts/tools-smoke.py https://www.agentarchitect.me tests/fixtures/c2pa
 ```
 
-脚本会跑 32 项检查（三个工具、真实 C2PA 样本、按 URL 抓取、7 个私网目标、MCP、关键页面）。它会产生约 20 次真实调用；想不计入外部使用量，运行前设置环境变量 `AA_INTERNAL_TEST_TOKEN`（值与部署上的 `INTERNAL_TEST_TOKEN` 相同）。
+脚本会跑 33 项检查（三个工具、真实 C2PA 样本、带远程清单地址的图片不触发联网、按 URL 抓取、7 个私网目标、MCP、关键页面）。它会产生约 20 次真实调用；想不计入外部使用量，运行前设置环境变量 `AA_INTERNAL_TEST_TOKEN`（值与部署上的 `INTERNAL_TEST_TOKEN` 相同）。
