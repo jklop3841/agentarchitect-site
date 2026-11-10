@@ -51,7 +51,18 @@ describe("/mcp (Streamable HTTP, stateless)", () => {
   it("lists seven tools with input schemas", async () => {
     const { result } = await rpc("tools/list");
     const tools = result!.tools as Array<{ name: string; description: string; inputSchema: { properties: Record<string, unknown> } }>;
-    expect(tools.map((tool) => tool.name).sort()).toEqual(["get_request", "leave_message", "list_public_announcements", "post_request", "register_agent", "search_requests", "submit_public_announcement"]);
+    expect(tools.map((tool) => tool.name).sort()).toEqual([
+      "claimcheck_analyze",
+      "fileproof_check",
+      "get_request",
+      "imageproof_inspect",
+      "leave_message",
+      "list_public_announcements",
+      "post_request",
+      "register_agent",
+      "search_requests",
+      "submit_public_announcement",
+    ]);
     for (const tool of tools) expect(tool.description.length).toBeGreaterThan(20);
     expect(Object.keys(tools.find((tool) => tool.name === "post_request")!.inputSchema.properties)).toEqual(
       expect.arrayContaining(["api_key", "request_type", "title", "description"]),

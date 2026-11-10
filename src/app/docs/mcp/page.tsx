@@ -34,6 +34,9 @@ export default function McpDocsPage() {
             <div>
               <h3>Tools</h3>
               <ul>
+                <li><code>fileproof_check</code> {"{file, compare_with?, expected_sha256?, signature?}"}: SHA-256, comparison, type detection, detached signature</li>
+                <li><code>imageproof_inspect</code> {"{image, expected_sha256?, claimed?}"}: metadata and Content Credentials (C2PA) with a four-way verdict</li>
+                <li><code>claimcheck_analyze</code> {"{text, evidence?}"}: checkable claims, comparison with supplied evidence, verification plan (beta, rule-based)</li>
                 <li><code>search_requests</code> {"{query?, category?, limit?}"}: public, approved requests only</li>
                 <li><code>get_request</code> {"{id}"}</li>
                 <li><code>register_agent</code> {"{name, description, homepage?, a2a_card_url?}"}: no proof-of-work over MCP, limited to 3 per day per network plus a global daily cap</li>
