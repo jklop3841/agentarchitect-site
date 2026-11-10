@@ -7,13 +7,12 @@ import { c2paValidatorName, validateC2pa } from "@/lib/tools/c2pa";
 import { detectC2paStructure, inspectImage } from "@/lib/tools/imageproof";
 
 // Real Content Credentials, validated with the official C2PA SDK against public test files.
-// If the native binary cannot be loaded on this machine the SDK tests are skipped and only
-// the structural (presence-only) path is tested.
+// The SDK is a required dependency: if its native binary cannot be loaded these tests fail
+// rather than skip, so a broken install cannot pass unnoticed.
 const fixture = (name: string) => new Uint8Array(readFileSync(fileURLToPath(new URL(`./fixtures/c2pa/${name}`, import.meta.url))));
 const none = fixture("adobe-20220124-A.jpg");
 const valid = fixture("adobe-20220124-C.jpg");
 const altered = fixture("adobe-20220124-E-dat-CA.jpg");
-const sdk = (await c2paValidatorName()) === "c2pa-node";
 
 describe("Content Credentials: presence check (always available)", () => {
   it("detects a C2PA block from the bytes", () => {
@@ -29,7 +28,10 @@ describe("Content Credentials: presence check (always available)", () => {
   });
 });
 
-describe.skipIf(!sdk)("Content Credentials: cryptographic validation (C2PA SDK)", () => {
+describe("Content Credentials: cryptographic validation (C2PA SDK)", () => {
+  it("the SDK loads", async () => {
+    expect(await c2paValidatorName()).toBe("c2pa-node");
+  });
   it("image without credentials -> absent", async () => {
     const report = await validateC2pa(none, "image/jpeg");
     expect(report).toMatchObject({ state: "absent", validator: "c2pa-node" });

@@ -158,16 +158,120 @@ export function structuralC2paReport(bytes: Uint8Array, mime: string): C2paRepor
   return { state: detectC2paStructure(bytes, mime) ? "present_unvalidated" : "absent", validator: "structural_only", status_codes: [], active_manifest: null };
 }
 
-type ExifBlocks = { ifd0?: Record<string, unknown>; exif?: Record<string, unknown>; gps?: Record<string, unknown>; xmp?: Record<string, unknown>; iptc?: Record<string, unknown> };
+type ExifBlocks = { ifd0?: Record<string, unknown>; exif?: Record<string, unknown>; gps?: Record<string, unknown>; xmp?: Record<string, unknown>; iptc?: Record<string, unknown>; skipped?: boolean };
+
+// Only these tags are read. exifr skips the value of every tag that is not picked, which
+// keeps a crafted file from making the parser materialise megabytes of arrays.
+const ifd0Tags = ["ImageDescription", "Make", "Model", "Software", "ModifyDate", "Artist", "Copyright"];
+const exifTags = ["DateTimeOriginal", "CreateDate", "OffsetTimeOriginal", "OffsetTime", "LensModel", "ExifImageWidth", "ExifImageHeight"];
+const gpsTags = ["GPSLatitudeRef", "GPSLatitude", "GPSLongitudeRef", "GPSLongitude", "GPSAltitude"];
+
+const tiffTypeSize: Record<number, number> = { 1: 1, 2: 1, 3: 2, 4: 4, 5: 8, 6: 1, 7: 1, 8: 2, 9: 4, 10: 8, 11: 4, 12: 8, 13: 4 };
+const MAX_IFD_ENTRIES = 512;
+
+// True when a TIFF structure at `base` declares more value bytes than an honest file could
+// hold, or an absurd number of tags. An honest file's values do not overlap, so their sizes
+// cannot sum to more than the file; a file where they do is built to exhaust the parser
+// (many tags all pointing at one large region).
+function tiffOverBudget(bytes: Uint8Array, base: number): boolean {
+  const little = bytes[base] === 0x49;
+  const r16 = (offset: number) => (little ? bytes[offset] | (bytes[offset + 1] << 8) : (bytes[offset] << 8) | bytes[offset + 1]);
+  const r32 = (offset: number) =>
+    (little
+      ? bytes[offset] | (bytes[offset + 1] << 8) | (bytes[offset + 2] << 16) | (bytes[offset + 3] << 24)
+      : (bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3]) >>> 0;
+  if (base + 8 > bytes.length) return false;
+  const budget = Math.min(bytes.length, 4_000_000);
+  const queue = [r32(base + 4)];
+  let total = 0;
+  for (let visited = 0; visited < 8 && queue.length > 0; visited += 1) {
+    const ifd = base + queue.shift()!;
+    if (ifd + 2 > bytes.length) continue;
+    const entries = r16(ifd);
+    if (entries === 0 || ifd + 2 + 12 > bytes.length) continue;
+    const firstType = r16(ifd + 4);
+    // Not a real IFD (the signature bytes occurred by chance inside image data).
+    if (!(firstType in tiffTypeSize)) continue;
+    if (entries > MAX_IFD_ENTRIES) return true;
+    for (let index = 0; index < entries; index += 1) {
+      const entry = ifd + 2 + index * 12;
+      if (entry + 12 > bytes.length) break;
+      const tag = r16(entry);
+      const size = tiffTypeSize[r16(entry + 2)] ?? 1;
+      const count = r32(entry + 4);
+      const needed = count * size;
+      if (needed > 4) total += needed;
+      if (total > budget) return true;
+      if (tag === 0x8769 || tag === 0x8825) queue.push(r32(entry + 8));
+    }
+    const next = ifd + 2 + entries * 12;
+    if (next + 4 <= bytes.length) {
+      const nextIfd = r32(next);
+      if (nextIfd !== 0) queue.push(nextIfd);
+    }
+  }
+  return false;
+}
+
+// EXIF lives in a TIFF structure whatever the container (JPEG APP1, PNG eXIf, WebP EXIF,
+// HEIC/AVIF item, or a TIFF file itself), so look for TIFF headers anywhere in the file.
+export function metadataOverBudget(bytes: Uint8Array): boolean {
+  for (const signature of ["II*\u0000", "MM\u0000*"]) {
+    let from = 0;
+    for (let checked = 0; checked < 16; checked += 1) {
+      const at = indexOfAscii(bytes, signature, from);
+      if (at < 0) break;
+      if (tiffOverBudget(bytes, at)) return true;
+      from = at + 4;
+    }
+  }
+  return false;
+}
+
+const MAX_XMP_BYTES = 256_000;
+
+function decodeEntities(value: string) {
+  return value.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, "&");
+}
+
+// A few fields from the XMP packet, read with bounded patterns from at most 256 KB. This
+// replaces a general XMP parser: less surface, predictable cost.
+export function readXmpFields(bytes: Uint8Array): Record<string, unknown> {
+  const start = indexOfAscii(bytes, "<x:xmpmeta");
+  if (start < 0) return {};
+  const endMarker = indexOfAscii(bytes, "</x:xmpmeta>", start, Math.min(bytes.length, start + MAX_XMP_BYTES));
+  const end = endMarker < 0 ? Math.min(bytes.length, start + MAX_XMP_BYTES) : endMarker;
+  let packet: string;
+  try {
+    packet = new TextDecoder("utf-8", { fatal: false }).decode(bytes.subarray(start, end));
+  } catch {
+    return {};
+  }
+  const out: Record<string, unknown> = { _present: true };
+  const attribute = (name: string) => new RegExp(`${name}\\s*=\\s*"([^"<>]{1,400})"`).exec(packet)?.[1];
+  const element = (name: string) => new RegExp(`<${name}>([^<]{1,400})</${name}>`).exec(packet)?.[1];
+  const listItem = (name: string) => new RegExp(`<${name}>[^<]{0,40}<rdf:(?:Alt|Seq|Bag)>[^<]{0,40}<rdf:li[^>]{0,80}>([^<]{1,600})<`).exec(packet)?.[1];
+  const set = (key: string, value: string | undefined) => {
+    if (value && value.trim()) out[key] = decodeEntities(value.trim());
+  };
+  set("DigitalSourceType", attribute("Iptc4xmpExt:DigitalSourceType") ?? element("Iptc4xmpExt:DigitalSourceType"));
+  set("CreatorTool", attribute("xmp:CreatorTool") ?? element("xmp:CreatorTool"));
+  set("description", listItem("dc:description"));
+  set("creator", listItem("dc:creator"));
+  set("rights", listItem("dc:rights"));
+  return out;
+}
 
 async function readMetadata(bytes: Uint8Array): Promise<ExifBlocks> {
+  const xmp = readXmpFields(bytes);
+  if (metadataOverBudget(bytes)) return { xmp, skipped: true };
   try {
     const parsed = (await exifr.parse(bytes, {
       tiff: true,
-      ifd0: {},
-      exif: true,
-      gps: true,
-      xmp: true,
+      ifd0: { pick: ifd0Tags },
+      exif: { pick: exifTags },
+      gps: { pick: gpsTags },
+      xmp: false,
       iptc: true,
       icc: false,
       jfif: false,
@@ -179,10 +283,10 @@ async function readMetadata(bytes: Uint8Array): Promise<ExifBlocks> {
       mergeOutput: false,
       reviveValues: false,
       translateValues: false,
-    } as Parameters<typeof exifr.parse>[1])) as ExifBlocks | undefined;
-    return parsed ?? {};
+    } as unknown as Parameters<typeof exifr.parse>[1])) as ExifBlocks | undefined;
+    return { ...(parsed ?? {}), xmp };
   } catch {
-    return {};
+    return { xmp };
   }
 }
 
@@ -251,7 +355,7 @@ export async function inspectImage(input: {
   const xmp = blocks.xmp ?? {};
   const iptc = blocks.iptc ?? {};
   const exifPresent = Object.keys(ifd0).length + Object.keys(exif).length + Object.keys(gpsBlock).length > 0;
-  const xmpPresent = Object.keys(xmp).length > 0;
+  const xmpPresent = Boolean(xmp._present);
   const iptcPresent = Object.keys(iptc).length > 0;
   const c2pa = input.c2pa ?? structuralC2paReport(bytes, detected.mime);
 
@@ -306,13 +410,20 @@ export async function inspectImage(input: {
   }
 
   // --- metadata findings ---
-  if (!exifPresent && !xmpPresent && !iptcPresent) {
+  if (blocks.skipped) {
+    findings.push({
+      code: "metadata_not_parsed",
+      level: "clue",
+      message: "The file declares far more metadata than it can contain, which is how files are built to overload parsers. EXIF was not read. This says the file is malformed, not what the image shows.",
+    });
+  }
+  if (!exifPresent && !xmpPresent && !iptcPresent && !blocks.skipped) {
     findings.push({
       code: "metadata_absent",
       level: "info",
       message: "No EXIF, XMP or IPTC metadata. This is normal for screenshots and for images that passed through messaging apps or social platforms, which strip metadata. It is not evidence of fabrication.",
     });
-  } else {
+  } else if (exifPresent || xmpPresent || iptcPresent) {
     evidence.push({
       id: "metadata",
       kind: "embedded_metadata",
@@ -395,10 +506,15 @@ export async function inspectImage(input: {
     if (actual && wanted) {
       const tokens = wanted.split(/[^a-z0-9一-鿿]+/).filter((token) => token.length >= 2);
       const overlap = tokens.some((token) => actual.includes(token));
+      // Brand names differ across scripts (a Chinese brand name vs its Latin spelling), so a
+      // mismatch is only meaningful when both sides are plain ASCII.
+      const comparable = /^[\x20-\x7e]+$/.test(wanted) && /^[\x20-\x7e]+$/.test(actual);
       findings.push(
         overlap
           ? { code: "claimed_device_consistent_with_metadata", level: "info", message: "The stated device is consistent with the embedded Make/Model. Metadata can be edited, so this is weak support only." }
-          : { code: "claimed_device_conflicts_with_metadata", level: "contradiction", message: `You stated the device was "${sanitizeText(claimed.device, 80)}", but the embedded Make/Model is "${actual}".` },
+          : comparable
+            ? { code: "claimed_device_conflicts_with_metadata", level: "contradiction", message: `You stated the device was "${sanitizeText(claimed.device, 80)}", but the embedded Make/Model is "${actual}".` }
+            : { code: "claimed_device_not_comparable", level: "clue", message: `The stated device ("${sanitizeText(claimed.device, 80)}") and the embedded Make/Model ("${actual}") are written in different scripts and could not be compared automatically. Compare them by eye.` },
       );
     } else if (wanted) {
       findings.push({ code: "claimed_device_unverifiable", level: "info", message: "You stated a device, but the file has no Make/Model fields to compare it with." });
@@ -406,6 +522,13 @@ export async function inspectImage(input: {
   }
 
   // --- content credentials ---
+  if (c2pa.status_codes.includes("remoteManifest.notFetched")) {
+    findings.push({
+      code: "content_credentials_remote_not_fetched",
+      level: "info",
+      message: "The file points to Content Credentials stored at a remote URL. This service does not fetch remote manifests, so they were not checked.",
+    });
+  }
   if (c2pa.state === "absent") {
     findings.push({ code: "content_credentials_absent", level: "info", message: "No Content Credentials (C2PA) found. Most images have none; absence says nothing about authenticity." });
   } else {

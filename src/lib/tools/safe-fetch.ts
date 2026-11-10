@@ -44,12 +44,18 @@ for (const [network, prefix] of [
   ["2001::", 23], // IETF protocol assignments incl. Teredo
   ["2001:db8::", 32],
   ["2002::", 16], // 6to4
+  ["3fff::", 20], // documentation
   ["fc00::", 7], // unique local
   ["fe80::", 10], // link local
   ["ff00::", 8], // multicast
 ] as const) {
   blocked.addSubnet(network, prefix, "ipv6");
 }
+
+// Global unicast IPv6 is 2000::/3. Everything outside it (loopback, IPv4-compatible,
+// site-local, unassigned ranges) is refused without having to enumerate it.
+const globalUnicastV6 = new BlockList();
+globalUnicastV6.addSubnet("2000::", 3, "ipv6");
 
 export function isPublicAddress(address: string): boolean {
   const family = isIP(address);
@@ -58,7 +64,7 @@ export function isPublicAddress(address: string): boolean {
     // IPv4-mapped IPv6 (::ffff:a.b.c.d) is refused outright. It cannot go in the BlockList:
     // Node matches plain IPv4 addresses against a ::ffff:0:0/96 rule, which would block everything.
     if (/^(0*:)*:?ffff:/i.test(address) || /^::ffff:/i.test(address)) return false;
-    return !blocked.check(address, "ipv6");
+    return globalUnicastV6.check(address, "ipv6") && !blocked.check(address, "ipv6");
   }
   return false;
 }
@@ -137,7 +143,21 @@ async function resolvePublic(hostname: string, literal: boolean, options: SafeFe
 }
 
 function requestOnce(url: URL, hostname: string, port: number, address: string, maxBytes: number, deadline: number): Promise<{ status: number; headers: IncomingMessage["headers"]; bytes: Uint8Array }> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolveOuter, rejectOuter) => {
+    // Settle exactly once, and always: every exit path below goes through these two.
+    let settled = false;
+    const resolve = (value: { status: number; headers: IncomingMessage["headers"]; bytes: Uint8Array }) => {
+      if (!settled) {
+        settled = true;
+        resolveOuter(value);
+      }
+    };
+    const reject = (error: ToolError) => {
+      if (!settled) {
+        settled = true;
+        rejectOuter(error);
+      }
+    };
     const remaining = deadline - Date.now();
     if (remaining <= 0) return reject(new ToolError("fetch_timeout", "The download did not finish in time."));
     const secure = url.protocol === "https:";
@@ -202,12 +222,32 @@ function requestOnce(url: URL, hostname: string, port: number, address: string, 
       reject(new ToolError("fetch_timeout", "The download did not finish in time."));
     });
     request.on("error", () => reject(new ToolError("fetch_failed", "Could not connect to the host.")));
-    request.on("close", () => clearTimeout(timer));
+    // Protocol switches (101) and CONNECT answers are not downloads.
+    request.on("upgrade", (_response, socket) => {
+      socket.destroy();
+      reject(new ToolError("fetch_failed", "The server tried to switch protocols."));
+    });
+    // A connection that closes without a response (or after an informational one) must not
+    // leave the caller waiting forever.
+    request.on("close", () => {
+      clearTimeout(timer);
+      reject(new ToolError("fetch_failed", "The connection closed before a response was received."));
+    });
     request.end();
   });
 }
 
-export async function safeFetchBytes(rawUrl: string, options: SafeFetchOptions): Promise<SafeFetchResult> {
+// The deadline covers everything, DNS resolution included: a resolver that never answers
+// must not hold the request open.
+export function safeFetchBytes(rawUrl: string, options: SafeFetchOptions): Promise<SafeFetchResult> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new ToolError("fetch_timeout", "The download did not finish in time.")), options.timeoutMs);
+  });
+  return Promise.race([fetchWithinDeadline(rawUrl, options), timeout]).finally(() => clearTimeout(timer));
+}
+
+async function fetchWithinDeadline(rawUrl: string, options: SafeFetchOptions): Promise<SafeFetchResult> {
   const deadline = Date.now() + options.timeoutMs;
   const maxRedirects = options.maxRedirects ?? 3;
   let current = rawUrl;
@@ -218,7 +258,11 @@ export async function safeFetchBytes(rawUrl: string, options: SafeFetchOptions):
     if (response.status >= 300 && response.status < 400) {
       const location = response.headers.location;
       if (!location) throw new ToolError("fetch_failed", "The server redirected without a Location header.");
-      current = new URL(location, url).toString();
+      try {
+        current = new URL(location, url).toString();
+      } catch {
+        throw new ToolError("fetch_failed", "The server redirected to a malformed URL.");
+      }
       continue;
     }
     const contentType = typeof response.headers["content-type"] === "string" ? response.headers["content-type"].split(";")[0].trim().toLowerCase().slice(0, 100) : null;

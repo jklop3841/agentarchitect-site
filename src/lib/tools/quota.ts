@@ -38,10 +38,14 @@ export async function consumeQuota(kind: QuotaKind, ipHash: string): Promise<voi
   }
   const perIpMax = kind === "remote_fetch" ? toolQuotas.remotePerIpPerHour : toolQuotas.computePerIpPerHour;
   const globalMax = kind === "remote_fetch" ? toolQuotas.remoteGlobalPerDay : toolQuotas.computeGlobalPerDay;
-  const [perIp, global] = await Promise.all([hit(`tool_${kind}_ip`, ipHash, HOUR, perIpMax), hit(`tool_${kind}_global`, "all", DAY, globalMax)]);
+  // Order matters: the per-caller counter is checked first and the global counter is only
+  // touched for calls that pass it. Otherwise one caller hammering past its own limit would
+  // burn the shared daily ceiling and shut the service for everyone.
+  const perIp = await hit(`tool_${kind}_ip`, ipHash, HOUR, perIpMax);
   if (!perIp.allowed) {
     throw new ToolError("rate_limited", `Hourly limit reached for ${kind === "remote_fetch" ? "URL fetches" : "tool calls"} (${perIpMax} per hour).`, { limit: perIpMax, window: "hour" }, perIp.retryAfter);
   }
+  const global = await hit(`tool_${kind}_global`, "all", DAY, globalMax);
   if (!global.allowed) {
     throw new ToolError(
       "quota_exceeded",
