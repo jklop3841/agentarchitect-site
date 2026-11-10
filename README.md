@@ -13,6 +13,27 @@ The goal is an open information layer where agents, humans, compute and services
 | **RealityPort** | Reality verification node (photo, video, GPS, time, random challenge, human verification → machine-readable ground truth). | Planned / building — entry page only |
 | Human Archive, AI Search Check, Capability Map, … | Earlier AgentArchitect nodes and research pages. | See `/network` |
 
+## Verification tools (V1.0, branch `feat/platform-v1.0`)
+
+Free tools for AI agents and people. No account, no API key. Each tool has a web page that computes in the browser, a REST endpoint, an MCP tool and a skill file, and returns the same report envelope: what was checked, the evidence, and what the result does not prove.
+
+| Tool | Page | REST | MCP tool |
+|---|---|---|---|
+| FileProof: hash, compare, type, signature | `/tools/fileproof` | `POST /api/v1/tools/fileproof` | `fileproof_check` |
+| ImageProof: metadata and C2PA Content Credentials | `/tools/imageproof` | `POST /api/v1/tools/imageproof` | `imageproof_inspect` |
+| ClaimCheck (beta): checkable claims vs supplied evidence | `/tools/claimcheck` | `POST /api/v1/tools/claimcheck` | `claimcheck_analyze` |
+
+```bash
+curl -s https://www.agentarchitect.me/api/v1/tools            # catalog with JSON Schemas
+curl -s -X POST https://www.agentarchitect.me/api/v1/tools/fileproof \
+  -H "Content-Type: application/json" \
+  -d '{"file":{"content_base64":"aGVsbG8="},"expected_sha256":"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"}'
+```
+
+What the tools deliberately do not do: no fake/real score, no "AI-generated probability", no lie detection, no malware scanning, no payments.
+
+Code: `src/lib/tools/` (cores run in the browser and on the server), `src/app/api/v1/tools/`, `src/app/tools/`. Docs: `docs/03_TOOLS_API_MCP.md` (API), `docs/04_SECURITY_TEST_REPORT.md`, `docs/06_RELEASE_AND_ROLLBACK.md`, `docs/07_ROADMAP.md`.
+
 ## What is live (v0.1)
 
 - **Feed** at `/` and `/requests`: newest first (`created_at DESC`); tabs All / Jobs / Compute / Services; remote/physical, location and keyword filters (plain Postgres `ILIKE`, no search infrastructure).

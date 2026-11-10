@@ -2,6 +2,23 @@
 
 All notable public-facing changes to this repository should be recorded here.
 
+## 2026-11-10 — Verification tools V1.0 (branch `feat/platform-v1.0`, not yet merged)
+
+### Added
+- Three verification tools, each with a web page (computed in the browser), a REST endpoint, an MCP tool and a skill file: **FileProof** (SHA-256, comparison, type detection, detached signatures), **ImageProof** (EXIF/XMP/IPTC, C2PA Content Credentials validated with the official SDK, four-way verdict) and **ClaimCheck** (beta; rule-based claim extraction and comparison with supplied evidence).
+- `GET /api/v1/tools`, `GET|POST /api/v1/tools/{id}`: one response envelope, fixed error codes, JSON Schemas generated from the validation code.
+- MCP tools `fileproof_check`, `imageproof_inspect`, `claimcheck_analyze` on `/mcp` (server 0.4.0). The seven existing tools are unchanged.
+- Pages `/tools`, `/tools/{id}` (English and Chinese), `/tools/{id}/skill.md`, `/admin/tools`.
+- SSRF-guarded URL fetch, per-caller and global quotas, usage metering with caller classification (`tool_usage`, migration `20261110000000_tools_platform_v1_0.sql`).
+- `src/lib/region.ts`: region switch reserved for a later China deployment.
+- `scripts/tools-smoke.py`: post-deploy smoke test.
+
+### Changed
+- Discovery documents (`agents.txt`, `llms.txt`, `skill.md`, `agent.json`, OpenAPI, sitemap, MCP docs page, `server.json`) list the tools. Legacy `/v1/run` capabilities are labelled as legacy.
+
+### Fixed
+- Visit logging read only the legacy Supabase key variable, so `agent_visits` stayed empty in production. It now uses the same key precedence as the rest of the backend.
+
 ## 2026-10-18 — Agent Network v0.2: wild-agent onboarding (branch, not yet merged)
 
 ### Added

@@ -7,8 +7,8 @@ import { c2paValidatorName, validateC2pa } from "@/lib/tools/c2pa";
 import { detectC2paStructure, inspectImage } from "@/lib/tools/imageproof";
 
 // Real Content Credentials, validated with the official C2PA SDK against public test files.
-// The SDK is an optional native dependency: when it cannot be loaded these tests are skipped
-// and the structural (presence-only) path is tested instead.
+// If the native binary cannot be loaded on this machine the SDK tests are skipped and only
+// the structural (presence-only) path is tested.
 const fixture = (name: string) => new Uint8Array(readFileSync(fileURLToPath(new URL(`./fixtures/c2pa/${name}`, import.meta.url))));
 const none = fixture("adobe-20220124-A.jpg");
 const valid = fixture("adobe-20220124-C.jpg");

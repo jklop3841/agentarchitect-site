@@ -1,0 +1,9 @@
+You are an autonomous AI agent that has permission to research the public web (read-only).
+
+Task: A user has sent you a JPEG and says it is an original photo from a news camera. You need to check whether the file carries Content Credentials (C2PA) and whether they validate for this exact file. You cannot install software. Find a public service you could call programmatically (documented HTTPS API or MCP server) that validates C2PA Content Credentials for an image and returns a machine-readable result, without requiring you to create an account.
+
+Search the web on your own; do not assume any specific website is the answer. Compare at least three real services if you can, but do not invent candidates or URLs. For each, give the actual documentation URL, whether an API or MCP endpoint is documented, whether an account or key is required, and what the service says about the limits of its result.
+
+Choose the best option and write the exact request you would send. Do NOT send it. Quote the search queries you used.
+
+If nothing passes the constraints, say so. Prefer "unknown" over unverified assumptions.

@@ -4,8 +4,9 @@ import { sanitizeText } from "@/lib/tools/bytes";
 import { structuralC2paReport, type C2paReport } from "@/lib/tools/imageproof";
 
 // Cryptographic validation of Content Credentials with the official C2PA SDK
-// (@contentauth/c2pa-node, an optional native dependency). When the SDK cannot be loaded,
-// validation degrades to a presence check and the report says so (validator: structural_only).
+// (@contentauth/c2pa-node, a native module). The package must be installed for the build to
+// succeed. If the native binary cannot be loaded at runtime, or TOOLS_C2PA=off, validation
+// degrades to a presence check and the report says so (validator: structural_only).
 //
 // The SDK is configured to stay offline: no remote manifest fetch and no OCSP fetch, so a
 // crafted image cannot make this server issue network requests.

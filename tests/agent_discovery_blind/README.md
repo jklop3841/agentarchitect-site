@@ -48,3 +48,25 @@ The evaluator scores whether the target domain appears in independently produced
 - D4: moderator approves, listing appears, and can later be removed.
 
 If zero agents find it, invest in legitimate directory indexing and task-specific content—not paid bulk advertising.
+
+## Second experiment: task-based tool discovery (V1.0 tools)
+
+`BLIND_PROMPT_TOOLS.txt` gives the model a concrete task (validate C2PA Content Credentials without installing anything) instead of asking it to find a place to post. Same protocol, same record format, same scorer. Keep the cases in a separate directory, for example `cases_tools/`:
+
+    python3 scripts/score_agent_discovery_blind.py tests/agent_discovery_blind/cases_tools
+
+Expect zeros at first: a newly published tool is not in search indexes or model training data. A zero is the baseline to improve on after registry listings and use-case articles, not a failure of the test.
+
+## Counting real use (not the same as discovery)
+
+Discovery experiments show whether a model can find the site when asked. They are not usage. Real usage is counted from `tool_usage` (see `/admin/tools`), where every tool call carries a caller class:
+
+| Class | Counted as external agent use |
+|---|---|
+| `external_agent` | yes (upper bound: a person using curl lands here too) |
+| `browser` | no (a person on the web page calling the API) |
+| `search_crawler` | no (known AI and search bots) |
+| `directory_scanner` | no (registries, monitors, security scanners) |
+| `internal_test` | no (calls carrying the `x-aa-internal-test` token) |
+
+Runs of the blind experiments that end in a real call should carry the internal-test token, or be subtracted by hand.

@@ -87,19 +87,24 @@ export async function recordUsage(row: UsageRow): Promise<boolean> {
 export type UsageSummaryRow = { tool: string; client_class: string; status: string; calls: number };
 
 // Admin view: recent rows aggregated in memory (the table is small; retention is 90 days).
-export async function loadUsageSummary(days = 7, limit = 5_000): Promise<{ error: string | null; rows: UsageSummaryRow[]; total: number; sampled: boolean }> {
+export type UsageSummary = { error: string | null; rows: UsageSummaryRow[]; total: number; sampled: boolean; external: { okCalls: number; distinctCallers: number } };
+
+const emptyExternal = { okCalls: 0, distinctCallers: 0 };
+
+export async function loadUsageSummary(days = 7, limit = 5_000): Promise<UsageSummary> {
   const config = getServiceConfig();
-  if (!config) return { error: "Server database key is not configured on this deployment.", rows: [], total: 0, sampled: false };
+  if (!config) return { error: "Server database key is not configured on this deployment.", rows: [], total: 0, sampled: false, external: emptyExternal };
   try {
     const since = new Date(Date.now() - days * 86_400_000).toISOString();
     const response = await fetch(
-      `${config.url}/rest/v1/tool_usage?select=tool,client_class,status&ts=gte.${encodeURIComponent(since)}&order=ts.desc&limit=${limit}`,
+      `${config.url}/rest/v1/tool_usage?select=tool,client_class,status,ip_hash&ts=gte.${encodeURIComponent(since)}&order=ts.desc&limit=${limit}`,
       { headers: { apikey: config.key, Authorization: `Bearer ${config.key}` }, cache: "no-store" },
     );
     if (!response.ok) {
-      return { error: response.status === 404 ? "Table tool_usage does not exist yet. Apply supabase/migrations/20261110000000_tools_platform_v1_0.sql." : `Could not load usage (HTTP ${response.status}).`, rows: [], total: 0, sampled: false };
+      return { error: response.status === 404 ? "Table tool_usage does not exist yet. Apply supabase/migrations/20261110000000_tools_platform_v1_0.sql." : `Could not load usage (HTTP ${response.status}).`, rows: [], total: 0, sampled: false, external: emptyExternal };
     }
-    const data = (await response.json()) as Array<{ tool: string; client_class: string; status: string }>;
+    const data = (await response.json()) as Array<{ tool: string; client_class: string; status: string; ip_hash: string }>;
+    const externalOk = data.filter((row) => row.client_class === "external_agent" && row.status === "ok");
     const counts = new Map<string, UsageSummaryRow>();
     for (const row of data) {
       const key = `${row.tool}|${row.client_class}|${row.status}`;
@@ -107,8 +112,14 @@ export async function loadUsageSummary(days = 7, limit = 5_000): Promise<{ error
       entry.calls += 1;
       counts.set(key, entry);
     }
-    return { error: null, rows: [...counts.values()].sort((a, b) => b.calls - a.calls), total: data.length, sampled: data.length >= limit };
+    return {
+      error: null,
+      rows: [...counts.values()].sort((a, b) => b.calls - a.calls),
+      total: data.length,
+      sampled: data.length >= limit,
+      external: { okCalls: externalOk.length, distinctCallers: new Set(externalOk.map((row) => row.ip_hash)).size },
+    };
   } catch {
-    return { error: "Could not load usage.", rows: [], total: 0, sampled: false };
+    return { error: "Could not load usage.", rows: [], total: 0, sampled: false, external: emptyExternal };
   }
 }

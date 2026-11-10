@@ -34,7 +34,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-  // Native, optional C2PA SDK: load from node_modules at runtime instead of bundling it.
+  // Native C2PA SDK: load from node_modules at runtime instead of bundling it.
   serverExternalPackages: ["@contentauth/c2pa-node"],
   experimental: {
     workerThreads: true,
