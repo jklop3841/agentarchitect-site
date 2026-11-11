@@ -63,7 +63,12 @@ export function indexOfAscii(bytes: Uint8Array, needle: string, from = 0, to = b
 // ANSI escapes and bidi overrides) and cap the length before they enter a report.
 export function sanitizeText(value: unknown, max = 300): string {
   const text = typeof value === "string" ? value : value instanceof Date ? value.toISOString() : String(value ?? "");
-  const cleaned = text.replace(/[\u0000-\u0008\u000b-\u001f\u007f-\u009f​-‏‪-‮⁦-⁩﻿]/g, "").trim();
+  // Control characters, ANSI escapes, zero-width and bidi controls, invisible formatting
+  // (U+2060-206F, U+180E, U+061C), line/paragraph separators, variation selectors and Unicode
+  // tag characters (U+E0000-E007F), which can carry text an AI reads but a person cannot see.
+  const cleaned = text
+    .replace(/[\u0000-\u0008\u000b-\u001f\u007f-\u009f\u00ad\u061c\u180e\u200b-\u200f\u2028-\u202e\u2060-\u206f\ufe00-\ufe0f\ufeff\ufff9-\ufffb]|[\u{e0000}-\u{e007f}\u{e0100}-\u{e01ef}]/gu, "")
+    .trim();
   return cleaned.length > max ? `${cleaned.slice(0, max)}…` : cleaned;
 }
 
@@ -83,5 +88,8 @@ const instructionPatterns: RegExp[] = [
 // Flags text that reads like instructions aimed at an AI system. This is a heuristic warning
 // for the calling agent; it never changes how this service behaves.
 export function detectEmbeddedInstructions(text: string): boolean {
+  // Unicode tag characters spell ASCII invisibly (U+E0041 is a hidden "A"). Their presence is
+  // itself a sign of hidden text; also decode them so the patterns below can see the words.
+  if (/[\u{e0000}-\u{e007f}]/u.test(text)) return true;
   return instructionPatterns.some((pattern) => pattern.test(text));
 }

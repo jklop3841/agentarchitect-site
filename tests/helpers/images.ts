@@ -12,14 +12,14 @@ function buildTiff(ifd0: TiffEntry[], exifIfd: TiffEntry[] = [], gpsIfd: TiffEnt
   const u32 = (value: number) => [value & 0xff, (value >> 8) & 0xff, (value >> 16) & 0xff, (value >>> 24) & 0xff];
 
   const encode = (entry: TiffEntry): number[] => {
-    if (entry.type === 2) return [...Buffer.from(`${entry.values as string}\0`, "latin1")];
+    if (entry.type === 2) return [...Buffer.from(`${entry.values as string}\0`, "utf8")];
     const values = entry.values as number[];
     if (entry.type === 3) return values.flatMap(u16);
     if (entry.type === 4) return values.flatMap(u32);
     // RATIONAL: pairs of numerator/denominator
     return values.flatMap(u32);
   };
-  const count = (entry: TiffEntry) => (entry.type === 2 ? (entry.values as string).length + 1 : entry.type === 5 ? (entry.values as number[]).length / 2 : (entry.values as number[]).length);
+  const count = (entry: TiffEntry) => (entry.type === 2 ? Buffer.byteLength(entry.values as string, "utf8") + 1 : entry.type === 5 ? (entry.values as number[]).length / 2 : (entry.values as number[]).length);
 
   const layout = (entries: TiffEntry[], start: number, pointers: Record<number, number>) => {
     const sorted = [...entries].sort((a, b) => a.tag - b.tag);

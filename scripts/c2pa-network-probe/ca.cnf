@@ -1,0 +1,12 @@
+[ca_ext]
+basicConstraints = critical, CA:TRUE
+keyUsage = critical, keyCertSign, cRLSign
+subjectKeyIdentifier = hash
+[leaf_ext]
+basicConstraints = critical, CA:FALSE
+keyUsage = critical, digitalSignature
+extendedKeyUsage = emailProtection
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid
+authorityInfoAccess = OCSP;URI:http://ocsp.c2pa-probe.example/ocsp, caIssuers;URI:http://aia.c2pa-probe.example/ca.der
+crlDistributionPoints = URI:http://crl.c2pa-probe.example/ca.crl

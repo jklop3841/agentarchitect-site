@@ -1,0 +1,25 @@
+[tsa_ext]
+basicConstraints = critical, CA:FALSE
+keyUsage = critical, digitalSignature
+extendedKeyUsage = critical, timeStamping
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid
+authorityInfoAccess = OCSP;URI:http://tsa-ocsp.c2pa-probe.example/ocsp, caIssuers;URI:http://tsa-aia.c2pa-probe.example/ca.der
+crlDistributionPoints = URI:http://tsa-crl.c2pa-probe.example/ca.crl
+
+[tsa]
+default_tsa = tsa_config
+[tsa_config]
+dir = .
+serial = ./tsaserial
+signer_cert = ./tsa.pem
+certs = ./ca.pem
+signer_key = ./tsa.key
+signer_digest = sha256
+default_policy = 1.2.3.4.1
+digests = sha256, sha384, sha512
+accuracy = secs:1
+ordering = yes
+tsa_name = yes
+ess_cert_id_chain = no
+ess_cert_id_alg = sha256

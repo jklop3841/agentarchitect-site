@@ -21,6 +21,8 @@ export type ExifData = {
 };
 
 const MAX_CANDIDATES = 16;
+// Header-looking byte sequences examined in total. Each costs one bounded directory check.
+const MAX_SCANNED = 4096;
 const MAX_ENTRIES = 512;
 const MAX_ASCII = 1024;
 
@@ -129,26 +131,33 @@ function readAt(bytes: Uint8Array, base: number): ExifData | null {
   return { found: true, ifd0: first.values, exif: exif?.values ?? {}, gps: gps?.values ?? {} };
 }
 
+// Both byte orders are scanned together in file order, so the first EXIF block in the file
+// wins whatever its byte order. Only candidates with a valid directory count towards the
+// limit; stray header bytes are skipped (with a separate, larger cap) instead of being able
+// to push the real EXIF out of reach.
 export function readExif(bytes: Uint8Array): ExifData {
   const empty: ExifData = { found: false, ifd0: {}, exif: {}, gps: {} };
   let fallback: ExifData | null = null;
-  for (const signature of ["II*\u0000", "MM\u0000*"]) {
-    let from = 0;
-    for (let checked = 0; checked < MAX_CANDIDATES; checked += 1) {
-      const at = indexOfAscii(bytes, signature, from);
-      if (at < 0) break;
-      from = at + 4;
-      let data: ExifData | null = null;
-      try {
-        data = readAt(bytes, at);
-      } catch {
-        data = null;
-      }
-      if (!data) continue;
-      // Prefer a directory that actually carries one of the fields we read.
-      if (Object.keys(data.ifd0).length + Object.keys(data.exif).length + Object.keys(data.gps).length > 0) return data;
-      fallback ??= data;
+  let nextLittle = indexOfAscii(bytes, "II*\u0000");
+  let nextBig = indexOfAscii(bytes, "MM\u0000*");
+  let valid = 0;
+  for (let scanned = 0; scanned < MAX_SCANNED && valid < MAX_CANDIDATES; scanned += 1) {
+    if (nextLittle < 0 && nextBig < 0) break;
+    const little = nextBig < 0 || (nextLittle >= 0 && nextLittle < nextBig);
+    const at = little ? nextLittle : nextBig;
+    if (little) nextLittle = indexOfAscii(bytes, "II*\u0000", at + 4);
+    else nextBig = indexOfAscii(bytes, "MM\u0000*", at + 4);
+    let data: ExifData | null = null;
+    try {
+      data = readAt(bytes, at);
+    } catch {
+      data = null;
     }
+    if (!data) continue;
+    valid += 1;
+    // Prefer a directory that actually carries one of the fields we read.
+    if (Object.keys(data.ifd0).length + Object.keys(data.exif).length + Object.keys(data.gps).length > 0) return data;
+    fallback ??= data;
   }
   return fallback ?? empty;
 }
