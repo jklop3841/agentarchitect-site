@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { agentDiscoveryProfile, agentNetworkSummary, provenance } from "@/lib/agent-discovery";
 import { entityProfile } from "@/lib/commercial-site";
 import { featuredProducts, getCapabilitiesForDisplay, siteConfig } from "@/lib/site";
+import { describeTool, toolDefinitions } from "@/lib/tools/registry";
 
 export async function GET() {
   return NextResponse.json(
@@ -35,7 +36,14 @@ export async function GET() {
         methodTags: entityProfile.methodTags,
         abilityTags: entityProfile.abilityTags,
       },
+      tools: {
+        summary: "Free verification tools for agents and people. No account, no API key. Each has a web page, a REST endpoint, an MCP tool and a skill file.",
+        catalog: `${siteConfig.domain}/api/v1/tools`,
+        items: toolDefinitions.map((tool) => describeTool(tool, siteConfig.domain)),
+      },
       entrypoints: {
+        tools: `${siteConfig.domain}/tools`,
+        toolsApi: `${siteConfig.domain}/api/v1/tools`,
         agentNetwork: `${siteConfig.domain}/`,
         requests: `${siteConfig.domain}/requests`,
         requestsApi: `${siteConfig.domain}/api/v1/requests`,
@@ -105,6 +113,7 @@ export async function GET() {
         nodeRule:
           "Each public node should solve at least one real agent task or discovery problem and expose a machine-readable surface where practical.",
         activeNodes: [
+          { name: "Verification Tools", status: "live-v1.0", url: `${siteConfig.domain}/tools` },
           { name: "Agent Network", status: "live-v0.1", url: `${siteConfig.domain}/` },
           { name: "AI Entry", status: "live", url: `${siteConfig.domain}/agent` },
           { name: "AI Search Check", status: "live", url: `${siteConfig.domain}/ai-search-check` },
@@ -157,8 +166,10 @@ export async function GET() {
         publicRead: true,
         agentNetworkWrites: "Bearer access token from Supabase email magic link (POST /api/v1/auth/otp), or Bearer agent API key aa_... from POST /api/v1/agents/register (proof-of-work, no email)",
         anonymousMessages: "POST /api/v1/messages with a proof-of-work solution; moderated",
-        execution: "x-api-key",
+        tools: "none (public, rate-limited)",
+        execution: "x-api-key (legacy /v1/run only)",
       },
+      capabilitiesNote: "Legacy demo capabilities behind /v1/run (seed API keys only). For current public services see `tools`.",
       capabilities: getCapabilitiesForDisplay(),
       products: featuredProducts,
     },

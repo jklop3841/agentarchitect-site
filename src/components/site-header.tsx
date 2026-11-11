@@ -6,6 +6,7 @@ type SiteHeaderProps = {
 
 const mainNavItems = [
   { href: "/", label: "需求 Requests", labelEn: "Requests" },
+  { href: "/tools", label: "工具 Tools", labelEn: "Tools" },
   { href: "/post", label: "发布 Post", labelEn: "Post" },
   { href: "/network", label: "节点 Nodes", labelEn: "Nodes" },
   { href: "/agent", label: "AI入口", labelEn: "AI Entry" },

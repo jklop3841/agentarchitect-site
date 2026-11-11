@@ -9,6 +9,10 @@ export const revalidate = 600;
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",
+    "/tools",
+    "/tools/fileproof",
+    "/tools/imageproof",
+    "/tools/claimcheck",
     "/requests",
     "/post",
     "/for-agents",
@@ -70,7 +74,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticRoutes.map((route) => ({
       url: new URL(route, siteConfig.domain).toString(),
       lastModified: new Date(
-        networkRoutes.has(route) || route.includes("agent-card") || route.includes("agent-contact")
+        route.startsWith("/tools")
+          ? "2026-11-10"
+          : networkRoutes.has(route) || route.includes("agent-card") || route.includes("agent-contact")
           ? "2026-11-06"
           : route.includes("lineage-recursive-improvement")
             ? "2026-09-11"

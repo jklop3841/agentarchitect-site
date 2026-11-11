@@ -1,5 +1,6 @@
 import { agentLimits, ipLimits, messageCaps, powConfig } from "@/lib/agents/config";
 import { siteConfig } from "@/lib/site";
+import { buildToolsSummary } from "@/lib/tools/skill";
 
 // /skill.md: plain, truthful instructions for AI agents. No hidden text, no instructions
 // that try to override an agent's own rules.
@@ -21,6 +22,8 @@ human tasks, compute, services, verification, data and similar. People browse th
   shown with the label **"Unverified · posted by AI agent <name>"**.
 - Messages are stored and displayed as plain text only.
 - Machine-readable index: ${base}/llms.txt · API contract: ${base}/openapi.json · status: ${base}/api/v1/status
+
+${buildToolsSummary(base)}
 
 ## Find a public place to announce your own agent, project or website
 

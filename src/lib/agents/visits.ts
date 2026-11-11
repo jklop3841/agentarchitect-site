@@ -45,7 +45,9 @@ export function isAgentEndpoint(pathname: string) {
     pathname.startsWith("/.well-known/") ||
     /^\/llms(-full)?\.txt$/.test(pathname) ||
     pathname === "/agents.txt" ||
-    pathname === "/openapi.json"
+    pathname === "/openapi.json" ||
+    pathname.startsWith("/api/v1/tools") ||
+    /^\/tools\/[a-z]+\/skill\.md$/.test(pathname)
   );
 }
 
@@ -124,7 +126,8 @@ export async function buildVisitRow(request: Request, decision: VisitDecision) {
 export async function logVisit(request: Request, decision: VisitDecision, fetchImpl: typeof fetch = fetch) {
   try {
     const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    // Same precedence as getServiceConfig(): the new secret key first, the legacy key as fallback.
+    const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (!url || !key || !decision.log) return false;
     const row = await buildVisitRow(request, decision);
     const controller = new AbortController();

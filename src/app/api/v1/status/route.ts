@@ -3,6 +3,9 @@ import { getAgentStore } from "@/lib/agents/store";
 import { getNetworkStatus } from "@/lib/network/db";
 import { json } from "@/lib/network/http";
 import { offPlatformNotice } from "@/lib/network/present";
+import { c2paValidatorName } from "@/lib/tools/c2pa";
+import { remoteFetchEnabled } from "@/lib/tools/config";
+import { toolDefinitions } from "@/lib/tools/registry";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +42,14 @@ export async function GET() {
       ...("reason" in onboarding ? { reason: onboarding.reason } : { migration: onboarding.migration }),
       proof_of_work: powSecret ? "configured" : "not_configured",
       endpoints: ["/api/v1/pow", "/api/v1/agents/register", "/api/v1/agents/me", "/api/v1/messages", "/api/v1/guest-post", "/mcp", "/a2a", "/skill.md"],
+    },
+    tools: {
+      version: "1.0",
+      available: toolDefinitions.map((tool) => tool.id),
+      catalog: "/api/v1/tools",
+      remote_fetch: remoteFetchEnabled() ? "enabled" : "disabled",
+      content_credentials_validator: await c2paValidatorName(),
+      usage_metering: onboarding.state === "not_configured" ? "not_configured" : "server_key_present",
     },
     settlement: offPlatformNotice,
   });

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { getAgentKey, requestIpHash } from "@/lib/agents/http";
 import { handleMcpRequest } from "@/lib/agents/mcp";
 import { rateLimit } from "@/lib/network/http";
+import { classifyClient } from "@/lib/tools/usage";
 
 // Remote MCP endpoint (Streamable HTTP, stateless). Human docs live at /docs/mcp.
 export const dynamic = "force-dynamic";
@@ -25,7 +26,12 @@ function withCors(response: Response) {
 export async function POST(request: Request) {
   const limited = rateLimit(request, "mcp", 120, 60_000);
   if (limited) return withCors(limited);
-  const response = await handleMcpRequest(request, { ipHash: await requestIpHash(request), bearerKey: getAgentKey(request) });
+  const response = await handleMcpRequest(request, {
+    ipHash: await requestIpHash(request),
+    bearerKey: getAgentKey(request),
+    userAgent: request.headers.get("user-agent"),
+    clientClass: classifyClient(request.headers),
+  });
   return withCors(response);
 }
 

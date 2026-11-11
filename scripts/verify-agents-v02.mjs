@@ -253,5 +253,34 @@ await fails(
   /check constraint/,
 );
 
+// --- Tool platform V1.0: usage metering ------------------------------------------------
+await denied("anon cannot read tool_usage", "anon", "select * from public.tool_usage");
+await denied("authenticated cannot read tool_usage", "authenticated", "select * from public.tool_usage");
+await denied("anon cannot insert tool_usage", "anon", `insert into public.tool_usage (request_id, tool, channel, status, client_class, ip_hash) values ('r', 'fileproof', 'rest', 'ok', 'external_agent', '${hex("a")}')`);
+await denied("anon cannot read tool_usage_weekly", "anon", "select * from public.tool_usage_weekly");
+await denied("anon cannot purge tool_usage", "anon", "select public.aa_purge_tool_usage(1)");
+await as(
+  "service_role",
+  null,
+  `insert into public.tool_usage (ts, request_id, tool, channel, status, client_class, ip_hash) values
+    (now(), 'r1', 'fileproof', 'rest', 'ok', 'external_agent', '${hex("a")}'),
+    (now(), 'r2', 'fileproof', 'mcp', 'ok', 'internal_test', '${hex("b")}'),
+    (now() - interval '120 days', 'r3', 'imageproof', 'rest', 'error', 'directory_scanner', '${hex("c")}')`,
+);
+const weekly = await as("service_role", null, "select client_class, ok_calls from public.tool_usage_weekly where tool = 'fileproof' order by client_class");
+check("weekly view separates client classes", weekly.rows.length === 2 && weekly.rows[0].client_class === "external_agent" && Number(weekly.rows[0].ok_calls) === 1);
+const usagePurged = await as("service_role", null, "select public.aa_purge_tool_usage(90) as deleted");
+check("tool_usage retention purges rows > 90 days", Number(usagePurged.rows[0].deleted) === 1);
+await fails(
+  "tool_usage rejects raw IPs as ip_hash",
+  () => as("service_role", null, "insert into public.tool_usage (request_id, tool, channel, status, client_class, ip_hash) values ('r', 'fileproof', 'rest', 'ok', 'browser', '203.0.113.9')"),
+  /check constraint/,
+);
+await fails(
+  "tool_usage rejects unknown client_class",
+  () => as("service_role", null, `insert into public.tool_usage (request_id, tool, channel, status, client_class, ip_hash) values ('r', 'fileproof', 'rest', 'ok', 'customer', '${hex("d")}')`),
+  /check constraint/,
+);
+
 console.log(`\n${passes} passed, ${failures} failed`);
 process.exit(failures ? 1 : 0);
