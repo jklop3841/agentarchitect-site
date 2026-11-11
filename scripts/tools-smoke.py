@@ -88,6 +88,12 @@ elapsed = time.time() - started
 codes = body["result"]["content_credentials"]["status_codes"] if code == 200 else []
 check("image naming a remote manifest: not fetched, answered promptly", code == 200 and "remoteManifest.notFetched" in codes and elapsed < 6, f"{code} {codes} {elapsed:.1f}s")
 
+# 40-byte HEIC with a zero-length box: hung the previous metadata library forever.
+started = time.time()
+code, body = curl("POST", "/api/v1/tools/imageproof", {"image": {"content_base64": "AAAAGGZ0eXBoZWljAAAAAG1pZjFoZWljAAAAAGZyZWUAAAAAAAAAAA=="}})
+elapsed = time.time() - started
+check("40-byte HEIC with a zero-length box returns promptly", code == 200 and elapsed < 5, f"{code} {elapsed:.1f}s")
+
 remote = "https://raw.githubusercontent.com/c2pa-org/public-testfiles/main/legacy/1.4/image/jpeg/adobe-20220124-C.jpg"
 code, body = curl("POST", "/api/v1/tools/imageproof", {"image": {"url": remote}})
 ok = code == 200 and body["result"]["file"]["input_mode"] == "url" and body["result"]["content_credentials"]["state"] == "valid_untrusted_signer"

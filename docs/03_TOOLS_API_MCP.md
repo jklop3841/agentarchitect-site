@@ -188,4 +188,4 @@ curl -s -X POST .../api/v1/tools/fileproof -H "Content-Type: application/json" \
 python3 scripts/tools-smoke.py https://www.agentarchitect.me tests/fixtures/c2pa
 ```
 
-脚本会跑 33 项检查（三个工具、真实 C2PA 样本、带远程清单地址的图片不触发联网、按 URL 抓取、7 个私网目标、MCP、关键页面）。它会产生约 20 次真实调用；想不计入外部使用量，运行前设置环境变量 `AA_INTERNAL_TEST_TOKEN`（值与部署上的 `INTERNAL_TEST_TOKEN` 相同）。
+脚本会跑 34 项检查（三个工具、真实 C2PA 样本、带远程清单地址的图片不触发联网、按 URL 抓取、7 个私网目标、MCP、关键页面）。它会产生约 20 次真实调用；想不计入外部使用量，运行前设置环境变量 `AA_INTERNAL_TEST_TOKEN`（值与部署上的 `INTERNAL_TEST_TOKEN` 相同）。

@@ -57,7 +57,7 @@ Supabase 控制台 → SQL Editor → 粘贴 `supabase/migrations/20261110000000
 # 状态：tools.content_credentials_validator 应为 "c2pa-node"
 curl -s https://www.agentarchitect.me/api/v1/status
 
-# 全套冒烟（33 项）
+# 全套冒烟（34 项）
 AA_INTERNAL_TEST_TOKEN=<第1步设的值> python3 scripts/tools-smoke.py https://www.agentarchitect.me tests/fixtures/c2pa
 ```
 
