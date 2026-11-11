@@ -9,7 +9,8 @@ import { POST as toolPost } from "@/app/api/v1/tools/[tool]/route";
 import { setAgentStore } from "@/lib/agents/store";
 import { c2paSettingsJson, c2paValidatorName, validateC2pa } from "@/lib/tools/c2pa";
 import { runClaimCheck } from "@/lib/tools/claimcheck";
-import { inspectImage, metadataOverBudget, readXmpFields } from "@/lib/tools/imageproof";
+import { readExif } from "@/lib/tools/exif";
+import { inspectImage, readXmpFields } from "@/lib/tools/imageproof";
 import { compareNumbers, extractNumbers, numbersMatch, numberTokens, parseZhNumeral } from "@/lib/tools/numbers";
 import { isPublicAddress, safeFetchBytes, type SafeFetchOptions } from "@/lib/tools/safe-fetch";
 import { setUsageSink } from "@/lib/tools/usage";
@@ -124,36 +125,64 @@ describe("review #2: metadata parsing cannot be used to exhaust memory", () => {
     return bytes;
   }
 
-  it("a TIFF with 1,500 tags sharing one 2.8 MB array is recognised and not parsed", async () => {
-    const bomb = tiffBomb(1500, 2_900_000);
-    expect(metadataOverBudget(bomb)).toBe(true);
+  const timed = async (bytes: Uint8Array) => {
     const before = process.memoryUsage().rss;
     const started = performance.now();
-    const out = await inspectImage({ bytes: bomb, inputMode: "bytes" });
-    expect(performance.now() - started).toBeLessThan(1500);
-    expect(process.memoryUsage().rss - before).toBeLessThan(300_000_000);
-    expect(out.result.findings.map((finding) => finding.code)).toContain("metadata_not_parsed");
+    const out = await inspectImage({ bytes, inputMode: "bytes" });
+    return { out, ms: performance.now() - started, grew: process.memoryUsage().rss - before };
+  };
+
+  it("a TIFF with 1,500 tags sharing one 2.8 MB array is read quickly and without large allocations", async () => {
+    const { out, ms, grew } = await timed(tiffBomb(1500, 2_900_000));
+    expect(ms).toBeLessThan(500);
+    expect(grew).toBeLessThan(150_000_000);
     expect(out.result.findings.some((finding) => finding.level === "contradiction")).toBe(false);
   });
 
-  it("the same trick with tags the parser does read, and inside a JPEG, is also stopped", async () => {
-    expect(metadataOverBudget(tiffBomb(400, 2_900_000, 0x010f, true))).toBe(true);
+  it("the same trick with tags the reader does use, big-endian, or inside a JPEG, is also harmless", async () => {
+    expect((await timed(tiffBomb(400, 2_900_000, 0x010f, true))).ms).toBeLessThan(500);
+    const big = tiffBomb(1500, 2_900_000);
+    big.set([0x4d, 0x4d, 0x00, 0x2a], 0);
+    expect((await timed(big)).ms).toBeLessThan(500);
     const tiff = tiffBomb(600, 60_000, 0x010f, true);
     const payload = [...Buffer.from("Exif\0\0", "latin1"), ...tiff];
     const jpeg = new Uint8Array([0xff, 0xd8, 0xff, 0xe1, ((payload.length + 2) >> 8) & 255, (payload.length + 2) & 255, ...payload, 0xff, 0xd9]);
-    expect(metadataOverBudget(jpeg)).toBe(true);
-    const started = performance.now();
-    await inspectImage({ bytes: jpeg, inputMode: "bytes" });
-    expect(performance.now() - started).toBeLessThan(1500);
+    expect((await timed(jpeg)).ms).toBeLessThan(500);
   });
 
-  it("honest files are not flagged and still parse", async () => {
+  it("a decoy first entry with an unknown type does not open a slow path", async () => {
+    const bomb = tiffBomb(1500, 2_900_000);
+    bomb.set([0, 0, 0, 0], 10); // first entry: tag 0, type 0
+    expect((await timed(bomb)).ms).toBeLessThan(500);
+  });
+
+  // Round 2 of the review: exifr looped forever on these 40-byte files (a zero-length box).
+  it("40-byte HEIC and AVIF files with a zero-length box return promptly", async () => {
+    const heic = new Uint8Array(Buffer.from("AAAAGGZ0eXBoZWljAAAAAG1pZjFoZWljAAAAAGZyZWUAAAAAAAAAAA==", "base64"));
+    const avif = new Uint8Array(heic);
+    avif.set(Buffer.from("avif", "latin1"), 8);
+    for (const bytes of [heic, avif]) {
+      expect(bytes.length).toBe(40);
+      const result = await Promise.race([inspectImage({ bytes, inputMode: "bytes" }).then((out) => out.result.verdict), new Promise<string>((resolve) => setTimeout(() => resolve("HUNG"), 2000))]);
+      expect(result).toBe("cannot_determine");
+    }
+  });
+
+  it("honest files still parse, including a large TIFF with one big honest tag", async () => {
     const photo = buildJpeg({ exif: { make: "Canon", model: "EOS R6", captured: "2026:10:01 09:30:00", gps: { lat: [31, 13, 48], latRef: "N", lon: [121, 28, 12], lonRef: "E" } } });
-    expect(metadataOverBudget(photo)).toBe(false);
-    for (const name of ["adobe-20220124-A.jpg", "adobe-20220124-C.jpg", "adobe-20220124-E-dat-CA.jpg"]) expect(metadataOverBudget(fixture(name)), name).toBe(false);
     const out = await inspectImage({ bytes: photo, inputMode: "bytes" });
     expect(out.result.metadata.device.model).toBe("EOS R6");
     expect(out.result.metadata.gps?.latitude).toBeCloseTo(31.23, 2);
+    expect(readExif(fixture("adobe-20220124-A.jpg")).ifd0).toMatchObject({ Make: "Canon", Model: "Canon EOS REBEL T3" });
+    // 6 MB TIFF: Make + one 5 MB tag of layer data, as layered editor files carry.
+    const size = 6_000_000;
+    const tiff = new Uint8Array(size);
+    tiff.set([0x49, 0x49, 0x2a, 0, 8, 0, 0, 0, 2, 0]);
+    tiff.set([...le16(0x010f), ...le16(2), ...le32(6), ...le32(100)], 10);
+    tiff.set([...le16(0x935c), ...le16(7), ...le32(5_000_000), ...le32(200)], 22);
+    tiff.set(Buffer.from("Nikon\0", "latin1"), 100);
+    const parsed = await inspectImage({ bytes: tiff, inputMode: "bytes" });
+    expect(parsed.result.metadata.device.make).toBe("Nikon");
   });
 
   it("large garbage after a valid header stays fast", async () => {
@@ -329,6 +358,16 @@ describe("review #6: no claim is supported unless every figure really matches", 
     // a year moving around the sentence is not a swap of like figures
     expect(compareNumbers(numberTokens("In 2025 the plant produced 40 tonnes."), numberTokens("The plant produced 40 tonnes in 2025.")).reordered).toBe(false);
   });
+  it("round 2: full-width digits, vague figures, qualifiers, number words and corrections", () => {
+    expect(verdict("公司去年营收为５亿元。", "公司去年营收为９亿元。")).toBe("contradicted");
+    expect(verdict("公司去年营收为５亿元。", "公司去年营收为5亿元。")).toBe("supported");
+    expect(verdict("该市人口有十几万。", "该市人口有几十万。")).not.toBe("supported");
+    expect(verdict("The club has a dozen members.", "The club has a hundred members.")).toBe("contradicted");
+    expect(verdict("The site recorded over 500 visitors on Monday.", "The site recorded under 500 visitors on Monday.")).not.toBe("supported");
+    expect(verdict("The site recorded over 500 visitors on Monday.", "The site recorded over 500 visitors on Monday.")).toBe("supported");
+    expect(verdict("Revenue for the year was 5 million dollars.", "Revenue for the year was 5 million dollars. Correction: revenue for the year was 9 million dollars.")).toBe("inconclusive");
+  });
+
   it("number extraction basics", () => {
     expect(extractNumbers("1,200 people")).toEqual(["1200"]);
     expect(extractNumbers("$5m in funding and 3K users")).toEqual(["5000000 usd", "3000"]);

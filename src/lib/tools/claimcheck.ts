@@ -10,7 +10,7 @@
 // always states the basis it rests on.
 
 import { detectEmbeddedInstructions, sanitizeText } from "@/lib/tools/bytes";
-import { compareNumbers, extractNumbers, numbersMatch, numberTokens, type NumberToken } from "@/lib/tools/numbers";
+import { compareNumbers, extractNumbers, figureQualifiers, hasVagueFigure, numbersMatch, numberTokens, type NumberToken } from "@/lib/tools/numbers";
 import { ToolError, type Evidence, type ToolOutcome } from "@/lib/tools/types";
 
 export { extractNumbers };
@@ -116,7 +116,7 @@ function extractNames(text: string): string[] {
 // Number words are figures, not wording: they are compared as numbers (numbers.ts), so they
 // must not count as content terms, or "five" vs "5" would look like different wording.
 const numberWords = new Set(
-  "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million billion trillion percent".split(" "),
+  "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million billion trillion percent dozen".split(" "),
 );
 const zhNumeralChar = /[零〇一二两三四五六七八九十百千\u4e07\u4ebf]/;
 
@@ -236,29 +236,36 @@ export function runClaimCheck(input: { text: string; evidence?: EvidenceInput[] 
       claim.missing_evidence = missingEvidenceFor(claim.anchors, zh);
       continue;
     }
+    const claimText = rawSentences[claim.sentence_index];
+    const claimQualifiers = figureQualifiers(claimText).join("|");
+    const claimVague = hasVagueFigure(claimText);
     for (const item of prepared) {
-      let best: { score: number; sentence: PreparedEvidence["sentences"][number] } | null = null;
+      // Every evidence sentence on the same point counts, not just the closest one: a text that
+      // states a figure and later corrects it must not read as support.
+      let support: Claim["matches"][number] | null = null;
+      let conflict: Claim["matches"][number] | null = null;
       for (const sentence of item.sentences) {
-        const score = containment(claim.termSet, sentence.terms);
-        if (!best || score > best.score) best = { score, sentence };
+        if (containment(claim.termSet, sentence.terms) < 0.6) continue;
+        // Every figure in the claim must appear in the evidence sentence to count as support.
+        // A figure the evidence replaces with a different one is a conflict; a figure the
+        // evidence does not mention, figures in a different arrangement, approximate figures
+        // or different qualifiers ("over" vs "under") mean the evidence does not settle it.
+        const figures = compareNumbers(claim.numberTokens, sentence.numbers);
+        const qualifiersDiffer = (claim.numberTokens.length > 0 || sentence.numbers.length > 0) && claimQualifiers !== figureQualifiers(sentence.text).join("|");
+        const vague = claimVague || hasVagueFigure(sentence.text);
+        const numbersMissing = (!figures.allFound && !figures.conflict) || figures.reordered || qualifiersDiffer || vague;
+        const polarityConflict = claim.negated !== sentence.negated;
+        const quote = sanitizeText(sentence.text, 300);
+        if (figures.conflict && !vague) {
+          conflict ??= { evidence_id: item.id, relation: "contradicts", quote, reason: zh ? "证据谈的是同一件事，但数字不同。" : "The evidence addresses the same point but gives different figures." };
+        } else if (polarityConflict) {
+          conflict ??= { evidence_id: item.id, relation: "contradicts", quote, reason: zh ? "证据谈的是同一件事，但一个肯定、一个否定。" : "The evidence addresses the same point but one side affirms it and the other negates it." };
+        } else if (!numbersMissing) {
+          support ??= { evidence_id: item.id, relation: "supports", quote, reason: zh ? "证据里有措辞和数字都对得上的表述。" : "The evidence contains a statement with matching wording and figures." };
+        }
       }
-      if (!best || best.score < 0.6) continue;
-      // Every figure in the claim must appear in the evidence sentence to count as support.
-      // A figure the evidence replaces with a different one is a conflict; a figure the
-      // evidence does not mention, or figures given in a different arrangement, mean the
-      // evidence does not settle the claim.
-      const figures = compareNumbers(claim.numberTokens, best.sentence.numbers);
-      const numbersConflict = figures.conflict;
-      const numbersMissing = (!figures.allFound && !figures.conflict) || figures.reordered;
-      const polarityConflict = claim.negated !== best.sentence.negated;
-      const quote = sanitizeText(best.sentence.text, 300);
-      if (numbersConflict) {
-        claim.matches.push({ evidence_id: item.id, relation: "contradicts", quote, reason: zh ? "证据谈的是同一件事，但数字不同。" : "The evidence addresses the same point but gives different figures." });
-      } else if (polarityConflict) {
-        claim.matches.push({ evidence_id: item.id, relation: "contradicts", quote, reason: zh ? "证据谈的是同一件事，但一个肯定、一个否定。" : "The evidence addresses the same point but one side affirms it and the other negates it." });
-      } else if (!numbersMissing) {
-        claim.matches.push({ evidence_id: item.id, relation: "supports", quote, reason: zh ? "证据里有措辞和数字都对得上的表述。" : "The evidence contains a statement with matching wording and figures." });
-      }
+      if (support) claim.matches.push(support);
+      if (conflict) claim.matches.push(conflict);
     }
     const supports = claim.matches.filter((match) => match.relation === "supports").length;
     const contradicts = claim.matches.filter((match) => match.relation === "contradicts").length;

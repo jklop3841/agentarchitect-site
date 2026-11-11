@@ -12,7 +12,7 @@
 | 发现文件 | `agents.txt`、`llms.txt`、`skill.md`、`agent.json`、Agent Card 描述、OpenAPI、sitemap | 只增不减 |
 | 导航 | 顶部导航多一项「工具 Tools」 | 所有页面可见 |
 | 修复 | 访问日志改用现行密钥 | 上线后 `agent_visits` 表开始有数据 |
-| 依赖 | 新增 `exifr`、`@contentauth/c2pa-node`（约 50 MB 原生模块）、开发依赖 `ajv` | 函数包体变大 |
+| 依赖 | 新增 `@contentauth/c2pa-node`（约 50 MB 原生模块）、开发依赖 `ajv` | 函数包体变大 |
 | 数据库 | 新增迁移文件，**代码不依赖它**：表不存在时只是不记用量 | 无 |
 
 没有改动：协作网络的任何接口和数据表、登录、A2A、内容页、旧 `/v1/run` 接口。
@@ -81,7 +81,7 @@ MCP Registry 的描述不会随 Vercel 回滚而恢复；需要的话把 `server
 
 - **看数**：`/admin/tools`（工具调用，按来源分类）和 `/admin/visits`（访问日志）。
 - **清理**：`tool_usage` 保留 90 天，需要定期执行 `select public.aa_purge_tool_usage();`。Supabase 里可以用 pg_cron 每天跑一次，和已有的 `aa_purge_old_rows()` 放一起。目前没有自动任务，需要卢成决定是否启用。
-- **依赖更新**：`@contentauth/c2pa-node` 和 `exifr` 版本已锁定。升级前先跑 `npm test`，里面有真实 C2PA 样本的校验，以及「C2PA 库不得联网」的测试。后者必须通过才能升级：这个库的设置格式一旦变化，联网能力可能悄悄恢复。
+- **依赖更新**：`@contentauth/c2pa-node` 版本已锁定。升级前先跑 `npm test`，里面有真实 C2PA 样本的校验，以及「C2PA 库不得联网」的测试。后者必须通过才能升级：这个库的设置格式一旦变化，联网能力可能悄悄恢复。
 
 ## 6. 区域配置（国内站预留）
 

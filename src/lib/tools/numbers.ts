@@ -156,7 +156,7 @@ function zhTokens(text: string, out: NumberToken[]) {
 const enUnits: Record<string, number> = {
   zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13,
   fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60,
-  seventy: 70, eighty: 80, ninety: 90,
+  seventy: 70, eighty: 80, ninety: 90, dozen: 12,
 };
 const enScales: Record<string, number> = { thousand: 1e3, million: 1e6, billion: 1e9, trillion: 1e12 };
 const enWord = [...Object.keys(enUnits), "hundred", ...Object.keys(enScales)].join("|");
@@ -184,12 +184,37 @@ function wordTokens(text: string, out: NumberToken[]) {
   }
 }
 
-export function numberTokens(text: string): NumberToken[] {
+export function numberTokens(input: string): NumberToken[] {
+  // Full-width digits and signs (common in Chinese text) become ASCII first.
+  const text = input.normalize("NFKC");
   const out: NumberToken[] = [];
   digitTokens(text, out);
   zhTokens(text, out);
   wordTokens(text, out);
   return out.sort((a, b) => a.index - b.index);
+}
+
+// Words that make a figure approximate or a bound rather than a value ("over 500", "about
+// 3 million", "十几万", "dozens of"). Figures qualified this way cannot be matched mechanically.
+const qualifierEn = /\b(over|under|above|below|more than|less than|fewer than|at least|at most|up to|about|around|approximately|roughly|nearly|almost|some|dozens|several|hundreds|thousands|millions|billions)\b/gi;
+const qualifierZh = /(超过|不到|不足|以上|以下|至少|至多|最多|最少|将近|接近|约|大约|左右|上下|余|多|几)/g;
+
+export function figureQualifiers(input: string): string[] {
+  const text = input.normalize("NFKC");
+  const found = new Set<string>();
+  for (const match of text.matchAll(qualifierEn)) found.add(match[0].toLowerCase());
+  for (const match of text.matchAll(qualifierZh)) {
+    // Chinese qualifiers count only next to a figure (多 and 几 are common in other words).
+    const around = text.slice(Math.max(0, match.index - 2), match.index + match[0].length + 2);
+    if (/[\d零〇一二两三四五六七八九十百千\u4e07\u4ebf]/.test(around)) found.add(match[0]);
+  }
+  return [...found].sort();
+}
+
+// "十几万", "几十", "dozens of": the figure is a range, not a value.
+export function hasVagueFigure(input: string): boolean {
+  const text = input.normalize("NFKC");
+  return /[十百千\u4e07\u4ebf]几|几[十百千\u4e07\u4ebf]|\b(dozens|hundreds|thousands|millions|billions) of\b/i.test(text);
 }
 
 // Unique canonical figures in order of first appearance.

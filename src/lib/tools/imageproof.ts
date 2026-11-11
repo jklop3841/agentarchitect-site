@@ -6,9 +6,8 @@
 // Deliberate non-features: no "AI-generated probability", no fake/real score. Missing
 // metadata is reported as missing, never as a sign of fabrication.
 
-import exifr from "exifr";
-
 import { asciiAt, detectEmbeddedInstructions, indexOfAscii, normalizeSha256, sanitizeText, sha256Hex } from "@/lib/tools/bytes";
+import { readExif } from "@/lib/tools/exif";
 import { declaredTypeMatches, detectFileType } from "@/lib/tools/filetype";
 import { ToolError, type Evidence, type ToolOutcome } from "@/lib/tools/types";
 
@@ -158,74 +157,13 @@ export function structuralC2paReport(bytes: Uint8Array, mime: string): C2paRepor
   return { state: detectC2paStructure(bytes, mime) ? "present_unvalidated" : "absent", validator: "structural_only", status_codes: [], active_manifest: null };
 }
 
-type ExifBlocks = { ifd0?: Record<string, unknown>; exif?: Record<string, unknown>; gps?: Record<string, unknown>; xmp?: Record<string, unknown>; iptc?: Record<string, unknown>; skipped?: boolean };
+type ExifBlocks = { ifd0: Record<string, unknown>; exif: Record<string, unknown>; gps: Record<string, unknown>; xmp: Record<string, unknown>; iptcPresent: boolean };
 
-// Only these tags are read. exifr skips the value of every tag that is not picked, which
-// keeps a crafted file from making the parser materialise megabytes of arrays.
-const ifd0Tags = ["ImageDescription", "Make", "Model", "Software", "ModifyDate", "Artist", "Copyright"];
-const exifTags = ["DateTimeOriginal", "CreateDate", "OffsetTimeOriginal", "OffsetTime", "LensModel", "ExifImageWidth", "ExifImageHeight"];
-const gpsTags = ["GPSLatitudeRef", "GPSLatitude", "GPSLongitudeRef", "GPSLongitude", "GPSAltitude"];
-
-const tiffTypeSize: Record<number, number> = { 1: 1, 2: 1, 3: 2, 4: 4, 5: 8, 6: 1, 7: 1, 8: 2, 9: 4, 10: 8, 11: 4, 12: 8, 13: 4 };
-const MAX_IFD_ENTRIES = 512;
-
-// True when a TIFF structure at `base` declares more value bytes than an honest file could
-// hold, or an absurd number of tags. An honest file's values do not overlap, so their sizes
-// cannot sum to more than the file; a file where they do is built to exhaust the parser
-// (many tags all pointing at one large region).
-function tiffOverBudget(bytes: Uint8Array, base: number): boolean {
-  const little = bytes[base] === 0x49;
-  const r16 = (offset: number) => (little ? bytes[offset] | (bytes[offset + 1] << 8) : (bytes[offset] << 8) | bytes[offset + 1]);
-  const r32 = (offset: number) =>
-    (little
-      ? bytes[offset] | (bytes[offset + 1] << 8) | (bytes[offset + 2] << 16) | (bytes[offset + 3] << 24)
-      : (bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3]) >>> 0;
-  if (base + 8 > bytes.length) return false;
-  const budget = Math.min(bytes.length, 4_000_000);
-  const queue = [r32(base + 4)];
-  let total = 0;
-  for (let visited = 0; visited < 8 && queue.length > 0; visited += 1) {
-    const ifd = base + queue.shift()!;
-    if (ifd + 2 > bytes.length) continue;
-    const entries = r16(ifd);
-    if (entries === 0 || ifd + 2 + 12 > bytes.length) continue;
-    const firstType = r16(ifd + 4);
-    // Not a real IFD (the signature bytes occurred by chance inside image data).
-    if (!(firstType in tiffTypeSize)) continue;
-    if (entries > MAX_IFD_ENTRIES) return true;
-    for (let index = 0; index < entries; index += 1) {
-      const entry = ifd + 2 + index * 12;
-      if (entry + 12 > bytes.length) break;
-      const tag = r16(entry);
-      const size = tiffTypeSize[r16(entry + 2)] ?? 1;
-      const count = r32(entry + 4);
-      const needed = count * size;
-      if (needed > 4) total += needed;
-      if (total > budget) return true;
-      if (tag === 0x8769 || tag === 0x8825) queue.push(r32(entry + 8));
-    }
-    const next = ifd + 2 + entries * 12;
-    if (next + 4 <= bytes.length) {
-      const nextIfd = r32(next);
-      if (nextIfd !== 0) queue.push(nextIfd);
-    }
-  }
-  return false;
-}
-
-// EXIF lives in a TIFF structure whatever the container (JPEG APP1, PNG eXIf, WebP EXIF,
-// HEIC/AVIF item, or a TIFF file itself), so look for TIFF headers anywhere in the file.
-export function metadataOverBudget(bytes: Uint8Array): boolean {
-  for (const signature of ["II*\u0000", "MM\u0000*"]) {
-    let from = 0;
-    for (let checked = 0; checked < 16; checked += 1) {
-      const at = indexOfAscii(bytes, signature, from);
-      if (at < 0) break;
-      if (tiffOverBudget(bytes, at)) return true;
-      from = at + 4;
-    }
-  }
-  return false;
+// IPTC-IIM lives in a Photoshop resource block (8BIM id 0x0404). Only its presence is reported;
+// the fields it would add (caption, byline, copyright) are read from EXIF and XMP instead.
+function hasIptc(bytes: Uint8Array) {
+  const resource = indexOfAscii(bytes, "8BIM\u0004\u0004");
+  return resource >= 0 && indexOfAscii(bytes, "Photoshop 3.0", Math.max(0, resource - 65_536), resource) >= 0;
 }
 
 const MAX_XMP_BYTES = 256_000;
@@ -262,32 +200,11 @@ export function readXmpFields(bytes: Uint8Array): Record<string, unknown> {
   return out;
 }
 
-async function readMetadata(bytes: Uint8Array): Promise<ExifBlocks> {
-  const xmp = readXmpFields(bytes);
-  if (metadataOverBudget(bytes)) return { xmp, skipped: true };
-  try {
-    const parsed = (await exifr.parse(bytes, {
-      tiff: true,
-      ifd0: { pick: ifd0Tags },
-      exif: { pick: exifTags },
-      gps: { pick: gpsTags },
-      xmp: false,
-      iptc: true,
-      icc: false,
-      jfif: false,
-      ihdr: false,
-      ifd1: false,
-      interop: false,
-      makerNote: false,
-      userComment: false,
-      mergeOutput: false,
-      reviveValues: false,
-      translateValues: false,
-    } as unknown as Parameters<typeof exifr.parse>[1])) as ExifBlocks | undefined;
-    return { ...(parsed ?? {}), xmp };
-  } catch {
-    return { xmp };
-  }
+// Bounded readers only (src/lib/tools/exif.ts and readXmpFields above). No general-purpose
+// metadata library: one was used first and crafted files could hang it or exhaust memory.
+function readMetadata(bytes: Uint8Array): ExifBlocks {
+  const exif = readExif(bytes);
+  return { ifd0: exif.ifd0, exif: exif.exif, gps: exif.gps, xmp: readXmpFields(bytes), iptcPresent: hasIptc(bytes) };
 }
 
 const str = (value: unknown, max = 160) => {
@@ -348,15 +265,14 @@ export async function inspectImage(input: {
   const now = input.now ?? new Date();
   const sha256 = await sha256Hex(bytes);
   const dimensions = readDimensions(bytes, detected.mime);
-  const blocks = await readMetadata(bytes);
-  const ifd0 = blocks.ifd0 ?? {};
-  const exif = blocks.exif ?? {};
-  const gpsBlock = blocks.gps ?? {};
-  const xmp = blocks.xmp ?? {};
-  const iptc = blocks.iptc ?? {};
+  const blocks = readMetadata(bytes);
+  const ifd0 = blocks.ifd0;
+  const exif = blocks.exif;
+  const gpsBlock = blocks.gps;
+  const xmp = blocks.xmp;
   const exifPresent = Object.keys(ifd0).length + Object.keys(exif).length + Object.keys(gpsBlock).length > 0;
   const xmpPresent = Boolean(xmp._present);
-  const iptcPresent = Object.keys(iptc).length > 0;
+  const iptcPresent = blocks.iptcPresent;
   const c2pa = input.c2pa ?? structuralC2paReport(bytes, detected.mime);
 
   const captured = parseExifDate(exif.DateTimeOriginal ?? exif.CreateDate ?? exif.DateTimeDigitized);
@@ -364,7 +280,8 @@ export async function inspectImage(input: {
   const offset = str(exif.OffsetTimeOriginal ?? exif.OffsetTime, 10);
   const latitude = gpsDecimal(gpsBlock.GPSLatitude, gpsBlock.GPSLatitudeRef);
   const longitude = gpsDecimal(gpsBlock.GPSLongitude, gpsBlock.GPSLongitudeRef);
-  const altitude = Number(gpsBlock.GPSAltitude);
+  // GPSAltitudeRef 1 means below sea level.
+  const altitude = Number(gpsBlock.GPSAltitude) * (gpsBlock.GPSAltitudeRef === 1 ? -1 : 1);
   const metaWidth = Number(exif.ExifImageWidth ?? exif.PixelXDimension);
   const metaHeight = Number(exif.ExifImageHeight ?? exif.PixelYDimension);
   const digitalSource = str(xmp.DigitalSourceType ?? xmp["Iptc4xmpExt:DigitalSourceType"], 200);
@@ -382,9 +299,9 @@ export async function inspectImage(input: {
     dimensions_in_metadata: Number.isFinite(metaWidth) && Number.isFinite(metaHeight) && metaWidth > 0 && metaHeight > 0 ? { width: metaWidth, height: metaHeight } : null,
     digital_source_type: digitalSource,
     creator_tool: str(xmp.CreatorTool),
-    description: str(ifd0.ImageDescription ?? xmp.description ?? iptc.Caption, 300),
-    author: str(ifd0.Artist ?? xmp.creator ?? iptc.Byline),
-    copyright: str(ifd0.Copyright ?? xmp.rights ?? iptc.CopyrightNotice),
+    description: str(ifd0.ImageDescription ?? xmp.description, 300),
+    author: str(ifd0.Artist ?? xmp.creator),
+    copyright: str(ifd0.Copyright ?? xmp.rights),
   };
 
   const findings: ImageFinding[] = [];
@@ -410,14 +327,7 @@ export async function inspectImage(input: {
   }
 
   // --- metadata findings ---
-  if (blocks.skipped) {
-    findings.push({
-      code: "metadata_not_parsed",
-      level: "clue",
-      message: "The file declares far more metadata than it can contain, which is how files are built to overload parsers. EXIF was not read. This says the file is malformed, not what the image shows.",
-    });
-  }
-  if (!exifPresent && !xmpPresent && !iptcPresent && !blocks.skipped) {
+  if (!exifPresent && !xmpPresent && !iptcPresent) {
     findings.push({
       code: "metadata_absent",
       level: "info",
