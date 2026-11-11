@@ -57,7 +57,7 @@ Supabase 控制台 → SQL Editor → 粘贴 `supabase/migrations/20261110000000
 # 状态：tools.content_credentials_validator 应为 "c2pa-node"
 curl -s https://www.agentarchitect.me/api/v1/status
 
-# 全套冒烟（34 项）
+# 全套冒烟（36 项）
 AA_INTERNAL_TEST_TOKEN=<第1步设的值> python3 scripts/tools-smoke.py https://www.agentarchitect.me tests/fixtures/c2pa
 ```
 
@@ -81,7 +81,7 @@ MCP Registry 的描述不会随 Vercel 回滚而恢复；需要的话把 `server
 
 - **看数**：`/admin/tools`（工具调用，按来源分类）和 `/admin/visits`（访问日志）。
 - **清理**：`tool_usage` 保留 90 天，需要定期执行 `select public.aa_purge_tool_usage();`。Supabase 里可以用 pg_cron 每天跑一次，和已有的 `aa_purge_old_rows()` 放一起。目前没有自动任务，需要卢成决定是否启用。
-- **依赖更新**：`@contentauth/c2pa-node` 版本已锁定。升级前先跑 `npm test`，里面有真实 C2PA 样本的校验，以及「C2PA 库不得联网」的测试。后者必须通过才能升级：这个库的设置格式一旦变化，联网能力可能悄悄恢复。
+- **依赖更新**：`@contentauth/c2pa-node` 版本已锁定。升级前先跑 `npm test`，里面有真实 C2PA 样本的校验，以及「C2PA 库不得联网」的测试。后者必须通过才能升级：这个库的设置格式一旦变化，联网能力可能悄悄恢复。升级后还要运行 `node scripts/c2pa-network-probe/probe.mjs`（需要 openssl），它覆盖证书地址、成分、时间戳等单元测试测不到的联网途径，输出 PASS 才能上线。
 
 ## 6. 区域配置（国内站预留）
 

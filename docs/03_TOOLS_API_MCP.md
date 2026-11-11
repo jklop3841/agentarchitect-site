@@ -149,8 +149,8 @@ curl -s -X POST .../api/v1/tools/fileproof -H "Content-Type: application/json" \
 
 | 值 | 含义 |
 |---|---|
-| `supported` | 所给证据的同一句话里措辞相符，且主张中**所有**数字都能找到、单位一致、同类数字顺序一致 |
-| `contradicted` | 证据谈的是同一件事，但数字不同或肯定/否定相反 |
+| `supported` | 有一句证据措辞相符，且数字与主张**完全一致**（不多不少，单位、限定词、正负号、顺序都相同），涨跌方向一致，两边都没有读不懂的数字，该证据也没有更正类字样。规则刻意从严，许多真实相符的会得到 `inconclusive` |
+| `contradicted` | 证据谈的是同一件事，但数字或单位不同、肯定/否定相反，或涨跌方向相反 |
 | `inconclusive` | 给了证据，但证据没有直接谈到，或证据之间互相矛盾 |
 | `not_checked` | 没给证据 |
 
@@ -188,4 +188,4 @@ curl -s -X POST .../api/v1/tools/fileproof -H "Content-Type: application/json" \
 python3 scripts/tools-smoke.py https://www.agentarchitect.me tests/fixtures/c2pa
 ```
 
-脚本会跑 34 项检查（三个工具、真实 C2PA 样本、带远程清单地址的图片不触发联网、按 URL 抓取、7 个私网目标、MCP、关键页面）。它会产生约 20 次真实调用；想不计入外部使用量，运行前设置环境变量 `AA_INTERNAL_TEST_TOKEN`（值与部署上的 `INTERNAL_TEST_TOKEN` 相同）。
+脚本会跑 36 项检查（三个工具、真实 C2PA 样本、带远程清单地址的图片不触发联网、按 URL 抓取、7 个私网目标、MCP、关键页面）。它会产生约 20 次真实调用；想不计入外部使用量，运行前设置环境变量 `AA_INTERNAL_TEST_TOKEN`（值与部署上的 `INTERNAL_TEST_TOKEN` 相同）。
